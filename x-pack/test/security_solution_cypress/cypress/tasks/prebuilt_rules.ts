@@ -33,6 +33,18 @@ export const clickRuleUpdatesTab = () => {
   cy.location('pathname').should('include', RULES_UPDATES);
 };
 
+export const clickDiffFieldAccordion = (fieldName: string) => {
+  cy.get(`[data-test-id="ruleUpgradePerFieldDiff_${fieldName}"]`).click();
+};
+
+export const clickEditFieldButton = (fieldName: string) => {
+  cy.get(`[data-test-id="editPrebuiltRuleField_${fieldName}"]`).click();
+};
+
+export const clickCancelEditFieldButton = (fieldName: string) => {
+  cy.get(`[data-test-id="cancelEditPrebuiltRuleField_${fieldName}"]`).click();
+};
+
 export const assertInstallationRequestIsComplete = (rules: Array<typeof SAMPLE_PREBUILT_RULE>) => {
   for (const rule of rules) {
     cy.get(getInstallSingleRuleLoadingSpinnerByRuleId(rule['security-rule'].rule_id)).should(

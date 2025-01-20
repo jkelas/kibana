@@ -38,6 +38,9 @@ import {
   assertRulesPresentInInstalledRulesTable,
   assertRuleUpgradeSuccessToastShown,
   clickAddElasticRulesButton,
+  clickCancelEditFieldButton,
+  clickDiffFieldAccordion,
+  clickEditFieldButton,
   clickRuleUpdatesTab,
 } from '../../../../tasks/prebuilt_rules';
 import {
@@ -761,11 +764,11 @@ describe(
           openRuleUpdatePreview(OUTDATED_RULE_1['security-rule'].name);
           assertSelectedPreviewTab(PREVIEW_TABS.UPDATES); // Should be open by default
 
-          cy.get('[data-test-id="ruleUpgradePerFieldDiff_tags"]').click();
-          cy.get('[data-test-id="editPrebuiltRuleField_tags"]').click();
+          clickDiffFieldAccordion('tags');
+          clickEditFieldButton('tags');
           cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
 
-          cy.get('[data-test-id="cancelEditPrebuiltRuleField_tags"]').click();
+          clickCancelEditFieldButton('tags');
           cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.enabled');
         });
 
@@ -775,18 +778,18 @@ describe(
           openRuleUpdatePreview(OUTDATED_RULE_1['security-rule'].name);
           assertSelectedPreviewTab(PREVIEW_TABS.UPDATES); // Should be open by default
 
-          cy.get('[data-test-id="ruleUpgradePerFieldDiff_tags"]').click(); // click the accordion for tags
-          cy.get('[data-test-id="editPrebuiltRuleField_tags"]').click(); // click the edit button for tags
+          clickDiffFieldAccordion('tags');
+          clickEditFieldButton('tags');
           cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
 
-          cy.get('[data-test-id="ruleUpgradePerFieldDiff_name"]').click(); // click the accordion for name
-          cy.get('[data-test-id="editPrebuiltRuleField_name"]').click(); // click the edit button for name
+          clickDiffFieldAccordion('name');
+          clickEditFieldButton('name');
           cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
 
-          cy.get('[data-test-id="cancelEditPrebuiltRuleField_tags"]').click(); // cancel the edit for tags
+          clickCancelEditFieldButton('tags');
           cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
 
-          cy.get('[data-test-id="cancelEditPrebuiltRuleField_name"]').click(); // cancel the edit for name
+          clickCancelEditFieldButton('name');
           cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.enabled');
         });
 
@@ -796,12 +799,12 @@ describe(
           openRuleUpdatePreview(OUTDATED_RULE_1['security-rule'].name);
           assertSelectedPreviewTab(PREVIEW_TABS.UPDATES); // Should be open by default
 
-          cy.get('[data-test-id="ruleUpgradePerFieldDiff_tags"]').click(); // click the accordion for tags
-          cy.get('[data-test-id="editPrebuiltRuleField_tags"]').click(); // click the edit button for tags
+          clickDiffFieldAccordion('tags');
+          clickEditFieldButton('tags');
           cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
 
-          cy.get('[data-test-id="ruleUpgradePerFieldDiff_name"]').click(); // click the accordion for name
-          cy.get('[data-test-id="editPrebuiltRuleField_name"]').click(); // click the edit button for name
+          clickDiffFieldAccordion('name');
+          clickEditFieldButton('name');
           cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
 
           closeRulePreview();
