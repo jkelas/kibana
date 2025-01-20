@@ -15,7 +15,7 @@ export interface RulePreviewContextActionsType {
   setFieldAsCurrentlyEdited: (fieldName: string, editing: boolean) => void;
 
   /**
-   * Returns whether a field is currently being edited in the rule upgrade flyout
+   * Removes all fields that are currently being edited in the rule upgrade flyout
    */
   clearEditedFields: () => void;
 

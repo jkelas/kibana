@@ -14,19 +14,25 @@ interface SplitAccordionProps {
   header: React.ReactNode;
   initialIsOpen?: boolean;
   'data-test-subj'?: string;
+  'data-test-id'?: string;
 }
 
 export const SplitAccordion = ({
   header,
   initialIsOpen,
   'data-test-subj': dataTestSubj,
+  'data-test-id': dataTestId,
   children,
 }: PropsWithChildren<SplitAccordionProps>) => {
   const accordionId = useGeneratedHtmlId();
   const { euiTheme } = useEuiTheme();
 
   return (
-    <EuiSplitPanel.Outer data-test-subj={`${dataTestSubj}Wrapper`} hasBorder>
+    <EuiSplitPanel.Outer
+      data-test-subj={`${dataTestSubj}Wrapper`}
+      data-test-id={dataTestId}
+      hasBorder
+    >
       <EuiAccordion
         id={accordionId}
         initialIsOpen={initialIsOpen}

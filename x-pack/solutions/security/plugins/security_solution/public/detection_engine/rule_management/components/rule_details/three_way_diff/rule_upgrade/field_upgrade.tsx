@@ -30,6 +30,7 @@ export function FieldUpgrade(): JSX.Element {
         }
         initialIsOpen={hasConflict}
         data-test-subj="ruleUpgradePerFieldDiff"
+        data-test-id={`ruleUpgradePerFieldDiff_${fieldName}`}
       >
         <EuiFlexGroup gutterSize="s" alignItems="flexStart">
           <EuiFlexItem grow={1}>

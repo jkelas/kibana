@@ -35,6 +35,7 @@ export function FieldFinalSideContent(): JSX.Element {
                 setEditMode();
                 setFieldAsCurrentlyEdited(fieldName, true);
               }}
+              data-test-id={`editPrebuiltRuleField_${fieldName}`}
             >
               {i18n.EDIT}
             </EuiButtonEmpty>
@@ -57,6 +58,7 @@ export function FieldFinalSideContent(): JSX.Element {
                 setReadOnlyMode();
                 setFieldAsCurrentlyEdited(fieldName, false);
               }}
+              data-test-id={`cancelEditPrebuiltRuleField_${fieldName}`}
             >
               {i18n.CANCEL}
             </EuiButtonEmpty>

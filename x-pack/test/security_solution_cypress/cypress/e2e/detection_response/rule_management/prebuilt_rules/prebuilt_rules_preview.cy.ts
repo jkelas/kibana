@@ -77,7 +77,18 @@ const PREVIEW_TABS = {
 
 describe(
   'Detection rules, Prebuilt Rules Installation and Update workflow',
-  { tags: ['@ess', '@serverless', '@skipInServerlessMKI'] },
+  {
+    tags: ['@ess', '@serverless', '@skipInServerlessMKI'],
+    env: {
+      ftrConfig: {
+        kbnServerArgs: [
+          `--xpack.securitySolution.enableExperimental=${JSON.stringify([
+            'prebuiltRulesCustomizationEnabled',
+          ])}`,
+        ],
+      },
+    },
+  },
   () => {
     const commonProperties: Partial<PrebuiltRuleAsset> = {
       author: ['Elastic', 'Another author'],
@@ -669,11 +680,13 @@ describe(
         name: 'Outdated rule 1',
         rule_id: RULE_1_ID,
         version: 1,
+        tags: ['tag1'],
       });
       const UPDATED_RULE_1 = createRuleAssetSavedObject({
         name: 'Updated rule 1',
         rule_id: RULE_1_ID,
         version: 2,
+        tags: ['tag2', 'tag3'],
       });
       const OUTDATED_RULE_2 = createRuleAssetSavedObject({
         name: 'Outdated rule 2',
@@ -740,6 +753,60 @@ describe(
           );
           cy.get(UPDATE_PREBUILT_RULE_PREVIEW).contains('Investigation guide').should('not.exist');
           cy.get(UPDATE_PREBUILT_RULE_PREVIEW).contains('Setup guide').should('not.exist');
+        });
+
+        it('Update button is disabled when editing single field', () => {
+          clickRuleUpdatesTab();
+
+          openRuleUpdatePreview(OUTDATED_RULE_1['security-rule'].name);
+          assertSelectedPreviewTab(PREVIEW_TABS.UPDATES); // Should be open by default
+
+          cy.get('[data-test-id="ruleUpgradePerFieldDiff_tags"]').click();
+          cy.get('[data-test-id="editPrebuiltRuleField_tags"]').click();
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
+
+          cy.get('[data-test-id="cancelEditPrebuiltRuleField_tags"]').click();
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.enabled');
+        });
+
+        it('Update button is disabled when editing multiple field', () => {
+          clickRuleUpdatesTab();
+
+          openRuleUpdatePreview(OUTDATED_RULE_1['security-rule'].name);
+          assertSelectedPreviewTab(PREVIEW_TABS.UPDATES); // Should be open by default
+
+          cy.get('[data-test-id="ruleUpgradePerFieldDiff_tags"]').click(); // click the accordion for tags
+          cy.get('[data-test-id="editPrebuiltRuleField_tags"]').click(); // click the edit button for tags
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
+
+          cy.get('[data-test-id="ruleUpgradePerFieldDiff_name"]').click(); // click the accordion for name
+          cy.get('[data-test-id="editPrebuiltRuleField_name"]').click(); // click the edit button for name
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
+
+          cy.get('[data-test-id="cancelEditPrebuiltRuleField_tags"]').click(); // cancel the edit for tags
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
+
+          cy.get('[data-test-id="cancelEditPrebuiltRuleField_name"]').click(); // cancel the edit for name
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.enabled');
+        });
+
+        it('Update button is re-enabled after reopening preview flyout', () => {
+          clickRuleUpdatesTab();
+
+          openRuleUpdatePreview(OUTDATED_RULE_1['security-rule'].name);
+          assertSelectedPreviewTab(PREVIEW_TABS.UPDATES); // Should be open by default
+
+          cy.get('[data-test-id="ruleUpgradePerFieldDiff_tags"]').click(); // click the accordion for tags
+          cy.get('[data-test-id="editPrebuiltRuleField_tags"]').click(); // click the edit button for tags
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
+
+          cy.get('[data-test-id="ruleUpgradePerFieldDiff_name"]').click(); // click the accordion for name
+          cy.get('[data-test-id="editPrebuiltRuleField_name"]').click(); // click the edit button for name
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.disabled');
+
+          closeRulePreview();
+          openRuleUpdatePreview(OUTDATED_RULE_1['security-rule'].name);
+          cy.get(UPDATE_PREBUILT_RULE_BUTTON).should('be.enabled');
         });
       });
 
