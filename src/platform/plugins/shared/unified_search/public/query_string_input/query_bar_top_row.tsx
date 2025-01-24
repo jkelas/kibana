@@ -661,7 +661,12 @@ export const QueryBarTopRow = React.memo(
     function renderFilterButtonGroup() {
       return (
         (Boolean(props.showAddFilter) || Boolean(props.prepend)) && (
-          <EuiFlexItem grow={false}>
+          <EuiFlexItem
+            grow={false}
+            css={css`
+              align-self: start;
+            `}
+          >
             <FilterButtonGroup
               items={[props.prepend, renderAddButton()]}
               attached={renderFilterMenuOnly()}
@@ -699,6 +704,7 @@ export const QueryBarTopRow = React.memo(
             isDisabled={props.isDisabled}
             appName={appName}
             submitOnBlur={props.submitOnBlur}
+            bubbleSubmitEvent={true}
             deps={{
               unifiedSearch,
               data,
