@@ -233,7 +233,22 @@ paths:
         - Privileges API
   /api/detection_engine/rules:
     delete:
-      description: Delete a detection rule using the `rule_id` or `id` field.
+      description: >
+        Delete a detection rule using the `rule_id` or `id` field.
+
+
+        The URL query must include one of the following:
+
+
+        * `id` - `DELETE /api/detection_engine/rules?id=<id>`
+
+        * `rule_id`- `DELETE /api/detection_engine/rules?rule_id=<rule_id>`
+
+
+        Example request:
+
+        ```DELETE
+        api/detection_engine/rules?id=16947168-5405-453d-a8b5-aadad357af42```
       operationId: DeleteRule
       parameters:
         - description: The rule's `id` value.
@@ -260,7 +275,16 @@ paths:
         - Security Detections API
         - Rules API
     get:
-      description: Retrieve a detection rule using the `rule_id` or `id` field.
+      description: |
+        Retrieve a detection rule using the `rule_id` or `id` field.
+
+        The URL query must include one of the following:
+
+        * `id` - `GET /api/detection_engine/rules?id=<id>`
+        * `rule_id` - `GET /api/detection_engine/rules?rule_id=<rule_id>`
+
+        Example request:
+          ```GET api/detection_engine/rules?id=c41d170b-8ba6-4de6-b8ec-76440a35ace3```
       operationId: ReadRule
       parameters:
         - description: The rule's `id` value.
@@ -279,6 +303,81 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                example1:
+                  summary: Example response for a retrieved rule
+                  value:
+                    created_at: '2020-02-03T11:19:04.259Z'
+                    created_by: elastic
+                    description: Process started by MS Office program in user folder
+                    enabled: false
+                    execution_summary:
+                      last_execution:
+                        date: '2022-03-23T16:06:12.787Z'
+                        message: >-
+                          This rule attempted to query data from Elasticsearch
+                          indices listed in the "Index pattern" section of the
+                          rule definition, but no matching index was found.
+                        metrics:
+                          execution_gap_duration_s: 0
+                          total_indexing_duration_ms: 15
+                          total_search_duration_ms: 135
+                        status: partial failure
+                        status_order: 20
+                    false_positives: []
+                    filters:
+                      - query:
+                          match:
+                            event.action:
+                              query: 'Process Create (rule: ProcessCreate)'
+                              type: phrase
+                    from: now-4200s
+                    id: c41d170b-8ba6-4de6-b8ec-76440a35ace3
+                    immutable: false
+                    interval: 1h
+                    language: kuery
+                    max_signals: 100
+                    name: MS Office child process
+                    query: >-
+                      process.parent.name:EXCEL.EXE or
+                      process.parent.name:MSPUB.EXE or
+                      process.parent.name:OUTLOOK.EXE or
+                      process.parent.name:POWERPNT.EXE or
+                      process.parent.name:VISIO.EXE or
+                      process.parent.name:WINWORD.EXE
+                    references: []
+                    related_integrations:
+                      - package: o365
+                        version: ^2.3.2
+                    required_fields:
+                      - ecs: true
+                        name: process.name
+                        type: keyword
+                      - ecs: true
+                        name: process.parent.name
+                        type: keyword
+                    risk_score: 21
+                    rule_id: process_started_by_ms_office_user_folder
+                    setup: ''
+                    severity: low
+                    tags:
+                      - child process
+                      - ms office
+                    threat:
+                      - framework: MITRE ATT&CK
+                        tactic:
+                          id: TA0001
+                          name: Initial Access
+                          reference: https://attack.mitre.org/tactics/TA0001
+                        technique:
+                          - id: T1193
+                            name: Spearphishing Attachment
+                            reference: https://attack.mitre.org/techniques/T1193
+                    to: now-300s
+                    type: query
+                    updated_at: '2020-02-03T11:19:04.462Z'
+                    updated_by: elastic
+                    version: 1
               schema:
                 $ref: '#/components/schemas/RuleResponse'
           description: Indicates a successful call.
@@ -309,11 +408,422 @@ paths:
         - Security Detections API
         - Rules API
     post:
-      description: Create a new detection rule.
+      description: >
+        Create a new detection rule.
+
+
+        > warn
+
+        > When used with [API
+        key](https://www.elastic.co/guide/en/kibana/current/api-keys.html)
+        authentication, the user's key gets assigned to the affected rules. If
+        the user's key gets deleted or the user becomes inactive, the rules will
+        stop running.
+
+        > If the API key that is used for authorization has different privileges
+        than the key that created or most recently updated the rule, the rule
+        behavior might change.
+
+
+        You can create the following types of rules:
+
+
+        * **Custom query**: Searches the defined indices and creates an alert
+        when a document matches the rule's KQL query.
+
+        * **Event correlation**: Searches the defined indices and creates an
+        alert when results match an [Event Query Language
+        (EQL)](https://www.elastic.co/guide/en/elasticsearch/reference/current/eql.html)
+        query.
+
+        * **Threshold**: Searches the defined indices and creates an alert when
+        the number of times the specified field's value meets the threshold
+        during a single execution. When there are multiple values that meet the
+        threshold, an alert is generated for each value.
+          For example, if the threshold `field` is `source.ip` and its `value` is `10`, an alert is generated for every source IP address that appears in at least 10 of the rule's search results. If you're interested, see [Terms Aggregation](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-terms-aggregation.html) for more information.
+        * **Indicator match**: Creates an alert when fields match values defined
+        in the specified [Elasticsearch
+        index](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html).
+        For example, you can create an index for IP addresses and use this index
+        to create an alert whenever an event's `destination.ip` equals a value
+        in the index. The index's field mappings should be
+        [ECS-compliant](https://www.elastic.co/guide/en/ecs/{ecs_version}/ecs-reference.html).
+
+        * **New terms**: Generates an alert for each new term detected in source
+        documents within a specified time range.
+
+        * **[Elasticsearch Query Language
+        (ES|QL)](https://www.elastic.co/guide/en/elasticsearch/reference/current/esql.html)**:
+        Uses ES|QL to find events and aggregate search results.
+
+        * **Machine learning rules**: Creates an alert when a machine learning
+        job discovers an anomaly above the defined threshold.
+
+
+        > info
+
+        > To create machine learning rules, you must have the [appropriate
+        license](https://www.elastic.co/subscriptions) or use a [cloud
+        deployment](https://cloud.elastic.co/registration). Additionally, for
+        the machine learning rule to function correctly, the associated machine
+        learning job must be running.
+
+
+        To retrieve machine learning job IDs, which are required to create
+        machine learning jobs, call the [Elasticsearch Get jobs
+        API](https://www.elastic.co/guide/en/elasticsearch/reference/current/ml-get-job.html).
+        Machine learning jobs that contain `siem` in the `groups` field can be
+        used to create rules:
+
+
+        ```json
+
+        ...
+
+        "job_id": "linux_anomalous_network_activity_ecs",
+
+        "job_type": "anomaly_detector",
+
+        "job_version": "7.7.0",
+
+        "groups": [
+          "auditbeat",
+          "process",
+          "siem"
+        ],
+
+        ...
+
+        ```
+
+
+        Additionally, you can set up notifications for when rules create alerts.
+        The notifications use the [Alerting and Actions
+        framework](https://www.elastic.co/guide/en/kibana/current/alerting-getting-started.html).
+        Each action type requires a connector. Connectors store the information
+        required to send notifications via external systems. The following
+        connector types are supported for rule notifications:
+
+
+        * Slack
+
+        * Email
+
+        * PagerDuty
+
+        * Webhook
+
+        * Microsoft Teams
+
+        * IBM Resilient
+
+        * Jira
+
+        * ServiceNow ITSM
+
+
+        > info
+
+        > For more information on PagerDuty fields, see [Send a v2
+        Event](https://developer.pagerduty.com/docs/events-api-v2/trigger-events/).
+
+
+        To retrieve connector IDs, which are required to configure rule
+        notifications, call the [Find objects
+        API](https://www.elastic.co/guide/en/kibana/current/saved-objects-api-find.html)
+        with `"type": "action"` in the request payload.
+
+
+        For detailed information on Kibana actions and alerting, and additional
+        API calls, see:
+
+
+        *
+        [Alerting](https://github.com/elastic/kibana/tree/main/x-pack/plugins/alerting)
+
+        *
+        [Actions](https://github.com/elastic/kibana/tree/main/x-pack/plugins/actions)
       operationId: CreateRule
       requestBody:
         content:
           application/json:
+            examples:
+              example1:
+                summary: Query rule that searches for processes started by MS Office
+                value:
+                  description: Process started by MS Office program - possible payload
+                  enabled: false
+                  filters:
+                    - query:
+                        match:
+                          event.action:
+                            query: 'Process Create (rule: ProcessCreate)'
+                            type: phrase
+                  from: now-70m
+                  interval: 1h
+                  language: kuery
+                  name: MS Office child process
+                  query: >-
+                    process.parent.name:EXCEL.EXE or
+                    process.parent.name:MSPUB.EXE or
+                    process.parent.name:OUTLOOK.EXE or
+                    process.parent.name:POWERPNT.EXE or
+                    process.parent.name:VISIO.EXE or
+                    process.parent.name:WINWORD.EXE
+                  related_integrations:
+                    - package: o365
+                      version: ^2.3.2
+                  required_fields:
+                    - name: process.parent.name
+                      type: keyword
+                  risk_score: 50
+                  rule_id: process_started_by_ms_office_program
+                  severity: low
+                  tags:
+                    - child process
+                    - ms office
+                  type: query
+              example2:
+                summary: >-
+                  Threshold rule that detects multiple failed login attempts to
+                  a Windows host from the same external source IP address
+                value:
+                  description: >-
+                    Detects when there are 20 or more failed login attempts from
+                    the same IP address with a 2 minute time frame.
+                  enabled: true
+                  exceptions_list:
+                    - id: int-ips
+                      namespace_type: single
+                      type: detection
+                  from: now-180s
+                  index:
+                    - winlogbeat-*
+                  interval: 2m
+                  name: Windows server prml-19
+                  query: >-
+                    host.name:prml-19 and event.category:authentication and
+                    event.outcome:failure
+                  required_fields:
+                    - name: source.ip
+                      type: ip
+                  risk_score: 30
+                  rule_id: liv-win-ser-logins
+                  severity: low
+                  severity_mapping:
+                    - field: source.geo.city_name
+                      operator: equals
+                      severity: low
+                      value: Manchester
+                    - field: source.geo.city_name
+                      operator: equals
+                      severity: medium
+                      value: London
+                    - field: source.geo.city_name
+                      operator: equals
+                      severity: high
+                      value: Birmingham
+                    - field: source.geo.city_name
+                      operator: equals
+                      severity: critical
+                      value: Wallingford
+                  tags:
+                    - Brute force
+                  threshold:
+                    field: source.ip
+                    value: 20
+                  type: threshold
+              example3:
+                summary: >-
+                  ml-cap rule that creates alerts, and sends Slack
+                  notifications, when the `linux_anomalous_network_activity_ecs`
+                  {ml} job discovers anomalies with a threshold of 70 or above
+                value:
+                  actions:
+                    - action_type_id: .slack
+                      group: default
+                      id: 5ad22cd5-5e6e-4c6c-a81a-54b626a4cec5
+                      params:
+                        message: 'Urgent: {{context.rule.description}}'
+                  anomaly_threshold: 70
+                  description: Generates alerts when the job discovers anomalies over 70
+                  enabled: true
+                  from: now-6m
+                  interval: 5m
+                  machine_learning_job_id: linux_anomalous_network_activity_ecs
+                  name: Anomalous Linux network activity
+                  note: Shut down the internet.
+                  risk_score: 70
+                  rule_id: ml_linux_network_high_threshold
+                  setup: This rule requires data coming in from Elastic Defend.
+                  severity: high
+                  tags:
+                    - machine learning
+                    - Linux
+                  type: machine_learning
+              example4:
+                summary: >-
+                  Event correlation rule that creates alerts when the Windows
+                  `rundll32.exe` process makes unusual network connections
+                value:
+                  description: Unusual rundll32.exe network connection
+                  language: eql
+                  name: rundll32.exe network connection
+                  query: >-
+                    sequence by process.entity_id with maxspan=2h [process where
+                    event.type in ("start", "process_started") and (process.name
+                    == "rundll32.exe" or process.pe.original_file_name ==
+                    "rundll32.exe") and ((process.args == "rundll32.exe" and
+                    process.args_count == 1) or (process.args != "rundll32.exe"
+                    and process.args_count == 0))] [network where event.type ==
+                    "connection" and (process.name == "rundll32.exe" or
+                    process.pe.original_file_name == "rundll32.exe")]
+                  required_fields:
+                    - name: event.type
+                      type: keyword
+                    - name: process.args
+                      type: keyword
+                    - name: process.args_count
+                      type: long
+                    - name: process.entity_id
+                      type: keyword
+                    - name: process.name
+                      type: keyword
+                    - name: process.pe.original_file_name
+                      type: keyword
+                  risk_score: 21
+                  rule_id: eql-outbound-rundll32-connections
+                  severity: low
+                  tags:
+                    - EQL
+                    - Windows
+                    - rundll32.exe
+                  type: eql
+              example5:
+                summary: >-
+                  Indicator match rule that creates an alert when one of the
+                  following is true - The event's destination IP address *and*
+                  port number matches destination IP *and* port values in the
+                  `threat_index` index. The event's source IP address matches a
+                  host IP address value in the `threat_index` index.
+                value:
+                  actions: []
+                  description: >-
+                    Checks for bad IP addresses listed in the ip-threat-list
+                    index
+                  index:
+                    - packetbeat-*
+                  name: Bad IP threat match
+                  query: destination.ip:* or host.ip:*
+                  required_fields:
+                    - name: destination.ip
+                      type: ip
+                    - name: destination.port
+                      type: long
+                    - name: host.ip
+                      type: ip
+                  risk_score: 50
+                  severity: medium
+                  threat_index:
+                    - ip-threat-list
+                  threat_mapping:
+                    - entries:
+                        - field: destination.ip
+                          type: mapping
+                          value: destination.ip
+                        - field: destination.port
+                          type: mapping
+                          value: destination.port
+                    - entries:
+                        - field: source.ip
+                          type: mapping
+                          value: host.ip
+                  threat_query: '*:*'
+                  type: threat_match
+              example6:
+                summary: >-
+                  New terms rule that creates alerts a new IP address is
+                  detected for a user
+                value:
+                  description: Detects a user associated with a new IP address
+                  history_window_start: now-30d
+                  index:
+                    - auditbeat*
+                  language: kuery
+                  name: New User IP Detected
+                  new_terms_fields:
+                    - user.id
+                    - source.ip
+                  query: '*'
+                  required_fields:
+                    - name: user.id
+                      type: keyword
+                    - name: source.ip
+                      type: ip
+                  risk_score: 21
+                  severity: medium
+                  type: new_terms
+              example7:
+                summary: >-
+                  esql rule that creates alerts from events that match an Excel
+                  parent process
+                value:
+                  description: Find Excel events
+                  enabled: false
+                  from: now-360s
+                  interval: 5m
+                  language: esql
+                  name: Find Excel events
+                  query: >-
+                    from auditbeat-8.10.2 METADATA _id, _version, _index | where
+                    process.parent.name == "EXCEL.EXE"
+                  required_fields:
+                    - name: process.parent.name
+                      type: keyword
+                  risk_score: 21
+                  severity: low
+                  tags: []
+                  to: now
+                  type: esql
+              example8:
+                summary: >-
+                  Query rule that searches for processes started by MS Office
+                  and suppresses alerts by the `process.parent.name` field
+                  within a 5-hour time period
+                value:
+                  alert_suppression:
+                    duration:
+                      unit: h
+                      value: 5
+                    group_by:
+                      - process.parent.name
+                    missing_fields_strategy: suppress
+                  description: Process started by MS Office program - possible payload
+                  enabled: false
+                  filters:
+                    - query:
+                        match:
+                          event.action:
+                            query: 'Process Create (rule: ProcessCreate)'
+                            type: phrase
+                  from: now-70m
+                  interval: 1h
+                  language: kuery
+                  name: MS Office child process
+                  query: >-
+                    process.parent.name:EXCEL.EXE or
+                    process.parent.name:MSPUB.EXE or
+                    process.parent.name:OUTLOOK.EXE or
+                    process.parent.name:POWERPNT.EXE or
+                    process.parent.name:VISIO.EXE or
+                    process.parent.name:WINWORD.EXE
+                  risk_score: 50
+                  rule_id: process_started_by_ms_office_program
+                  severity: low
+                  tags:
+                    - child process
+                    - ms office
+                  type: query
             schema:
               $ref: '#/components/schemas/RuleCreateProps'
         required: true
@@ -321,17 +831,431 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                example1:
+                  summary: Example response for a query rule
+                  value:
+                    actions: []
+                    created_at: '2020-04-07T14:51:09.755Z'
+                    created_by: elastic
+                    description: Process started by MS Office program - possible payload
+                    enabled: false
+                    false_positives: []
+                    filters:
+                      - query:
+                          match:
+                            event.action:
+                              query: 'Process Create (rule: ProcessCreate)'
+                              type: phrase
+                    from: now-70m
+                    id: 6541b99a-dee9-4f6d-a86d-dbd1869d73b1
+                    immutable: false
+                    interval: 1h
+                    language: kuery
+                    max_signals: 100
+                    name: MS Office child process
+                    query: >-
+                      process.parent.name:EXCEL.EXE or
+                      process.parent.name:MSPUB.EXE or
+                      process.parent.name:OUTLOOK.EXE or
+                      process.parent.name:POWERPNT.EXE or
+                      process.parent.name:VISIO.EXE or
+                      process.parent.name:WINWORD.EXE
+                    references: []
+                    related_integrations:
+                      - package: o365
+                        version: ^2.3.2
+                      - integration: graphactivitylogs
+                        package: azure
+                        version: ^1.11.4
+                    required_fields:
+                      - ecs: true
+                        name: process.parent.name
+                        type: keyword
+                    risk_score: 50
+                    rule_id: process_started_by_ms_office_program
+                    setup: ''
+                    severity: low
+                    tags:
+                      - child process
+                      - ms office
+                    threat: []
+                    to: now
+                    type: query
+                    updated_at: '2020-04-07T14:51:09.970Z'
+                    updated_by: elastic
+                    version: 1
+                example2:
+                  summary: Example response for a machine learning job rule
+                  value:
+                    actions:
+                      - action_type_id: .slack
+                        frequency:
+                          notifyWhen: onActiveAlert
+                          summary: true
+                          throttle: null
+                        group: default
+                        id: 5ad22cd5-5e6e-4c6c-a81a-54b626a4cec5
+                        params:
+                          message: 'Urgent: {{context.rule.description}}'
+                    anomaly_threshold: 70
+                    created_at: '2020-04-07T14:45:15.679Z'
+                    created_by: elastic
+                    description: Generates alerts when the job discovers anomalies over 70
+                    enabled: true
+                    false_positives: []
+                    from: now-6m
+                    id: 83876f66-3a57-4a99-bf37-416494c80f3b
+                    immutable: false
+                    interval: 5m
+                    machine_learning_job_id: linux_anomalous_network_activity_ecs
+                    max_signals: 100
+                    name: Anomalous Linux network activity
+                    note: Shut down the internet.
+                    references: []
+                    related_integrations: []
+                    required_fields: []
+                    risk_score: 70
+                    rule_id: ml_linux_network_high_threshold
+                    setup: ''
+                    severity: high
+                    status: going to run
+                    status_date: '2020-04-07T14:45:21.685Z'
+                    tags:
+                      - machine learning
+                      - Linux
+                    threat: []
+                    to: now
+                    type: machine_learning
+                    updated_at: '2020-04-07T14:45:15.892Z'
+                    updated_by: elastic
+                    version: 1
+                example3:
+                  summary: Example response for a threshold rule
+                  value:
+                    actions: []
+                    author: []
+                    created_at: '2020-07-22T10:27:23.486Z'
+                    created_by: elastic
+                    description: >-
+                      Detects when there are 20 or more failed login attempts
+                      from the same IP address with a 2 minute time frame.
+                    enabled: true
+                    exceptions_list:
+                      - id: int-ips
+                        namespace_type: single
+                        type: detection
+                    false_positives: []
+                    from: now-180s
+                    id: 15dbde26-b627-4d74-bb1f-a5e0ed9e4993
+                    immutable: false
+                    index:
+                      - winlogbeat-*
+                    interval: 2m
+                    language: kuery
+                    max_signals: 100
+                    name: Windows server prml-19
+                    query: >-
+                      host.name:prml-19 and event.category:authentication and
+                      event.outcome:failure
+                    references: []
+                    related_integrations:
+                      - package: o365
+                        version: ^2.3.2
+                    required_fields:
+                      - ecs: true
+                        name: source.ip
+                        type: ip
+                    risk_score: 30
+                    risk_score_mapping: []
+                    rule_id: liv-win-ser-logins
+                    setup: ''
+                    severity: low
+                    severity_mapping:
+                      - field: source.geo.city_name
+                        operator: equals
+                        severity: low
+                        value: Manchester
+                      - field: source.geo.city_name
+                        operator: equals
+                        severity: medium
+                        value: London
+                      - field: source.geo.city_name
+                        operator: equals
+                        severity: high
+                        value: Birmingham
+                      - field: source.geo.city_name
+                        operator: equals
+                        severity: critical
+                        value: Wallingford
+                    tags:
+                      - Brute force
+                    threat: []
+                    threshold:
+                      field: source.ip
+                      value: 20
+                    to: now
+                    type: threshold
+                    updated_at: '2020-07-22T10:27:23.673Z'
+                    updated_by: elastic
+                    version: 1
+                example4:
+                  summary: Example response for an EQL rule
+                  value:
+                    author: []
+                    created_at: '2020-10-05T09:06:16.392Z'
+                    created_by: elastic
+                    description: Unusual rundll32.exe network connection
+                    enabled: true
+                    exceptions_list: []
+                    false_positives: []
+                    from: now-6m
+                    id: 93808cae-b05b-4dc9-8479-73574b50f8b1
+                    immutable: false
+                    interval: 5m
+                    language: eql
+                    max_signals: 100
+                    name: rundll32.exe network connection
+                    query: >-
+                      sequence by process.entity_id with maxspan=2h [process
+                      where event.type in ("start", "process_started") and
+                      (process.name == "rundll32.exe" or
+                      process.pe.original_file_name == "rundll32.exe") and
+                      ((process.args == "rundll32.exe" and process.args_count ==
+                      1) or (process.args != "rundll32.exe" and
+                      process.args_count == 0))] [network where event.type ==
+                      "connection" and (process.name == "rundll32.exe" or
+                      process.pe.original_file_name == "rundll32.exe")]
+                    references: []
+                    related_integrations:
+                      - package: o365
+                        version: ^2.3.2
+                    required_fields:
+                      - ecs: true
+                        name: event.type
+                        type: keyword
+                      - ecs: true
+                        name: process.args
+                        type: keyword
+                      - ecs: true
+                        name: process.args_count
+                        type: long
+                      - ecs: true
+                        name: process.entity_id
+                        type: keyword
+                      - ecs: true
+                        name: process.name
+                        type: keyword
+                      - ecs: true
+                        name: process.pe.original_file_name
+                        type: keyword
+                    risk_score: 21
+                    risk_score_mapping: []
+                    rule_id: eql-outbound-rundll32-connections
+                    setup: ''
+                    severity: low
+                    severity_mapping: []
+                    tags:
+                      - EQL
+                      - Windows
+                      - rundll32.exe
+                    threat: []
+                    throttle: no_actions
+                    to: now
+                    type: eql
+                    updated_at: '2020-10-05T09:06:16.403Z'
+                    updated_by: elastic
+                    version: 1
+                example5:
+                  summary: Example response for an indicator match rule
+                  value:
+                    author: []
+                    created_at: '2020-10-06T07:07:58.227Z'
+                    created_by: elastic
+                    description: >-
+                      Checks for bad IP addresses listed in the ip-threat-list
+                      index
+                    enabled: true
+                    exceptions_list: []
+                    false_positives: []
+                    from: now-6m
+                    id: d5daa13f-81fb-4b13-be2f-31011e1d9ae1
+                    immutable: false
+                    index:
+                      - packetbeat-*
+                    interval: 5m
+                    language: kuery
+                    max_signals: 100
+                    name: Bad IP threat match
+                    query: destination.ip:* or host.ip:*
+                    references: []
+                    related_integrations:
+                      - package: o365
+                        version: ^2.3.2
+                    required_fields:
+                      - ecs: true
+                        name: destination.ip
+                        type: ip
+                      - ecs: true
+                        name: destination.port
+                        type: long
+                      - ecs: true
+                        name: host.ip
+                        type: ip
+                    risk_score: 50
+                    risk_score_mapping: []
+                    rule_id: 608501e4-c768-4f64-9326-cec55b5d439b
+                    setup: ''
+                    severity: medium
+                    severity_mapping: []
+                    tags: []
+                    threat: []
+                    threat_index:
+                      - ip-threat-list
+                    threat_mapping:
+                      - entries:
+                          - field: destination.ip
+                            type: mapping
+                            value: destination.ip
+                          - field: destination.port
+                            type: mapping
+                            value: destination.port
+                      - entries:
+                          - field: source.ip
+                            type: mapping
+                            value: host.ip
+                    threat_query: '*:*'
+                    to: now
+                    type: threat_match
+                    updated_at: '2020-10-06T07:07:58.237Z'
+                    updated_by: elastic
+                    version: 1
+                example6:
+                  summary: Example response for a new terms rule
+                  value:
+                    author: []
+                    created_at: '2020-10-06T07:07:58.227Z'
+                    created_by: elastic
+                    description: Detects a user associated with a new IP address
+                    enabled: true
+                    exceptions_list: []
+                    false_positives: []
+                    from: now-6m
+                    history_window_start: now-30d
+                    id: eb7225c0-566b-11ee-8b4f-bbf3afdeb9f4
+                    immutable: false
+                    index:
+                      - auditbeat*
+                    interval: 5m
+                    language: kuery
+                    max_signals: 100
+                    name: New User IP Detected
+                    new_terms_fields:
+                      - user.id
+                      - source.ip
+                    query: '*'
+                    references: []
+                    related_integrations:
+                      - package: o365
+                        version: ^2.3.2
+                    required_fields:
+                      - ecs: true
+                        name: user.id
+                        type: keyword
+                      - ecs: true
+                        name: source.ip
+                        type: ip
+                    risk_score: 21
+                    risk_score_mapping: []
+                    rule_id: c6f5d0bc-7be9-47d4-b2f3-073d22641e30
+                    setup: ''
+                    severity: medium
+                    severity_mapping: []
+                    tags: []
+                    threat: []
+                    to: now
+                    type: new_terms
+                    updated_at: '2020-10-06T07:07:58.237Z'
+                    updated_by: elastic
+                    version: 1
+                example7:
+                  summary: Example response for an {esql} rule
+                  value:
+                    actions: []
+                    author: []
+                    created_at: '2023-10-18T10:55:14.269Z'
+                    created_by: elastic
+                    description: Find Excel events
+                    enabled: false
+                    exceptions_list: []
+                    false_positives: []
+                    from: now-360s
+                    id: d0f20490-6da4-11ee-b85e-09e9b661f2e2
+                    immutable: false
+                    interval: 5m
+                    language: esql
+                    max_signals: 100
+                    name: Find Excel events
+                    output_index: ''
+                    query: >-
+                      from auditbeat-8.10.2 METADATA _id | where
+                      process.parent.name == "EXCEL.EXE"
+                    references: []
+                    related_integrations:
+                      - package: o365
+                        version: ^2.3.2
+                    required_fields:
+                      - ecs: true
+                        name: process.parent.name
+                        type: keyword
+                    revision: 0
+                    risk_score: 21
+                    risk_score_mapping: []
+                    rule_id: e4b53a89-debd-4a0d-a3e3-20606952e589
+                    setup: ''
+                    severity: low
+                    severity_mapping: []
+                    tags: []
+                    threat: []
+                    to: now
+                    type: esql
+                    updated_at: '2023-10-18T10:55:14.269Z'
+                    updated_by: elastic
+                    version: 1
               schema:
                 $ref: '#/components/schemas/RuleResponse'
           description: Indicates a successful call.
       summary: Create a detection rule
       tags:
         - Security Detections API
-        - Rules API
     put:
       description: >
         Update a detection rule using the `rule_id` or `id` field. The original
         rule is replaced, and all unspecified fields are deleted.
+
+
+        > warn
+
+        > When used with  [API
+        key](https://www.elastic.co/guide/en/kibana/current/api-keys.html)
+        authentication, the user's key gets assigned to the affected rules. If
+        the user's key gets deleted or the user becomes inactive, the rules will
+        stop running.
+
+
+        > If the API key that is used for authorization has different privileges
+        than the key that created or most recently updated the rule, the rule
+        behavior might change.
+
+
+        You can use `PUT` or `PATCH` methods to update rules, where:
+
+
+        * `PUT` replaces the original rule and deletes fields that are not
+        specified.
+
+        * `PATCH` updates the specified fields.
+
 
         > info
 
@@ -340,6 +1264,21 @@ paths:
       requestBody:
         content:
           application/json:
+            examples:
+              example1:
+                summary: Example request to update a rule using PATCH method
+                value:
+                  rule_id: process_started_by_ms_office_program_possible_payload
+                  threat:
+                    - framework: MITRE ATT&CK
+                      tactic:
+                        id: TA0001
+                        name: Initial Access
+                        reference: https://attack.mitre.org/tactics/TA0001
+                      technique:
+                        - id: T1193
+                          name: Spearphishing Attachment
+                          reference: https://attack.mitre.org/techniques/T1193
             schema:
               $ref: '#/components/schemas/RuleUpdateProps'
         required: true
@@ -347,6 +1286,50 @@ paths:
         '200':
           content:
             application/json:
+              examples:
+                example1:
+                  summary: Example response for an updated rule
+                  value:
+                    actions: []
+                    created_at: '2020-04-07T14:51:09.755Z'
+                    created_by: elastic
+                    description: Updated description for the rule.
+                    enabled: false
+                    false_positives: []
+                    filters:
+                      - query: null
+                    from: now-70m
+                    id: 6541b99a-dee9-4f6d-a86d-dbd1869d73b1
+                    immutable: false
+                    interval: 1h
+                    language: kuery
+                    max_signals: 100
+                    name: Updated Rule Name
+                    query: >-
+                      process.parent.name:EXCEL.EXE or
+                      process.parent.name:MSPUB.EXE or
+                      process.parent.name:OUTLOOK.EXE or
+                      process.parent.name:POWERPNT.EXE or
+                      process.parent.name:VISIO.EXE or
+                      process.parent.name:WINWORD.EXE
+                    references: []
+                    related_integrations:
+                      - package: o365
+                    required_fields:
+                      - name: process.parent.name
+                    risk_score: 50
+                    rule_id: process_started_by_ms_office_program
+                    setup: ''
+                    severity: low
+                    tags:
+                      - child process
+                      - ms office
+                    threat: []
+                    to: now
+                    type: query
+                    updated_at: '2020-04-07T14:51:09.970Z'
+                    updated_by: elastic
+                    version: 2
               schema:
                 $ref: '#/components/schemas/RuleResponse'
           description: Indicates a successful call.
@@ -5322,7 +6305,12 @@ components:
         - related_integrations
         - required_fields
     RiskScore:
-      description: Risk score (0 to 100)
+      description: |
+        A numerical representation of the alert's severity from 0 to 100, where:
+        * `0` - `21` represents low severity
+        * `22` - `47` represents medium severity
+        * `48` - `73` represents high severity
+        * `74` - `100` represents critical severity
       maximum: 100
       minimum: 0
       type: integer
@@ -5349,6 +6337,9 @@ components:
           - value
       type: array
     RuleAction:
+      description: >-
+        Array defining the automated actions (notifications) taken when alerts
+        are generated
       type: object
       properties:
         action_type_id:
@@ -5371,8 +6362,56 @@ components:
         - id
         - params
     RuleActionAlertsFilter:
-      additionalProperties: true
+      description: Object containing an action’s conditional filters.
       type: object
+      properties:
+        query:
+          description: >-
+            Object containing a query filter which gets applied to an action and
+            determines whether the action should run.
+          type: object
+          properties:
+            filters:
+              items:
+                description: A filter object, as defined in the `kbn-es-query` package.
+                type: object
+              type: array
+            kql:
+              description: A KQL string.
+              type: string
+        timeframe:
+          description: Object containing the time frame for when this action can be run.
+          type: object
+          properties:
+            days:
+              description: >-
+                List of days of the week on which this action can be run. Days
+                of the week are expressed as numbers between `1-7`, where `1` is
+                Monday and `7` is Sunday. To select all days of the week, enter
+                an empty array.
+              items:
+                type: integer
+              type: array
+            hours:
+              description: >-
+                The hours of the day during which this action can run. Hours of
+                the day are expressed as two strings in the format `hh:mm` in
+                `24` hour time. A start of `00:00` and an end of `24:00` means
+                the action can run all day.
+              type: object
+              properties:
+                end:
+                  description: End time in `hh:mm` format.
+                  type: string
+                start:
+                  description: Start time in `hh:mm` format.
+                  type: string
+            timezone:
+              description: >-
+                An ISO timezone name, such as `Europe/Madrid` or
+                `America/New_York`. Specific offsets such as UTC or UTC+1 will
+                also work, but lack built-in DST.
+              type: string
     RuleActionFrequency:
       description: >-
         The action frequency defines when the action runs (for example, only on
@@ -5444,6 +6483,7 @@ components:
       discriminator:
         propertyName: type
     RuleDescription:
+      description: The rule’s description.
       minLength: 1
       type: string
     RuleDetailsInError:
@@ -5607,6 +6647,7 @@ components:
       additionalProperties: true
       type: object
     RuleName:
+      description: The rule’s name.
       minLength: 1
       type: string
     RuleNameOverride:
@@ -5614,6 +6655,7 @@ components:
       type: string
     RuleObjectId:
       $ref: '#/components/schemas/UUID'
+      description: The unique identifier for the rule object.
     RulePatchProps:
       anyOf:
         - $ref: '#/components/schemas/EqlRulePatchProps'
@@ -5689,7 +6731,9 @@ components:
       discriminator:
         propertyName: type
     RuleSignatureId:
-      description: Could be any string, not necessarily a UUID
+      description: >-
+        A unique identifier for the rule, which could be any string, not
+        necessarily a UUID.
       type: string
     RuleSource:
       description: >-
@@ -6253,7 +7297,19 @@ components:
     SetupGuide:
       type: string
     Severity:
-      description: Severity of the rule
+      description: >
+        Severity level of alerts produced by the rule, which must be one of the
+        following:
+
+        * `low`: Alerts that are of interest but generally not considered to be
+        security incidents
+
+        * `medium`: Alerts that require investigation
+
+        * `high`: Alerts that require immediate investigation
+
+        * `critical`: Alerts that indicate it is highly likely a security
+        incident has occurred
       enum:
         - low
         - medium

@@ -8,17 +8,20 @@ components:
   schemas:
     RuleObjectId:
       $ref: '../../../model/primitives.schema.yaml#/components/schemas/UUID'
+      description: The unique identifier for the rule object.
 
     RuleSignatureId:
       type: string
-      description: Could be any string, not necessarily a UUID
+      description: A unique identifier for the rule, which could be any string, not necessarily a UUID.
 
     RuleName:
       type: string
+      description: The rule’s name.
       minLength: 1
 
     RuleDescription:
       type: string
+      description: The rule’s description.
       minLength: 1
 
     RuleVersion:
@@ -100,7 +103,12 @@ components:
 
     RiskScore:
       type: integer
-      description: Risk score (0 to 100)
+      description: |
+        A numerical representation of the alert's severity from 0 to 100, where:
+        * `0` - `21` represents low severity
+        * `22` - `47` represents medium severity
+        * `48` - `73` represents high severity
+        * `74` - `100` represents critical severity
       minimum: 0
       maximum: 100
 
@@ -128,7 +136,12 @@ components:
     Severity:
       type: string
       enum: [low, medium, high, critical]
-      description: Severity of the rule
+      description: |
+        Severity level of alerts produced by the rule, which must be one of the following:
+        * `low`: Alerts that are of interest but generally not considered to be security incidents
+        * `medium`: Alerts that require investigation
+        * `high`: Alerts that require immediate investigation
+        * `critical`: Alerts that indicate it is highly likely a security incident has occurred
 
     SeverityMapping:
       type: array
@@ -508,7 +521,42 @@ components:
 
     RuleActionAlertsFilter:
       type: object
-      additionalProperties: true
+      description: Object containing an action’s conditional filters.
+      properties:
+        timeframe:
+          type: object
+          description: Object containing the time frame for when this action can be run.
+          properties:
+            days:
+              type: array
+              items:
+                type: integer
+              description: List of days of the week on which this action can be run. Days of the week are expressed as numbers between `1-7`, where `1` is Monday and `7` is Sunday. To select all days of the week, enter an empty array.
+            hours:
+              type: object
+              description: The hours of the day during which this action can run. Hours of the day are expressed as two strings in the format `hh:mm` in `24` hour time. A start of `00:00` and an end of `24:00` means the action can run all day.
+              properties:
+                start:
+                  type: string
+                  description: Start time in `hh:mm` format.
+                end:
+                  type: string
+                  description: End time in `hh:mm` format.
+            timezone:
+              type: string
+              description: An ISO timezone name, such as `Europe/Madrid` or `America/New_York`. Specific offsets such as UTC or UTC+1 will also work, but lack built-in DST.
+        query:
+          type: object
+          description: Object containing a query filter which gets applied to an action and determines whether the action should run.
+          properties:
+            kql:
+              type: string
+              description: A KQL string.
+            filters:
+              type: array
+              items:
+                type: object
+                description: A filter object, as defined in the `kbn-es-query` package.
 
     RuleActionParams:
       type: object
@@ -525,6 +573,7 @@ components:
 
     RuleAction:
       type: object
+      description: Array defining the automated actions (notifications) taken when alerts are generated
       properties:
         action_type_id:
           type: string
