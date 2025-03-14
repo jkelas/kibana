@@ -10725,7 +10725,6 @@ paths:
         > When used with [API key](https://www.elastic.co/guide/en/kibana/current/api-keys.html) authentication, the user's key gets assigned to the affected rules. If the user's key gets deleted or the user becomes inactive, the rules will stop running.
 
         > If the API key that is used for authorization has different privileges than the key that created or most recently updated the rule, the rule behavior might change.
-
         > info
         > To import rules with actions, you need at least Read privileges for the Action and Connectors feature. To overwrite or add new connectors, you need All privileges for the Actions and Connectors feature. To import rules without actions, you don’t need Actions and Connectors privileges. Refer to [Enable and access detections](https://www.elastic.co/guide/en/security/current/detections-permissions-section.html#enable-detections-ui) for more information.
 
@@ -51517,7 +51516,8 @@ components:
         $ref: '#/components/schemas/Security_Detections_API_AlertTag'
       type: array
     Security_Detections_API_AnomalyThreshold:
-      description: Anomaly score threshold above which the rule creates an alert. Valid values are from 0 to 100.
+      description: Anomaly score threshold above which the rule creates an alert.
+      maximum: 100
       minimum: 0
       type: integer
     Security_Detections_API_BuildingBlockType:
@@ -51971,7 +51971,6 @@ components:
           description: Query language to use
         query:
           $ref: '#/components/schemas/Security_Detections_API_RuleQuery'
-          description: EQL query to execute
         type:
           description: Rule type
           enum:
@@ -52052,19 +52051,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -52207,19 +52193,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -52280,7 +52253,6 @@ components:
               description: Query language to use
             query:
               $ref: '#/components/schemas/Security_Detections_API_RuleQuery'
-              description: EQL query to execute
             type:
               description: Rule type
               enum:
@@ -52360,19 +52332,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -52495,19 +52454,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -52660,19 +52606,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -52815,19 +52748,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -52939,7 +52859,6 @@ components:
               $ref: '#/components/schemas/Security_Detections_API_AlertsIndex'
             query:
               $ref: '#/components/schemas/Security_Detections_API_RuleQuery'
-              description: ESQL query to execute
             references:
               $ref: '#/components/schemas/Security_Detections_API_RuleReferenceArray'
             related_integrations:
@@ -52962,19 +52881,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -53032,7 +52938,6 @@ components:
           $ref: '#/components/schemas/Security_Detections_API_EsqlQueryLanguage'
         query:
           $ref: '#/components/schemas/Security_Detections_API_RuleQuery'
-          description: ESQL query to execute
         type:
           description: Rule type
           enum:
@@ -53119,19 +53024,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -53233,7 +53125,6 @@ components:
     Security_Detections_API_IndexPatternArray:
       description: |
         Indices on which the rule functions. Defaults to the Security Solution indices defined on the Kibana Advanced Settings page (Kibana → Stack Management → Advanced Settings → securitySolution:defaultIndex).
-
         > info
         > This field is not supported for ES|QL rules.
       items:
@@ -53362,19 +53253,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -53517,19 +53395,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -53673,19 +53538,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -53824,19 +53676,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -53890,9 +53729,8 @@ components:
     Security_Detections_API_MaxSignals:
       description: |
         Maximum number of alerts the rule can create during a single run. Defaults to 100.
-
         > info
-        > This setting can be superseded by the [Kibana configuration setting](https://www.elastic.co/guide/en/kibana/current/alert-action-settings-kb.html#alert-settings) xpack.alerting.rules.run.alerts.max, which determines the maximum alerts generated by any rule in the Kibana alerting framework. For example, if xpack.alerting.rules.run.alerts.max is set to 1000, the rule can generate no more than 1000 alerts even if max_signals is set higher.
+        > This setting can be superseded by the [Kibana configuration setting](https://www.elastic.co/guide/en/kibana/current/alert-action-settings-kb.html#alert-settings) `xpack.alerting.rules.run.alerts.max`, which determines the maximum alerts generated by any rule in the Kibana alerting framework. For example, if `xpack.alerting.rules.run.alerts.max` is set to 1000, the rule can generate no more than 1000 alerts even if `max_signals` is set higher.
       minimum: 1
       type: integer
     Security_Detections_API_NewTermsFields:
@@ -53973,19 +53811,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -54129,19 +53954,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -54299,19 +54111,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -54459,19 +54258,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -54728,19 +54514,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -54884,19 +54657,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -55052,19 +54812,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -55206,19 +54953,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -55574,10 +55308,9 @@ components:
         - 1h: Every hour
         - 1d: Every day
         - 7d: Every week
-
         > info
-        > The rule level throttle field is deprecated in Elastic Security 8.8 and will remain active for at least the next 12 months.
-        > In Elastic Security 8.8 and later, you can use the (frequency) field to define frequencies for individual actions. Actions without frequencies will acquire a converted version of the rule’s throttle field. In the response, the converted throttle setting appears in the individual actions' frequency field.
+        > The rule level `throttle` field is deprecated in Elastic Security 8.8 and will remain active for at least the next 12 months.
+        > In Elastic Security 8.8 and later, you can use the `frequency` field to define frequencies for individual actions. Actions without frequencies will acquire a converted version of the rule’s `throttle` field. In the response, the converted `throttle` setting appears in the individual actions' `frequency` field.
       oneOf:
         - enum:
             - no_actions
@@ -55729,7 +55462,6 @@ components:
     Security_Detections_API_RuleFilterArray:
       description: |
         The query and filter context array used to define the conditions for when alerts are created from events. Defaults to an empty array.
-
         > info
         > This field is not supported for ES|QL rules.
       items: {}
@@ -55750,7 +55482,6 @@ components:
       additionalProperties: true
       description: |
         Placeholder for metadata about the rule.
-
         > info
         > This field is overwritten when you save changes to the rule’s settings.
       type: object
@@ -55821,7 +55552,7 @@ components:
         - invocationCount
         - timeframeEnd
     Security_Detections_API_RuleQuery:
-      description: My New Query description
+      description: The query to execute
       type: string
     Security_Detections_API_RuleReferenceArray:
       description: Array containing notes about or references to relevant information about the rule. Defaults to an empty array.
@@ -55885,7 +55616,7 @@ components:
         - conflict
       type: string
     Security_Detections_API_SavedQueryId:
-      description: Kibana saved search used by the rule to create alerts.
+      description: Kibana [saved search](https://www.elastic.co/guide/en/kibana/current/save-open-search.html) used by the rule to create alerts.
       type: string
     Security_Detections_API_SavedQueryRule:
       allOf:
@@ -55958,19 +55689,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -56114,19 +55832,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -56282,19 +55987,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -56436,19 +56128,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -56731,19 +56410,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -56887,19 +56553,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -57071,19 +56724,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -57234,19 +56874,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -57303,7 +56930,6 @@ components:
     Security_Detections_API_ThreatSubtechnique:
       description: |
         Array containing more specific information on the attack technique.
-
         > info
         > Only threats described using the MITRE ATT&CKTM framework are displayed in the UI (Rules → Detection rules (SIEM) → Rule name).
       type: object
@@ -57473,19 +57099,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -57629,19 +57242,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -57799,19 +57399,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
@@ -57956,19 +57543,6 @@ components:
                 There are Fleet packages like `windows` that contain only one integration; in this case,
                 `integration` should be unspecified. There are also packages like `aws` and `azure` that contain
                 several integrations; in this case, `integration` should be specified.
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'windows',
-                  version: '1.5.x',
-                };
-
-                @example
-                const x: RelatedIntegration = {
-                  package: 'azure',
-                  version: '~1.1.6',
-                  integration: 'activitylogs',
-                };
             required_fields:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
