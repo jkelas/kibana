@@ -5813,10 +5813,12 @@ Object {
                 "type": "boolean",
               },
               "name": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "type": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
             },
             "required": Array [
@@ -6480,10 +6482,12 @@ Object {
                 "type": "boolean",
               },
               "name": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "type": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
             },
             "required": Array [
@@ -7210,10 +7214,12 @@ Object {
                 "type": "boolean",
               },
               "name": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "type": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
             },
             "required": Array [
@@ -7858,10 +7864,12 @@ Object {
                 "type": "boolean",
               },
               "name": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "type": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
             },
             "required": Array [
@@ -8333,7 +8341,8 @@ Object {
           "type": "array",
         },
         "historyWindowStart": Object {
-          "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+          "minLength": 1,
+          "type": "string",
         },
         "index": Object {
           "items": Object {
@@ -8561,10 +8570,12 @@ Object {
                 "type": "boolean",
               },
               "name": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "type": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
             },
             "required": Array [
@@ -9266,10 +9277,12 @@ Object {
                 "type": "boolean",
               },
               "name": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "type": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
             },
             "required": Array [
@@ -9971,10 +9984,12 @@ Object {
                 "type": "boolean",
               },
               "name": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "type": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
             },
             "required": Array [
