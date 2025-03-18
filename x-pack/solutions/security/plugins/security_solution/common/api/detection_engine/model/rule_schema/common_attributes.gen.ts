@@ -128,11 +128,7 @@ export type RiskScore = z.infer<typeof RiskScore>;
 export const RiskScore = z.number().int().min(0).max(100);
 
 /**
-  * Overrides generated alerts' risk_score with a value from the source event:
-
-- field (string, required): Source event field used to override the default risk_score. This field must be an integer.
-- operator (string, required): Must be equals.
-- value(string, required): Must be an empty string ("").
+  * Overrides generated alerts' risk_score with a value from the source event
 
   */
 export type RiskScoreMapping = z.infer<typeof RiskScoreMapping>;
@@ -250,12 +246,6 @@ export const AlertsIndexNamespace = z.string();
 export type MaxSignals = z.infer<typeof MaxSignals>;
 export const MaxSignals = z.number().int().min(1);
 
-/**
-  * Array containing more specific information on the attack technique.
-> info
-> Only threats described using the MITRE ATT&CKTM framework are displayed in the UI (Rules → Detection rules (SIEM) → Rule name).
-
-  */
 export type ThreatSubtechnique = z.infer<typeof ThreatSubtechnique>;
 export const ThreatSubtechnique = z.object({
   /**
@@ -286,6 +276,12 @@ export const ThreatTechnique = z.object({
    * Technique reference
    */
   reference: z.string(),
+  /** 
+      * Array containing more specific information on the attack technique.
+> info
+> Only threats described using the MITRE ATT&CKTM framework are displayed in the UI (Rules → Detection rules (SIEM) → Rule name).
+ 
+      */
   subtechnique: z.array(ThreatSubtechnique).optional(),
 });
 
