@@ -7736,6 +7736,7 @@ Object {
           "type": "object",
         },
         "anomalyThreshold": Object {
+          "maximum": 100,
           "minimum": 0,
           "type": "integer",
         },
