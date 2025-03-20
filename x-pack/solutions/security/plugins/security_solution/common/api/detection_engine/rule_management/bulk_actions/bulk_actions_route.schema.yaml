@@ -125,7 +125,173 @@ paths:
                   action: 'export'
                   ids:
                     - '748694f0-6977-4ea5-8384-cd2e39730779'
-                    - '13199674-aff1-418a-9e93-04f585fe36d1'
+              example10:
+                summary: Add a tag to rules (idempotent)
+                description: The following request adds the tag "tag-1" to the rules with the specified IDs. If the tag already exists for a rule, no changes are made.
+                value:
+                  ids:
+                    - '8bc7dad0-9320-11ec-9265-8b772383a08d'
+                    - '8e5c1a40-9320-11ec-9265-8b772383a08d'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_tags'
+                      value:
+                        - 'tag-1'
+              example11:
+                summary: Remove a tag from rules (idempotent)
+                description: The following request removes the tag "tag-1" from the rules with the specified IDs. If the tag does not exist for a rule, no changes are made.
+                value:
+                  ids:
+                    - '8bc7dad0-9320-11ec-9265-8b772383a08d'
+                    - '8e5c1a40-9320-11ec-9265-8b772383a08d'
+                  action: 'edit'
+                  edit:
+                    - type: 'delete_tags'
+                      value:
+                        - 'tag-1'
+              example12:
+                summary: Set tags for rules (overwrite existing tags)
+                description: The following request sets the tags "tag-1" and "tag-2" for the rules with the specified IDs, overwriting any existing tags.
+                value:
+                  ids:
+                    - '8bc7dad0-9320-11ec-9265-8b772383a08d'
+                    - '8e5c1a40-9320-11ec-9265-8b772383a08d'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_tags'
+                      value:
+                        - 'tag-1'
+                        - 'tag-2'
+              example13:
+                summary: Add index patterns to rules (idempotent)
+                description: The following request adds the index pattern "test-*" to the rules with the specified IDs. If the index pattern already exists for a rule, no changes are made.
+                value:
+                  ids:
+                    - '81aa0480-06af-11ed-94fb-dd1a0597d8d2'
+                    - 'dc015d10-0831-11ed-ac8b-05a222bd8d4a'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_index_patterns'
+                      value:
+                        - 'test-*'
+              example14:
+                summary: Remove index patterns from rules (idempotent)
+                description: The following request removes the index pattern "test-*" from the rules with the specified IDs. If the index pattern does not exist for a rule, no changes are made.
+                value:
+                  ids:
+                    - '81aa0480-06af-11ed-94fb-dd1a0597d8d2'
+                    - 'dc015d10-0831-11ed-ac8b-05a222bd8d4a'
+                  action: 'edit'
+                  edit:
+                    - type: 'delete_index_patterns'
+                      value:
+                        - 'test-*'
+              example15:
+                summary: Set index patterns for rules (overwrite existing patterns)
+                description: The following request sets the index patterns "test-*" and "prod-*" for the rules with the specified IDs, overwriting any existing index patterns.
+                value:
+                  ids:
+                    - '81aa0480-06af-11ed-94fb-dd1a0597d8d2'
+                    - 'dc015d10-0831-11ed-ac8b-05a222bd8d4a'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_index_patterns'
+                      value:
+                        - 'test-*'
+              example16:
+                summary: Add investigation fields to rules
+                description: The following request adds investigation fields to the rules with the specified IDs.
+                value:
+                  ids:
+                    - '12345678-1234-1234-1234-1234567890ab'
+                    - '87654321-4321-4321-4321-0987654321ba'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_investigation_fields'
+                      value:
+                        - 'field1'
+              example17:
+                summary: Delete investigation fields from rules
+                description: The following request deletes investigation fields from the rules with the specified IDs.
+                value:
+                  ids:
+                    - '12345678-1234-1234-1234-1234567890ab'
+                    - '87654321-4321-4321-4321-0987654321ba'
+                  action: 'edit'
+                  edit:
+                    - type: 'delete_investigation_fields'
+                  value:
+                    - 'field1'
+                    - 'field2'
+              example18:
+                summary: Set investigation fields for rules
+                description: The following request sets investigation fields for the rules with the specified IDs, overwriting any existing investigation fields.
+                value:
+                  ids:
+                    - '12345678-1234-1234-1234-1234567890ab'
+                    - '87654321-4321-4321-4321-0987654321ba'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_investigation_fields'
+                      value:
+                        - 'field1'
+                        - 'field2'
+              example19:
+                summary: Set timeline for rules
+                description: The following request sets a timeline for the rules with the specified IDs.
+                value:
+                  ids:
+                    - '11223344-5566-7788-99aa-bbccddeeff00'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_timeline'
+                      value:
+                      timeline_id: 'timeline-123'
+                      timeline_title: 'Investigation Timeline'
+              example20:
+                summary: Set schedule for rules
+                description: The following request sets a schedule for the rules with the specified IDs.
+                value:
+                  ids:
+                    - '99887766-5544-3322-1100-aabbccddeeff'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_schedule'
+                      value:
+                        interval: '1h'
+                        lookback: '30m'
+              example21:
+                summary: Add rule actions to rules (idempotent)
+                description: The following request adds rule actions to the rules with the specified IDs.
+                value:
+                  ids:
+                    - 'aabbccdd-eeff-0011-2233-445566778899'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_rule_actions'
+                      value:
+                      throttle: '1h'
+                      actions:
+                        - group: 'default'
+                          id: 'action-123'
+                          params:
+                            key: 'value'
+              example22:
+                summary: Set rule actions for rules
+                description: The following request sets rule actions for the rules with the specified IDs.
+                value:
+                  ids:
+                    - 'ffeeddcc-bbaa-9988-7766-554433221100'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_rule_actions'
+                      value:
+                      throttle: 'rule'
+                      actions:
+                        - group: 'notification'
+                          id: 'action-456'
+                          params:
+                            key: 'another-value'
 
       responses:
         200:
