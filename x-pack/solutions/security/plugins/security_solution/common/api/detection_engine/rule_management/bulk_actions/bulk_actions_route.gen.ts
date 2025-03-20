@@ -77,7 +77,7 @@ export const BulkEditActionResults = z.object({
 });
 
 /**
- * A rule can only be skipped when the bulk action to be performed on it results in nothing being done. For example, if the edit action is used to add a tag to a rule that already has that tag, or to delete an index pattern that is not specified in a rule. Objects returned in attributes.results.skipped will only include rules' id, name, and skip_reason.
+ * A rule can only be skipped when the bulk action to be performed on it results in nothing being done. For example, if the `edit` action is used to add a tag to a rule that already has that tag, or to delete an index pattern that is not specified in a rule. Objects returned in `attributes.results.skipped` will only include rules' `id`, `name`, and `skip_reason`.
  */
 export type BulkEditActionSummary = z.infer<typeof BulkEditActionSummary>;
 export const BulkEditActionSummary = z.object({

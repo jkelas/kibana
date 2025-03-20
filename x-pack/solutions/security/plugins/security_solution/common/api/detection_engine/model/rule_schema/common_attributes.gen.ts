@@ -355,7 +355,7 @@ export type RuleFilterArray = z.infer<typeof RuleFilterArray>;
 export const RuleFilterArray = z.array(z.unknown());
 
 /**
- * Sets the source field for the alert's signal.rule.name value. (in the UI, this value is displayed on the Rules page in the Rule column). When unspecified, the rule’s name value is used. The source field must be a string data type.
+ * Sets the source field for the alert's signal.rule.name value (in the UI, this value is displayed on the Rules page in the Rule column). When unspecified, the rule’s name value is used. The source field must be a string data type.
  */
 export type RuleNameOverride = z.infer<typeof RuleNameOverride>;
 export const RuleNameOverride = z.string();
@@ -675,11 +675,11 @@ export const RuleExceptionList = z.object({
   /**
    * ID of the exception container
    */
-  id: NonEmptyString,
+  id: z.string().min(1).superRefine(isNonEmptyString),
   /**
    * List ID of the exception container
    */
-  list_id: NonEmptyString,
+  list_id: z.string().min(1).superRefine(isNonEmptyString),
   type: ExceptionListType,
   /**
    * Determines the exceptions validity in rule's Kibana space
