@@ -3985,11 +3985,11 @@ components:
     BulkEditActionSummary:
       description: >-
         A rule can only be skipped when the bulk action to be performed on it
-        results in nothing being done. For example, if the edit action is used
+        results in nothing being done. For example, if the `edit` action is used
         to add a tag to a rule that already has that tag, or to delete an index
         pattern that is not specified in a rule. Objects returned in
-        attributes.results.skipped will only include rules' id, name, and
-        skip_reason.
+        `attributes.results.skipped` will only include rules' `id`, `name`, and
+        `skip_reason`.
       type: object
       properties:
         failed:
@@ -8469,11 +8469,15 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/NonEmptyString'
           description: ID of the exception container
+          format: nonempty
+          minLength: 1
+          type: string
         list_id:
-          $ref: '#/components/schemas/NonEmptyString'
           description: List ID of the exception container
+          format: nonempty
+          minLength: 1
+          type: string
         namespace_type:
           description: Determines the exceptions validity in rule's Kibana space
           enum:
@@ -8643,8 +8647,8 @@ components:
       type: string
     RuleNameOverride:
       description: >-
-        Sets the source field for the alert's signal.rule.name value. (in the
-        UI, this value is displayed on the Rules page in the Rule column). When
+        Sets the source field for the alert's signal.rule.name value (in the UI,
+        this value is displayed on the Rules page in the Rule column). When
         unspecified, the rule’s name value is used. The source field must be a
         string data type.
       type: string

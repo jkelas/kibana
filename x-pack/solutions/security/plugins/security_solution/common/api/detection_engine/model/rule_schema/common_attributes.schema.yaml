@@ -344,7 +344,7 @@ components:
 
     RuleNameOverride:
       type: string
-      description: Sets the source field for the alert's signal.rule.name value. (in the UI, this value is displayed on the Rules page in the Rule column). When unspecified, the rule’s name value is used. The source field must be a string data type.
+      description: Sets the source field for the alert's signal.rule.name value (in the UI, this value is displayed on the Rules page in the Rule column). When unspecified, the rule’s name value is used. The source field must be a string data type.
 
     TimestampOverride:
       type: string
@@ -662,10 +662,14 @@ components:
         Array of [exception containers](https://www.elastic.co/guide/en/security/current/exceptions-api-overview.html), which define exceptions that prevent the rule from generating alerts even when its other criteria are met.
       properties:
         id:
-          $ref: '../../../model/primitives.schema.yaml#/components/schemas/NonEmptyString'
+          type: string
+          format: nonempty
+          minLength: 1
           description: ID of the exception container
         list_id:
-          $ref: '../../../model/primitives.schema.yaml#/components/schemas/NonEmptyString'
+          type: string
+          format: nonempty
+          minLength: 1
           description: List ID of the exception container
         type:
           $ref: '#/components/schemas/ExceptionListType'
