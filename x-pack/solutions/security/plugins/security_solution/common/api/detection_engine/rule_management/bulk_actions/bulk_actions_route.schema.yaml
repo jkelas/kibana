@@ -11,6 +11,9 @@ paths:
       summary: Apply a bulk action to detection rules
       description: |
         Apply a bulk action, such as bulk edit, duplicate, or delete, to multiple detection rules. The bulk action is applied to all rules that match the query or to the rules listed by their IDs.
+
+        The edit action allows you to add, delete, or set tags, index patterns, investigation fields, rule actions, and schedules for multiple rules at once. 
+        The edit action is idempotent, meaning that if you add a tag to a rule that already has that tag, no changes are made. The same is true for other edit actions, for example removing an index pattern that is not specified in a rule will not result in any changes.
         > warn
         > When used with  [API key](https://www.elastic.co/guide/en/kibana/current/api-keys.html) authentication, the user's key gets assigned to the affected rules. If the user's key gets deleted or the user becomes inactive, the rules will stop running.
 
@@ -46,12 +49,12 @@ paths:
             examples:
               example1:
                 summary: Enable all rules with the test tag
-                description: The following request activates all rules with the test tag
+                description: The following request activates all rules with the test tag.
                 value:
                   query: 'alert.attributes.tags: "test"'
                   action: 'enable'
               example2:
-                summary: Enable a specific rule by ID
+                summary: Enable a specific rule by ID.
                 description: The following request enables the rule with the specified ID.
                 value:
                   action: 'enable'
@@ -65,20 +68,7 @@ paths:
                   ids:
                     - '748694f0-6977-4ea5-8384-cd2e39730779'
               example4:
-                summary: Add tags to rules
-                description: The following request adds tags tag-1 and tag-2 to the rules that have the IDs sent in the payload
-                value:
-                  ids:
-                    - '8bc7dad0-9320-11ec-9265-8b772383a08d'
-                    - '8e5c1a40-9320-11ec-9265-8b772383a08d'
-                  action: 'edit'
-                  edit:
-                    - type: 'add_tags'
-                      value:
-                        - 'tag-1'
-                        - 'tag-2'
-              example5:
-                summary: Dry run - Validate add_index_patterns bulk action
+                summary: Edit - dry run - Validate add_index_patterns bulk action
                 description: The following request will validate that the add_index_patterns bulk action can be successfully applied to three rules. The dry_run parameter is specified in query parameters, e.g. POST api/detection_engine/rules/_bulk_action?dry_run=true
                 value:
                   action: 'edit'
@@ -90,7 +80,7 @@ paths:
                     - '81aa0480-06af-11ed-94fb-dd1a0597d8d2'
                     - 'dc015d10-0831-11ed-ac8b-05a222bd8d4a'
                     - 'de8f5af0-0831-11ed-ac8b-05a222bd8d4a'
-              example6:
+              example5:
                 summary: Duplicate rules with specific IDs
                 description: The following request duplicates rules with the specified IDs, including exceptions but not expired exceptions.
                 value:
@@ -101,14 +91,14 @@ paths:
                   duplicate:
                     include_exceptions: true
                     include_expired_exceptions: false
-              example7:
+              example6:
                 summary: Delete a specific rule by ID
                 description: The following request deletes the rule with the specified ID.
                 value:
                   action: 'delete'
                   ids:
                     - 'cf4abfd1-7c37-4519-ab0f-5ea5c75fac60'
-              example8:
+              example7:
                 summary: Run a specific rule by ID
                 description: The following request runs the rule with the specified ID within the given date range.
                 value:
@@ -118,14 +108,194 @@ paths:
                   run:
                     start_date: '2025-03-01T00:00:00.000Z'
                     end_date: '2025-03-10T23:59:59.999Z'
-              example9:
+              example8:
                 summary: Export specific rules by ID
                 description: The following request exports the rules with the specified IDs.
                 value:
                   action: 'export'
                   ids:
                     - '748694f0-6977-4ea5-8384-cd2e39730779'
-                    - '13199674-aff1-418a-9e93-04f585fe36d1'
+              example9:
+                summary: Edit - Add a tag to rules (idempotent)
+                description: The following request adds the tag "tag-1" to the rules with the specified IDs. If the tag already exists for a rule, no changes are made.
+                value:
+                  ids:
+                    - '8bc7dad0-9320-11ec-9265-8b772383a08d'
+                    - '8e5c1a40-9320-11ec-9265-8b772383a08d'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_tags'
+                      value:
+                        - 'tag-1'
+              example10:
+                summary: Edit - Add two tags to rules (idempotent)
+                description: The following request adds two tags at the same time, tag-1 and tag-2, to the rules that have the IDs sent in the payload. If the tags already exist for a rule, no changes are made.
+                value:
+                  ids:
+                    - '8bc7dad0-9320-11ec-9265-8b772383a08d'
+                    - '8e5c1a40-9320-11ec-9265-8b772383a08d'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_tags'
+                      value:
+                        - 'tag-1'
+                        - 'tag-2'
+              example11:
+                summary: Edit - Remove a tag from rules (idempotent)
+                description: The following request removes the tag "tag-1" from the rules with the specified IDs. If the tag does not exist for a rule, no changes are made.
+                value:
+                  ids:
+                    - '8bc7dad0-9320-11ec-9265-8b772383a08d'
+                    - '8e5c1a40-9320-11ec-9265-8b772383a08d'
+                  action: 'edit'
+                  edit:
+                    - type: 'delete_tags'
+                      value:
+                        - 'tag-1'
+              example12:
+                summary: Edit - Set (overwrite existing) tags for rules (idempotent)
+                description: The following request sets the tags "tag-1" and "tag-2" for the rules with the specified IDs, overwriting any existing tags. If the set of tags is the same as the existing tags, no changes are made.
+                value:
+                  ids:
+                    - '8bc7dad0-9320-11ec-9265-8b772383a08d'
+                    - '8e5c1a40-9320-11ec-9265-8b772383a08d'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_tags'
+                      value:
+                        - 'tag-1'
+                        - 'tag-2'
+              example13:
+                summary: Edit - Add index patterns to rules (idempotent)
+                description: The following request adds the index pattern "test-*" to the rules with the specified IDs. If the index pattern already exists for a rule, no changes are made.
+                value:
+                  ids:
+                    - '81aa0480-06af-11ed-94fb-dd1a0597d8d2'
+                    - 'dc015d10-0831-11ed-ac8b-05a222bd8d4a'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_index_patterns'
+                      value:
+                        - 'test-*'
+              example14:
+                summary: Edit - Remove index patterns from rules (idempotent)
+                description: The following request removes the index pattern "test-*" from the rules with the specified IDs. If the index pattern does not exist for a rule, no changes are made.
+                value:
+                  ids:
+                    - '81aa0480-06af-11ed-94fb-dd1a0597d8d2'
+                    - 'dc015d10-0831-11ed-ac8b-05a222bd8d4a'
+                  action: 'edit'
+                  edit:
+                    - type: 'delete_index_patterns'
+                      value:
+                        - 'test-*'
+              example15:
+                summary: Edit - Set (overwrite existing) index patterns for rules patterns (idempotent)
+                description: The following request sets the index patterns "test-*" and "prod-*" for the rules with the specified IDs, overwriting any existing index patterns. If the set of index patterns is the same as the existing index patterns, no changes are made.
+                value:
+                  ids:
+                    - '81aa0480-06af-11ed-94fb-dd1a0597d8d2'
+                    - 'dc015d10-0831-11ed-ac8b-05a222bd8d4a'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_index_patterns'
+                      value:
+                        - 'test-*'
+              example16:
+                summary: Edit - Add investigation field to rules
+                description: The following request adds investigation field to the rules with the specified IDs.
+                value:
+                  ids:
+                    - '12345678-1234-1234-1234-1234567890ab'
+                    - '87654321-4321-4321-4321-0987654321ba'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_investigation_fields'
+                      value:
+                          field_names:
+                            - 'alert.status'
+              example17:
+                summary: Delete investigation fields from rules
+                description: The following request deletes investigation fields from the rules with the specified IDs.
+                value:
+                  ids:
+                    - '12345678-1234-1234-1234-1234567890ab'
+                    - '87654321-4321-4321-4321-0987654321ba'
+                  action: 'edit'
+                  edit:
+                    - type: 'delete_investigation_fields'
+                  value:
+                    - 'field1'
+                    - 'field2'
+              example18:
+                summary: Set investigation fields for rules
+                description: The following request sets investigation fields for the rules with the specified IDs, overwriting any existing investigation fields.
+                value:
+                  ids:
+                    - '12345678-1234-1234-1234-1234567890ab'
+                    - '87654321-4321-4321-4321-0987654321ba'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_investigation_fields'
+                      value:
+                        - 'field1'
+                        - 'field2'
+              example19:
+                summary: Set timeline for rules
+                description: The following request sets a timeline for the rules with the specified IDs.
+                value:
+                  ids:
+                    - '11223344-5566-7788-99aa-bbccddeeff00'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_timeline'
+                      value:
+                      timeline_id: 'timeline-123'
+                      timeline_title: 'Investigation Timeline'
+              example20:
+                summary: Set schedule for rules
+                description: The following request sets a schedule for the rules with the specified IDs.
+                value:
+                  ids:
+                    - '99887766-5544-3322-1100-aabbccddeeff'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_schedule'
+                      value:
+                        interval: '1h'
+                        lookback: '30m'
+              example21:
+                summary: Add rule actions to rules (idempotent)
+                description: The following request adds rule actions to the rules with the specified IDs.
+                value:
+                  ids:
+                    - 'aabbccdd-eeff-0011-2233-445566778899'
+                  action: 'edit'
+                  edit:
+                    - type: 'add_rule_actions'
+                      value:
+                      throttle: '1h'
+                      actions:
+                        - group: 'default'
+                          id: 'action-123'
+                          params:
+                            key: 'value'
+              example22:
+                summary: Set rule actions for rules
+                description: The following request sets rule actions for the rules with the specified IDs.
+                value:
+                  ids:
+                    - 'ffeeddcc-bbaa-9988-7766-554433221100'
+                  action: 'edit'
+                  edit:
+                    - type: 'set_rule_actions'
+                      value:
+                      throttle: 'rule'
+                      actions:
+                        - group: 'notification'
+                          id: 'action-456'
+                          params:
+                            key: 'another-value'
 
       responses:
         200:
