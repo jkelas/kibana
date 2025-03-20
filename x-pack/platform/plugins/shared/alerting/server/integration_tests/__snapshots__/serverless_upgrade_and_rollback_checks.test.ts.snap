@@ -5734,10 +5734,12 @@ Object {
             "additionalProperties": false,
             "properties": Object {
               "id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "list_id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "namespace_type": Object {
                 "enum": Array [
@@ -6403,10 +6405,12 @@ Object {
             "additionalProperties": false,
             "properties": Object {
               "id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "list_id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "namespace_type": Object {
                 "enum": Array [
@@ -7135,10 +7139,12 @@ Object {
             "additionalProperties": false,
             "properties": Object {
               "id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "list_id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "namespace_type": Object {
                 "enum": Array [
@@ -7786,10 +7792,12 @@ Object {
             "additionalProperties": false,
             "properties": Object {
               "id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "list_id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "namespace_type": Object {
                 "enum": Array [
@@ -8492,10 +8500,12 @@ Object {
             "additionalProperties": false,
             "properties": Object {
               "id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "list_id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "namespace_type": Object {
                 "enum": Array [
@@ -9199,10 +9209,12 @@ Object {
             "additionalProperties": false,
             "properties": Object {
               "id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "list_id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "namespace_type": Object {
                 "enum": Array [
@@ -9906,10 +9918,12 @@ Object {
             "additionalProperties": false,
             "properties": Object {
               "id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "list_id": Object {
-                "$ref": "#/allOf/0/properties/investigationFields/anyOf/0/properties/field_names/items",
+                "minLength": 1,
+                "type": "string",
               },
               "namespace_type": Object {
                 "enum": Array [
