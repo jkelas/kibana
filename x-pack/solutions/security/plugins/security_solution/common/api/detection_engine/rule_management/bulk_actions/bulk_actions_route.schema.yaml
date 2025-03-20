@@ -429,7 +429,7 @@ components:
 
     BulkEditActionSummary:
       type: object
-      description: A rule can only be skipped when the bulk action to be performed on it results in nothing being done. For example, if the edit action is used to add a tag to a rule that already has that tag, or to delete an index pattern that is not specified in a rule. Objects returned in attributes.results.skipped will only include rules' id, name, and skip_reason.
+      description: A rule can only be skipped when the bulk action to be performed on it results in nothing being done. For example, if the `edit` action is used to add a tag to a rule that already has that tag, or to delete an index pattern that is not specified in a rule. Objects returned in `attributes.results.skipped` will only include rules' `id`, `name`, and `skip_reason`.
       properties:
         failed:
           type: integer
