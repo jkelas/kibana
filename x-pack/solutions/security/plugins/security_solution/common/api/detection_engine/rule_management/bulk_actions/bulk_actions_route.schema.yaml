@@ -212,8 +212,8 @@ paths:
                   edit:
                     - type: 'add_investigation_fields'
                       value:
-                          field_names:
-                            - 'alert.status'
+                        field_names:
+                          - 'alert.status'
               example17:
                 summary: Delete investigation fields from rules
                 description: The following request deletes investigation fields from the rules with the specified IDs.
@@ -810,6 +810,11 @@ components:
 
     BulkActionEditPayloadRuleActions:
       type: object
+      description: |
+        Edits rule actions of rules.
+
+        - `add_rule_actions` adds rule actions to rules. If a rule action already exists for a rule, no changes are made.
+        - `set_rule_actions` sets rule actions for rules. If the set of rule actions is the same as the existing rule actions, no changes are made.
       properties:
         type:
           type: string
@@ -831,6 +836,12 @@ components:
 
     BulkActionEditPayloadSchedule:
       type: object
+      description: |
+        Overwrites schedule of rules. 
+
+        - `set_schedule` sets a schedule for rules. If the same schedule already exists for a rule, no changes are made.
+
+        Both interval and lookback have a format of "{integer}{time_unit}", where accepted time units are s for seconds, m for minutes, and h for hours. The integer must be positive and larger than 0. Examples: "45s", "30m", "6h"
       properties:
         type:
           type: string
@@ -857,6 +868,12 @@ components:
 
     BulkActionEditPayloadIndexPatterns:
       type: object
+      description: |
+        Edits index patterns of rulesClient.
+
+        - `add_index_patterns` adds index patterns to rules. If an index pattern already exists for a rule, no changes are made.
+        - `delete_index_patterns` removes index patterns from rules. If an index pattern does not exist for a rule, no changes are made.
+        - `set_index_patterns` sets index patterns for rules, overwriting any existing index patterns. If the set of index patterns is the same as the existing index patterns, no changes are made.
       properties:
         type:
           type: string
@@ -874,6 +891,12 @@ components:
 
     BulkActionEditPayloadTags:
       type: object
+      description: |
+        Edits tags of rules.
+
+        - `add_tags` adds tags to rules. If a tag already exists for a rule, no changes are made.
+        - `delete_tags` removes tags from rules. If a tag does not exist for a rule, no changes are made.
+        - `set_tags` sets tags for rules, overwriting any existing tags. If the set of tags is the same as the existing tags, no changes are made.
       properties:
         type:
           type: string
@@ -889,6 +912,12 @@ components:
 
     BulkActionEditPayloadInvestigationFields:
       type: object
+      description: |
+        Edits investigation fields of rules.
+
+        - `add_investigation_fields` adds investigation fields to rules. If an investigation field already exists for a rule, no changes are made.
+        - `delete_investigation_fields` removes investigation fields from rules. If an investigation field does not exist for a rule, no changes are made.
+        - `set_investigation_fields` sets investigation fields for rules. If the set of investigation fields is the same as the existing investigation fields, no changes are made.
       properties:
         type:
           type: string
@@ -904,6 +933,10 @@ components:
 
     BulkActionEditPayloadTimeline:
       type: object
+      description: |
+        Edits timeline of rules.
+
+        - `set_timeline` sets a timeline for rules. If the same timeline already exists for a rule, no changes are made.
       properties:
         type:
           type: string
