@@ -8357,9 +8357,7 @@ components:
       description: The connector ID.
       type: string
     RuleActionNotifyWhen:
-      description: >-
-        The condition for throttling the notification: `onActionGroupChange`,
-        `onActiveAlert`,  or `onThrottleInterval`
+      description: The condition for throttling the notification
       enum:
         - onActiveAlert
         - onThrottleInterval

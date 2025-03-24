@@ -503,7 +503,7 @@ components:
         - 'onActiveAlert'
         - 'onThrottleInterval'
         - 'onActionGroupChange'
-      description: 'The condition for throttling the notification: `onActionGroupChange`, `onActiveAlert`,  or `onThrottleInterval`'
+      description: The condition for throttling the notification
 
     RuleActionFrequency:
       type: object
