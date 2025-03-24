@@ -11811,9 +11811,9 @@ paths:
 
             Enable dry run mode to verify that bulk actions can be applied to specified rules. Certain rules, such as prebuilt Elastic rules, can’t be edited and will return errors in the request response. Error details will contain an explanation, the rule name and/or ID, and additional troubleshooting information.
 
-            To enable dry run mode on a request, add the query parameter dry_run=true to the end of the request URL. Rules specified in the request will be temporarily updated. These updates won’t be written to Elasticsearch.
+            To enable dry run mode on a request, add the query parameter `dry_run=true` to the end of the request URL. Rules specified in the request will be temporarily updated. These updates won’t be written to Elasticsearch.
             > info
-            > Dry run mode is not supported for the export bulk action. A 400 error will be returned in the request response.
+            > Dry run mode is not supported for the `export` bulk action. A 400 error will be returned in the request response.
           in: query
           name: dry_run
           required: false
@@ -60538,7 +60538,7 @@ components:
         - deleted
         - skipped
     Security_Detections_API_BulkEditActionSummary:
-      description: A rule can only be skipped when the bulk action to be performed on it results in nothing being done. For example, if the edit action is used to add a tag to a rule that already has that tag, or to delete an index pattern that is not specified in a rule. Objects returned in attributes.results.skipped will only include rules' id, name, and skip_reason.
+      description: A rule can only be skipped when the bulk action to be performed on it results in nothing being done. For example, if the `edit` action is used to add a tag to a rule that already has that tag, or to delete an index pattern that is not specified in a rule. Objects returned in `attributes.results.skipped` will only include rules' `id`, `name`, and `skip_reason`.
       type: object
       properties:
         failed:
@@ -60809,7 +60809,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -60951,7 +60951,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -61090,7 +61090,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -61212,7 +61212,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -61364,7 +61364,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -61506,7 +61506,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -61639,7 +61639,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -61782,7 +61782,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -62034,7 +62034,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -62176,7 +62176,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -62319,7 +62319,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -62457,7 +62457,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -62690,7 +62690,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -62833,7 +62833,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -62990,7 +62990,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -63137,7 +63137,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -63393,7 +63393,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -63536,7 +63536,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -63691,7 +63691,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -63832,7 +63832,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -64013,11 +64013,7 @@ components:
       type: integer
     Security_Detections_API_RiskScoreMapping:
       description: |
-        Overrides generated alerts' risk_score with a value from the source event:
-
-        - field (string, required): Source event field used to override the default risk_score. This field must be an integer.
-        - operator (string, required): Must be equals.
-        - value(string, required): Must be an empty string ("").
+        Overrides generated alerts' risk_score with a value from the source event
       items:
         type: object
         properties:
@@ -64087,8 +64083,8 @@ components:
           type: object
           properties:
             filters:
+              description: Array of filter objects, as defined in the `kbn-es-query` package.
               items:
-                description: A filter object, as defined in the `kbn-es-query` package.
                 type: object
               type: array
             kql:
@@ -64139,7 +64135,7 @@ components:
       description: The connector ID.
       type: string
     Security_Detections_API_RuleActionNotifyWhen:
-      description: 'The condition for throttling the notification: `onActionGroupChange`, `onActiveAlert`,  or `onThrottleInterval`'
+      description: Defines how often rules run actions.
       enum:
         - onActiveAlert
         - onThrottleInterval
@@ -64231,11 +64227,15 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Security_Detections_API_NonEmptyString'
           description: ID of the exception container
+          format: nonempty
+          minLength: 1
+          type: string
         list_id:
-          $ref: '#/components/schemas/Security_Detections_API_NonEmptyString'
           description: List ID of the exception container
+          format: nonempty
+          minLength: 1
+          type: string
         namespace_type:
           description: Determines the exceptions validity in rule's Kibana space
           enum:
@@ -64365,7 +64365,7 @@ components:
       minLength: 1
       type: string
     Security_Detections_API_RuleNameOverride:
-      description: Sets the source field for the alert's signal.rule.name value. (in the UI, this value is displayed on the Rules page in the Rule column). When unspecified, the rule’s name value is used. The source field must be a string data type.
+      description: Sets the source field for the alert's signal.rule.name value (in the UI, this value is displayed on the Rules page in the Rule column). When unspecified, the rule’s name value is used. The source field must be a string data type.
       type: string
     Security_Detections_API_RuleObjectId:
       $ref: '#/components/schemas/Security_Detections_API_UUID'
@@ -64568,7 +64568,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -64711,7 +64711,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -64866,7 +64866,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -65007,7 +65007,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -65296,7 +65296,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -65439,7 +65439,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -65610,7 +65610,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -65760,7 +65760,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -65810,10 +65810,6 @@ components:
       description: Query used to determine which fields in the Elasticsearch index are used for generating alerts.
       type: string
     Security_Detections_API_ThreatSubtechnique:
-      description: |
-        Array containing more specific information on the attack technique.
-        > info
-        > Only threats described using the MITRE ATT&CKTM framework are displayed in the UI (Rules → Detection rules (SIEM) → Rule name).
       type: object
       properties:
         id:
@@ -65860,6 +65856,10 @@ components:
           description: Technique reference
           type: string
         subtechnique:
+          description: |
+            Array containing more specific information on the attack technique.
+            > info
+            > Only threats described using the MITRE ATT&CKTM framework are displayed in the UI (Rules → Detection rules (SIEM) → Rule name).
           items:
             $ref: '#/components/schemas/Security_Detections_API_ThreatSubtechnique'
           type: array
@@ -65985,7 +65985,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -66128,7 +66128,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -66285,7 +66285,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array
@@ -66429,7 +66429,7 @@ components:
               description: |
                 Elasticsearch fields and their types that need to be present for the rule to function.
                 > info
-                > The value of required_fields does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use required_fields as an informational property to document the fields that the rule expects to be present in the data.
+                > The value of `required_fields` does not affect the rule’s behavior, and specifying it incorrectly won’t cause the rule to fail. Use `required_fields` as an informational property to document the fields that the rule expects to be present in the data.
               items:
                 $ref: '#/components/schemas/Security_Detections_API_RequiredFieldInput'
               type: array

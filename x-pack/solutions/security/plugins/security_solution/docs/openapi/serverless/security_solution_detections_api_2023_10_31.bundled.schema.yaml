@@ -1506,13 +1506,13 @@ paths:
 
 
             To enable dry run mode on a request, add the query parameter
-            dry_run=true to the end of the request URL. Rules specified in the
+            `dry_run=true` to the end of the request URL. Rules specified in the
             request will be temporarily updated. These updates won’t be written
             to Elasticsearch.
 
             > info
 
-            > Dry run mode is not supported for the export bulk action. A 400
+            > Dry run mode is not supported for the `export` bulk action. A 400
             error will be returned in the request response.
           in: query
           name: dry_run
@@ -3315,11 +3315,11 @@ components:
     BulkEditActionSummary:
       description: >-
         A rule can only be skipped when the bulk action to be performed on it
-        results in nothing being done. For example, if the edit action is used
+        results in nothing being done. For example, if the `edit` action is used
         to add a tag to a rule that already has that tag, or to delete an index
         pattern that is not specified in a rule. Objects returned in
-        attributes.results.skipped will only include rules' id, name, and
-        skip_reason.
+        `attributes.results.skipped` will only include rules' `id`, `name`, and
+        `skip_reason`.
       type: object
       properties:
         failed:
@@ -3629,9 +3629,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -3804,9 +3804,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -3979,9 +3979,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -4134,9 +4134,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -4319,9 +4319,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -4494,9 +4494,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -4663,9 +4663,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -4839,9 +4839,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -5122,9 +5122,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -5297,9 +5297,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -5476,9 +5476,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -5647,9 +5647,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -5824,9 +5824,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -6000,9 +6000,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -6193,9 +6193,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -6373,9 +6373,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -6678,9 +6678,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -6854,9 +6854,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -7045,9 +7045,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -7219,9 +7219,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -7497,8 +7497,10 @@ components:
           type: object
           properties:
             filters:
+              description: >-
+                Array of filter objects, as defined in the `kbn-es-query`
+                package.
               items:
-                description: A filter object, as defined in the `kbn-es-query` package.
                 type: object
               type: array
             kql:
@@ -7566,9 +7568,7 @@ components:
       description: The connector ID.
       type: string
     RuleActionNotifyWhen:
-      description: >-
-        The condition for throttling the notification: `onActionGroupChange`,
-        `onActiveAlert`,  or `onThrottleInterval`
+      description: Defines how often rules run actions.
       enum:
         - onActiveAlert
         - onThrottleInterval
@@ -7607,29 +7607,7 @@ components:
           - class (string, optional): Value indicating the class/type of the event.
       type: object
     RuleActionThrottle:
-      description: >
-        Defines how often rule actions are taken.
-
-        - no_actions: Never
-
-        - rule: Every time new alerts are detected
-
-        - 1h: Every hour
-
-        - 1d: Every day
-
-        - 7d: Every week
-
-        > info
-
-        > The rule level `throttle` field is deprecated in Elastic Security 8.8
-        and will remain active for at least the next 12 months.
-
-        > In Elastic Security 8.8 and later, you can use the `frequency` field
-        to define frequencies for individual actions. Actions without
-        frequencies will acquire a converted version of the rule’s `throttle`
-        field. In the response, the converted `throttle` setting appears in the
-        individual actions' `frequency` field.
+      description: Defines how often rule actions are taken.
       oneOf:
         - enum:
             - no_actions
@@ -7678,11 +7656,15 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/NonEmptyString'
           description: ID of the exception container
+          format: nonempty
+          minLength: 1
+          type: string
         list_id:
-          $ref: '#/components/schemas/NonEmptyString'
           description: List ID of the exception container
+          format: nonempty
+          minLength: 1
+          type: string
         namespace_type:
           description: Determines the exceptions validity in rule's Kibana space
           enum:
@@ -7852,8 +7834,8 @@ components:
       type: string
     RuleNameOverride:
       description: >-
-        Sets the source field for the alert's signal.rule.name value. (in the
-        UI, this value is displayed on the Rules page in the Rule column). When
+        Sets the source field for the alert's signal.rule.name value (in the UI,
+        this value is displayed on the Rules page in the Rule column). When
         unspecified, the rule’s name value is used. The source field must be a
         string data type.
       type: string
@@ -8099,9 +8081,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -8275,9 +8257,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -8466,9 +8448,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -8640,9 +8622,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -8978,9 +8960,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -9154,9 +9136,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -9361,9 +9343,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -9544,9 +9526,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -9812,9 +9794,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -9988,9 +9970,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -10181,9 +10163,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -10358,9 +10340,9 @@ components:
 
                 > info
 
-                > The value of required_fields does not affect the rule’s
+                > The value of `required_fields` does not affect the rule’s
                 behavior, and specifying it incorrectly won’t cause the rule to
-                fail. Use required_fields as an informational property to
+                fail. Use `required_fields` as an informational property to
                 document the fields that the rule expects to be present in the
                 data.
               items:
@@ -10413,9 +10395,19 @@ components:
       minimum: 1
       type: integer
     ThrottleForBulkActions:
-      description: >-
-        The condition for throttling the notification: 'rule', 'no_actions', or
-        time duration
+      description: >
+        Defines the maximum interval in which a rule’s actions are executed.
+
+        > info
+
+        > The rule level `throttle` field is deprecated in Elastic Security 8.8
+        and will remain active for at least the next 12 months.
+
+        > In Elastic Security 8.8 and later, you can use the `frequency` field
+        to define frequencies for individual actions. Actions without
+        frequencies will acquire a converted version of the rule’s `throttle`
+        field. In the response, the converted `throttle` setting appears in the
+        individual actions' `frequency` field.
       enum:
         - rule
         - 1h
