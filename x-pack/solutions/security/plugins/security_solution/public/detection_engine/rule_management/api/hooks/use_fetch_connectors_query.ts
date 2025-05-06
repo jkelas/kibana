@@ -18,6 +18,7 @@ export const useFetchConnectorsQuery = () => {
     ['GET', BASE_ACTION_API_PATH, 'connectors'],
     ({ signal }) => fetchConnectors(signal),
     {
+      networkMode: 'always',
       onError: (error) => {
         addError(error, {
           title: i18n.CONNECTORS_FETCH_ERROR,

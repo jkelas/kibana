@@ -79,5 +79,6 @@ export const useGetAlertsGroupAggregationsQuery = <T>({
     onError: onErrorFn,
     refetchOnWindowFocus: false,
     enabled,
+    networkMode: 'always',
   });
 };

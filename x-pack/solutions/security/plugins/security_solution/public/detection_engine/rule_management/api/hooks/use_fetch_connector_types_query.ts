@@ -18,6 +18,7 @@ export const useFetchConnectorTypesQuery = () => {
     ['GET', BASE_ACTION_API_PATH, 'connector_types', 'siem'],
     ({ signal }) => fetchConnectorTypes(signal),
     {
+      networkMode: 'always',
       onError: (error) => {
         addError(error, {
           title: i18n.CONNECTOR_TYPES_FETCH_ERROR,

@@ -47,6 +47,7 @@ export const useSearchAlertsQuery = ({ data, ...params }: UseSearchAlertsQueryPa
     trackScores,
   } = params;
   return useQuery({
+    networkMode: 'always',
     queryKey: queryKeyPrefix.concat(JSON.stringify(params)),
     queryFn: ({ signal }) =>
       searchAlerts({

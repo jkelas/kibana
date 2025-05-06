@@ -36,6 +36,7 @@ export const usePerformAllRulesInstallMutation = (
   const invalidateFetchCoverageOverviewQuery = useInvalidateFetchCoverageOverviewQuery();
 
   return useMutation<PerformRuleInstallationResponseBody>(() => performInstallAllRules(), {
+    networkMode: 'always',
     ...options,
     mutationKey: PERFORM_ALL_RULES_INSTALLATION_KEY,
     onSettled: (...args) => {

@@ -54,5 +54,6 @@ export const useFindAlertsQuery = <T>({
     onError: onErrorFn,
     refetchOnWindowFocus: false,
     enabled,
+    networkMode: 'always',
   });
 };

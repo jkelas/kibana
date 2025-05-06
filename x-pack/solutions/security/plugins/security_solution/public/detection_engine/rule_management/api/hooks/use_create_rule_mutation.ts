@@ -29,6 +29,7 @@ export const useCreateRuleMutation = (
   return useMutation<RuleResponse, Error, RuleCreateProps>(
     (rule: RuleCreateProps) => createRule({ rule: transformOutput(rule) }),
     {
+      networkMode: 'always',
       ...options,
       mutationKey: CREATE_RULE_MUTATION_KEY,
       onSettled: (...args) => {

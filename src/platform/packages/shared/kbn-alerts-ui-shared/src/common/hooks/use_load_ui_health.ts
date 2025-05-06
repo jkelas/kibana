@@ -26,6 +26,7 @@ export const useLoadUiHealth = (props: UseLoadUiHealthProps) => {
     queryKey: ['useLoadUiHealth'],
     queryFn,
     refetchOnWindowFocus: false,
+    networkMode: 'always',
   });
 
   return {

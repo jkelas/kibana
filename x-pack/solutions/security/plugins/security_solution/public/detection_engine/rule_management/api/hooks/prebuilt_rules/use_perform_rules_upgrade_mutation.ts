@@ -44,6 +44,7 @@ export const usePerformRulesUpgradeMutation = (
       return performUpgradeRules(args);
     },
     {
+      networkMode: 'always',
       ...options,
       mutationKey: PERFORM_RULES_UPGRADE_KEY,
       onSettled: (...args) => {

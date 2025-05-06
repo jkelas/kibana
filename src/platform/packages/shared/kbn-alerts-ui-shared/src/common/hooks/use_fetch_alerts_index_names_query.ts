@@ -37,6 +37,7 @@ export const useFetchAlertsIndexNamesQuery = (
     enabled: ruleTypeIds.length > 0,
     staleTime: 60 * 1000,
     refetchOnWindowFocus: false,
+    networkMode: 'always',
     ...options,
   });
 };

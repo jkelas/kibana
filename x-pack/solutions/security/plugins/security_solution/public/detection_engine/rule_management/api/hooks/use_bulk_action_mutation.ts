@@ -48,6 +48,7 @@ export const useBulkActionMutation = (
     IHttpFetchError<BulkActionErrorResponse>,
     PerformRulesBulkActionProps
   >((bulkActionProps: PerformRulesBulkActionProps) => performBulkAction(bulkActionProps), {
+    networkMode: 'always',
     ...options,
     mutationKey: BULK_ACTION_MUTATION_KEY,
     onSettled: (...args) => {

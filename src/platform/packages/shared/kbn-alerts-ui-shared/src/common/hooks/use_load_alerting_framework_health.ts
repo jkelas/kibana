@@ -26,6 +26,7 @@ export const useLoadAlertingFrameworkHealth = (props: UseLoadAlertingFrameworkHe
     queryKey: ['useLoadAlertingFrameworkHealth'],
     queryFn,
     refetchOnWindowFocus: false,
+    networkMode: 'always',
   });
 
   return {

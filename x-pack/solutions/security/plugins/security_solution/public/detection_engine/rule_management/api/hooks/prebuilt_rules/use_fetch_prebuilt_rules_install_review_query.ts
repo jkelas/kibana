@@ -26,6 +26,7 @@ export const useFetchPrebuiltRulesInstallReviewQuery = (
       return response;
     },
     {
+      networkMode: 'always',
       ...DEFAULT_QUERY_OPTIONS,
       ...options,
       retry: retryOnRateLimitedError,

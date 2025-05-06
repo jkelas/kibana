@@ -26,6 +26,7 @@ export const useBootstrapPrebuiltRulesMutation = (
   const invalidateFindRulesQuery = useInvalidateFindRulesQuery();
 
   return useMutation(() => bootstrapPrebuiltRules(), {
+    networkMode: 'always',
     ...options,
     mutationKey: BOOTSTRAP_PREBUILT_RULES_KEY,
     onSuccess: (...args) => {
@@ -52,6 +53,11 @@ export const useBootstrapPrebuiltRulesMutation = (
 
       if (options?.onSuccess) {
         options.onSuccess(...args);
+      }
+    },
+    onError: (...args) => {
+      if (options?.onError) {
+        options.onError(...args);
       }
     },
   });

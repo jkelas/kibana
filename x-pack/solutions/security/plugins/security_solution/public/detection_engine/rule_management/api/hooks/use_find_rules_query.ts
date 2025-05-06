@@ -58,6 +58,7 @@ export const useFindRulesQuery = (
       return { rules: response.data, total: response.total };
     },
     {
+      networkMode: 'always',
       ...DEFAULT_QUERY_OPTIONS,
       // Mark this query as immediately stale helps to avoid problems related to filtering.
       // e.g. enabled and disabled state filter require data update which happens at the backend side
