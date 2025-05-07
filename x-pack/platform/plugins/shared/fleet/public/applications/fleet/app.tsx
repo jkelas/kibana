@@ -64,7 +64,13 @@ import { ErrorLayout, PermissionsError } from '../../layouts/error';
 
 const FEEDBACK_URL = 'https://ela.st/fleet-feedback';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      networkMode: 'always',
+    },
+  },
+});
 
 export const WithPermissionsAndSetup = memo<{ children?: React.ReactNode }>(({ children }) => {
   useBreadcrumbs('base');
