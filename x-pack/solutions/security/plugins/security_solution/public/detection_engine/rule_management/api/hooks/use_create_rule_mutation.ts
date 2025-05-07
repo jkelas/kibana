@@ -29,8 +29,8 @@ export const useCreateRuleMutation = (
   return useMutation<RuleResponse, Error, RuleCreateProps>(
     (rule: RuleCreateProps) => createRule({ rule: transformOutput(rule) }),
     {
-      networkMode: 'always',
       ...options,
+      networkMode: 'always',
       mutationKey: CREATE_RULE_MUTATION_KEY,
       onSettled: (...args) => {
         invalidateFindRulesQuery();

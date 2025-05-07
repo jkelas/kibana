@@ -33,8 +33,8 @@ export const useUpdateRuleMutation = (
   return useMutation<RuleResponse, Error, RuleUpdateProps>(
     (rule: RuleUpdateProps) => updateRule({ rule: transformOutput(rule) }),
     {
-      networkMode: 'always',
       ...options,
+      networkMode: 'always',
       mutationKey: UPDATE_RULE_MUTATION_KEY,
       onSettled: (...args) => {
         invalidateFindRulesQuery();

@@ -42,8 +42,8 @@ export const useFetchAlertsFieldsQuery = (
     placeholderData: { browserFields: {}, fields: [] },
     staleTime: 60 * 1000,
     refetchOnWindowFocus: false,
-    networkMode: 'always',
     ...options,
+    networkMode: 'always',
     enabled: validRuleTypeIds.length > 0 && (options?.enabled == null || options.enabled),
   });
 };

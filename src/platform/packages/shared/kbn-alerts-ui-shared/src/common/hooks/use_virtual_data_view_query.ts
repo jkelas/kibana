@@ -46,8 +46,8 @@ export const useVirtualDataViewQuery = (
     enabled: !!indexNames?.length,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
-    networkMode: 'always',
     ...options,
+    networkMode: 'always',
   });
 
   useEffect(() => {

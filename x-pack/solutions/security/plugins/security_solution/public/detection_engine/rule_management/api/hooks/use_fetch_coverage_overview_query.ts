@@ -41,9 +41,9 @@ export const useFetchCoverageOverviewQuery = (
       return buildCoverageOverviewDashboardModel(response);
     },
     {
-      networkMode: 'always',
       ...DEFAULT_QUERY_OPTIONS,
       ...options,
+      networkMode: 'always',
       onError: (error) => {
         addError(error, {
           title: i18n.COVERAGE_OVERVIEW_FETCH_ERROR_TITLE,

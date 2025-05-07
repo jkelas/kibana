@@ -59,8 +59,8 @@ export const usePerformSpecificRulesInstallMutation = (
     (rulesToInstall: UsePerformSpecificRulesInstallParams) =>
       performInstallSpecificRules(rulesToInstall.rules),
     {
-      networkMode: 'always',
       ...options,
+      networkMode: 'always',
       mutationKey: PERFORM_SPECIFIC_RULES_INSTALLATION_KEY,
       onSettled: (...args) => {
         invalidatePrePackagedRulesStatus();

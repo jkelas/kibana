@@ -44,8 +44,8 @@ export const usePerformRulesUpgradeMutation = (
       return performUpgradeRules(args);
     },
     {
-      networkMode: 'always',
       ...options,
+      networkMode: 'always',
       mutationKey: PERFORM_RULES_UPGRADE_KEY,
       onSettled: (...args) => {
         invalidatePrePackagedRulesStatus();

@@ -24,9 +24,9 @@ export const useFetchRuleManagementFiltersQuery = (
       return response;
     },
     {
-      networkMode: 'always',
       ...DEFAULT_QUERY_OPTIONS,
       ...options,
+      networkMode: 'always',
     }
   );
 };

@@ -18,8 +18,8 @@ export const useBulkExportMutation = (
   return useMutation<BulkExportResponse, Error, QueryOrIds>(
     (action: QueryOrIds) => bulkExportRules(action),
     {
-      networkMode: 'always',
       ...options,
+      networkMode: 'always',
       mutationKey: BULK_ACTION_MUTATION_KEY,
     }
   );

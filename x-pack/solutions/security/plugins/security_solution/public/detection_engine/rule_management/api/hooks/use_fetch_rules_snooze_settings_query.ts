@@ -31,9 +31,9 @@ export const useFetchRulesSnoozeSettingsQuery = (
     [...FETCH_RULE_SNOOZE_SETTINGS_QUERY_KEY, ...ids],
     ({ signal }) => fetchRulesSnoozeSettings({ ids, signal }),
     {
-      networkMode: 'always',
       ...DEFAULT_QUERY_OPTIONS,
       ...queryOptions,
+      networkMode: 'always',
     }
   );
 };
