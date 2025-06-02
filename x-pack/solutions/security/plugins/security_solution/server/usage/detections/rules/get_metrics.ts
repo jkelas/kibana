@@ -6,6 +6,7 @@
  */
 
 import type { ElasticsearchClient, SavedObjectsClientContract, Logger } from '@kbn/core/server';
+import { createPrebuiltRuleAssetsClient } from '../../../lib/detection_engine/prebuilt_rules/logic/rule_assets/prebuilt_rule_assets_client';
 import type { RuleAdoption } from './types';
 
 import { updateRuleUsage } from './update_usage';
@@ -14,6 +15,7 @@ import { getAlerts } from '../../queries/get_alerts';
 import { MAX_PER_PAGE, MAX_RESULTS_WINDOW } from '../../constants';
 import {
   getInitialEventLogUsage,
+  getInitialRuleUpgradeStatus,
   getInitialRulesUsage,
   getInitialSpacesUsage,
 } from './get_initial_usage';
@@ -58,6 +60,7 @@ export const getRuleMetrics = async ({
         detection_rule_detail: [],
         detection_rule_usage: getInitialRulesUsage(),
         detection_rule_status: getInitialEventLogUsage(),
+        detection_rule_upgrade_status: getInitialRuleUpgradeStatus(),
         spaces_usage: getInitialSpacesUsage(),
       };
     }
@@ -116,6 +119,28 @@ export const getRuleMetrics = async ({
       alertsCounts,
     });
 
+    const ruleAssetsClient = createPrebuiltRuleAssetsClient(savedObjectsClient);
+    const latestRuleVersions = await ruleAssetsClient.fetchLatestVersions();
+    const latestRuleVersionsMap = new Map(latestRuleVersions.map((rule) => [rule.rule_id, rule]));
+
+    const upgradeableRules = rulesCorrelated.filter((rule) => {
+      const latestVersion = latestRuleVersionsMap.get(rule.rule_id);
+      return latestVersion != null && rule.rule_version < latestVersion.version;
+    });
+
+    const detectionRuleUpgradeStatus = upgradeableRules.reduce((acc, rule) => {
+      acc.total += 1;
+      if (rule.is_customized) {
+        acc.customized += 1;
+      }
+      if (rule.enabled) {
+        acc.enabled += 1;
+      } else {
+        acc.disabled += 1;
+      }
+      return acc;
+    }, getInitialRuleUpgradeStatus());
+
     // Only bring back rule detail on elastic prepackaged detection rules
     const elasticRuleObjects = rulesCorrelated.filter((hit) => hit.elastic_rule === true);
 
@@ -129,6 +154,7 @@ export const getRuleMetrics = async ({
       detection_rule_detail: elasticRuleObjects,
       detection_rule_usage: rulesUsage,
       detection_rule_status: eventLogMetricsTypeStatus,
+      detection_rule_upgrade_status: detectionRuleUpgradeStatus,
       spaces_usage: getSpacesUsage(ruleResults),
     };
   } catch (e) {
@@ -140,6 +166,7 @@ export const getRuleMetrics = async ({
       detection_rule_detail: [],
       detection_rule_usage: getInitialRulesUsage(),
       detection_rule_status: getInitialEventLogUsage(),
+      detection_rule_upgrade_status: getInitialRuleUpgradeStatus(),
       spaces_usage: getInitialSpacesUsage(),
     };
   }
