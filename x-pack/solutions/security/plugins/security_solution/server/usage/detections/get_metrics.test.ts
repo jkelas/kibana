@@ -149,7 +149,9 @@ describe('Detections Usage and Metrics', () => {
       esClient.search.mockResponseOnce(getEventLogElasticRules());
       esClient.search.mockResponseOnce(getElasticLogCustomRules());
       esClient.search.mockResponseOnce(getMockRuleAlertsResponse(3400));
-      savedObjectsClient.find.mockResolvedValueOnce(getMockRuleSearchResponse(true, true));
+      savedObjectsClient.find.mockResolvedValueOnce(
+        getMockRuleSearchResponse(true /* immutable */, true /* elastic */, true /* customized */)
+      );
       savedObjectsClient.find.mockResolvedValueOnce(getMockAlertCaseCommentsResponse());
       // Get empty saved object for legacy notification system.
       savedObjectsClient.find.mockResolvedValueOnce(getEmptySavedObjectResponse());
