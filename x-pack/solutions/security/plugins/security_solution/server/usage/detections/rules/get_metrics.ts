@@ -6,13 +6,17 @@
  */
 
 import type { ElasticsearchClient, SavedObjectsClientContract, Logger } from '@kbn/core/server';
+import { convertAlertingRuleToRuleResponse } from '../../../lib/detection_engine/rule_management/logic/detection_rules_client/converters/convert_alerting_rule_to_rule_response';
+import type { RuleResponse } from '../../../../common/api/detection_engine/model/rule_schema/rule_schemas.gen';
 import type { RuleAdoption } from './types';
+import { getCustomizedFieldsStatus } from './get_customized_fields_stats';
 
 import { updateRuleUsage } from './update_usage';
 import { getDetectionRules } from '../../queries/get_detection_rules';
 import { getAlerts } from '../../queries/get_alerts';
 import { MAX_PER_PAGE, MAX_RESULTS_WINDOW } from '../../constants';
 import {
+  getInitialCustomizedFieldsStatus,
   getInitialEventLogUsage,
   getInitialRulesUsage,
   getInitialSpacesUsage,
@@ -52,12 +56,26 @@ export const getRuleMetrics = async ({
       logger,
     });
 
+    const ruleResponses = ruleResults.map((rule) =>
+      convertAlertingRuleToRuleResponse({
+        ...rule.attributes,
+        id: rule.id,
+        createdAt: new Date(rule.attributes.createdAt),
+        updatedAt: new Date(rule.attributes.updatedAt),
+      })
+    );
+
+    const ruleIdToRuleResponseMap = new Map<string, RuleResponse>(
+      ruleResponses.map((ruleResponse) => [ruleResponse.rule_id, ruleResponse])
+    );
+
     // early return if we don't have any detection rules then there is no need to query anything else
     if (ruleResults.length === 0) {
       return {
         detection_rule_detail: [],
         detection_rule_usage: getInitialRulesUsage(),
         detection_rule_status: getInitialEventLogUsage(),
+        detection_rule_customized_fields_status: getInitialCustomizedFieldsStatus(),
         spaces_usage: getInitialSpacesUsage(),
       };
     }
@@ -125,10 +143,19 @@ export const getRuleMetrics = async ({
       getInitialRulesUsage()
     );
 
+    // Get customized fields stats
+    const customizedFieldsStatus = await getCustomizedFieldsStatus({
+      savedObjectsClient,
+      elasticRuleObjects,
+      ruleIdToRuleResponseMap,
+      logger,
+    });
+
     return {
       detection_rule_detail: elasticRuleObjects,
       detection_rule_usage: rulesUsage,
       detection_rule_status: eventLogMetricsTypeStatus,
+      detection_rule_customized_fields_status: customizedFieldsStatus,
       spaces_usage: getSpacesUsage(ruleResults),
     };
   } catch (e) {
@@ -140,6 +167,7 @@ export const getRuleMetrics = async ({
       detection_rule_detail: [],
       detection_rule_usage: getInitialRulesUsage(),
       detection_rule_status: getInitialEventLogUsage(),
+      detection_rule_customized_fields_status: getInitialCustomizedFieldsStatus(),
       spaces_usage: getInitialSpacesUsage(),
     };
   }
