@@ -9,7 +9,7 @@ import type { ElasticsearchClient, SavedObjectsClientContract, Logger } from '@k
 import { convertAlertingRuleToRuleResponse } from '../../../lib/detection_engine/rule_management/logic/detection_rules_client/converters/convert_alerting_rule_to_rule_response';
 import type { RuleResponse } from '../../../../common/api/detection_engine/model/rule_schema/rule_schemas.gen';
 import type { RuleAdoption } from './types';
-import { getCustomizedFieldsStatus } from './get_customized_fields_stats';
+import { getCustomizedFieldsStatus } from './get_customized_fields_status';
 
 import { updateRuleUsage } from './update_usage';
 import { getDetectionRules } from '../../queries/get_detection_rules';

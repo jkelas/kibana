@@ -139,6 +139,10 @@ describe('Detections Usage and Metrics', () => {
               alert_suppression: initialAlertSuppression,
             },
           },
+          detection_rule_customized_fields_status: {
+            rules_with_missing_base_version: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
@@ -199,11 +203,15 @@ describe('Detections Usage and Metrics', () => {
               alert_suppression: initialAlertSuppression,
             },
           },
+          detection_rule_customized_fields_status: {
+            rules_with_missing_base_version: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
 
-    it('returns information with rule, no alerts and no cases', async () => {
+    it.only('returns information with rule, no alerts and no cases', async () => {
       esClient.search.mockResponseOnce(getEventLogAllRules());
       esClient.search.mockResponseOnce(getEventLogElasticRules());
       esClient.search.mockResponseOnce(getElasticLogCustomRules());
@@ -279,6 +287,10 @@ describe('Detections Usage and Metrics', () => {
               legacy_investigation_fields: 0,
               alert_suppression: initialAlertSuppression,
             },
+          },
+          detection_rule_customized_fields_status: {
+            rules_with_missing_base_version: 0,
+            customized_fields_breakdown: [],
           },
         },
       });
