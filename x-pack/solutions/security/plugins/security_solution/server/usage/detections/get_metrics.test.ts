@@ -211,7 +211,7 @@ describe('Detections Usage and Metrics', () => {
       });
     });
 
-    it.only('returns information with rule, no alerts and no cases', async () => {
+    it('returns information with rule, no alerts and no cases', async () => {
       esClient.search.mockResponseOnce(getEventLogAllRules());
       esClient.search.mockResponseOnce(getEventLogElasticRules());
       esClient.search.mockResponseOnce(getElasticLogCustomRules());

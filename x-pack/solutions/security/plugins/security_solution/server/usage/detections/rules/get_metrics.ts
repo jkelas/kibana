@@ -56,19 +56,6 @@ export const getRuleMetrics = async ({
       logger,
     });
 
-    const ruleResponses = ruleResults.map((rule) =>
-      convertAlertingRuleToRuleResponse({
-        ...rule.attributes,
-        id: rule.id,
-        createdAt: new Date(rule.attributes.createdAt),
-        updatedAt: new Date(rule.attributes.updatedAt),
-      })
-    );
-
-    const ruleIdToRuleResponseMap = new Map<string, RuleResponse>(
-      ruleResponses.map((ruleResponse) => [ruleResponse.rule_id, ruleResponse])
-    );
-
     // early return if we don't have any detection rules then there is no need to query anything else
     if (ruleResults.length === 0) {
       return {
@@ -143,11 +130,21 @@ export const getRuleMetrics = async ({
       getInitialRulesUsage()
     );
 
+    const ruleResponsesForPrebuiltRules = ruleResults
+      .filter((rule) => rule.attributes.params.immutable === true)
+      .map((rule) =>
+        convertAlertingRuleToRuleResponse({
+          ...rule.attributes,
+          id: rule.id,
+          createdAt: new Date(rule.attributes.createdAt),
+          updatedAt: new Date(rule.attributes.updatedAt),
+        })
+      );
+
     // Get customized fields stats
     const customizedFieldsStatus = await getCustomizedFieldsStatus({
       savedObjectsClient,
-      elasticRuleObjects,
-      ruleIdToRuleResponseMap,
+      ruleResponsesForPrebuiltRules,
       logger,
     });
 
