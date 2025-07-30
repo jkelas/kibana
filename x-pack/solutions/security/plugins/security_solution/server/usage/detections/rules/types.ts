@@ -53,6 +53,41 @@ export interface UpgradeableRulesSummary {
   disabled: number;
 }
 
+export interface TopLevelFieldsCustomizationMap {
+  author: number;
+  description: number;
+  exceptions_list: number;
+  false_positives: number;
+  filters: number;
+  from: number;
+  immutable: number;
+  index: number;
+  language: number;
+  license: number;
+  max_signals: number;
+  meta: number;
+  name: number;
+  query: number;
+  references: number;
+  related_integrations: number;
+  required_fields: number;
+  risk_score: number;
+  risk_score_mapping: number;
+  rule_id: number;
+  severity: number;
+  severity_mapping: number;
+  setup: number;
+  threat: number;
+  to: number;
+  type: number;
+  version: number;
+}
+
+export interface RuleCustomizationStatus {
+  rules_with_missing_base_version: number;
+  customized_fields_breakdown: TopLevelFieldsCustomizationMap;
+}
+
 export interface RulesTypeUsage {
   query: FeatureTypeUsage;
   query_custom: FeatureTypeUsage;
@@ -84,6 +119,7 @@ export interface RuleAdoption {
   detection_rule_usage: RulesTypeUsage;
   detection_rule_status: EventLogStatusMetric;
   elastic_detection_rule_upgrade_status: UpgradeableRulesSummary;
+  elastic_detection_rule_customization_status: RuleCustomizationStatus;
   spaces_usage: SpacesUsage;
 }
 

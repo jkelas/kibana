@@ -16,6 +16,7 @@ import type {
   FeatureTypeUsage,
   ResponseActionsUsage,
   UpgradeableRulesSummary,
+  RuleCustomizationStatus,
   ThreatMatchFeatureTypeUsage,
 } from './types';
 
@@ -172,4 +173,37 @@ export const getInitialRuleUpgradeStatus = (): UpgradeableRulesSummary => ({
   customized: 0,
   enabled: 0,
   disabled: 0,
+});
+
+export const getInitialRuleCustomizationStatus = (): RuleCustomizationStatus => ({
+  rules_with_missing_base_version: 0,
+  customized_fields_breakdown: {
+    author: 0,
+    description: 0,
+    exceptions_list: 0,
+    false_positives: 0,
+    filters: 0,
+    from: 0,
+    immutable: 0,
+    index: 0,
+    language: 0,
+    license: 0,
+    max_signals: 0,
+    meta: 0,
+    name: 0,
+    query: 0,
+    references: 0,
+    related_integrations: 0,
+    required_fields: 0,
+    risk_score: 0,
+    risk_score_mapping: 0,
+    rule_id: 0,
+    severity: 0,
+    severity_mapping: 0,
+    setup: 0,
+    threat: 0,
+    to: 0,
+    type: 0,
+    version: 0,
+  },
 });
