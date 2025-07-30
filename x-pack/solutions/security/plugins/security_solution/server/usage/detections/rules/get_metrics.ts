@@ -6,8 +6,10 @@
  */
 
 import type { ElasticsearchClient, SavedObjectsClientContract, Logger } from '@kbn/core/server';
+import { convertAlertingRuleToRuleResponse } from '../../../lib/detection_engine/rule_management/logic/detection_rules_client/converters/convert_alerting_rule_to_rule_response';
 import { createPrebuiltRuleAssetsClient } from '../../../lib/detection_engine/prebuilt_rules/logic/rule_assets/prebuilt_rule_assets_client';
 import type { RuleAdoption } from './types';
+import { getRuleCustomizationStatus } from './get_rule_customization_status';
 
 import { updateRuleUsage } from './update_usage';
 import { getDetectionRules } from '../../queries/get_detection_rules';
@@ -18,6 +20,7 @@ import {
   getInitialRuleUpgradeStatus,
   getInitialRulesUsage,
   getInitialSpacesUsage,
+  getInitialRuleCustomizationStatus,
 } from './get_initial_usage';
 import { getCaseComments } from '../../queries/get_case_comments';
 import { getRuleIdToCasesMap } from './transform_utils/get_rule_id_to_cases_map';
@@ -62,6 +65,7 @@ export const getRuleMetrics = async ({
         detection_rule_usage: getInitialRulesUsage(),
         detection_rule_status: getInitialEventLogUsage(),
         elastic_detection_rule_upgrade_status: getInitialRuleUpgradeStatus(),
+        elastic_detection_rule_customization_status: getInitialRuleCustomizationStatus(),
         spaces_usage: getInitialSpacesUsage(),
       };
     }
@@ -140,11 +144,34 @@ export const getRuleMetrics = async ({
       getInitialRulesUsage()
     );
 
+    const ruleResponsesForPrebuiltRules = ruleResults
+      .filter((rule) => rule.attributes.params.immutable === true)
+      .map((rule) =>
+        convertAlertingRuleToRuleResponse({
+          ...rule.attributes,
+          id: rule.id,
+          createdAt: new Date(rule.attributes.createdAt),
+          updatedAt: new Date(rule.attributes.updatedAt),
+        })
+      );
+
+    let ruleCustomizationStatus;
+    if (ruleResponsesForPrebuiltRules.length === 0) {
+      ruleCustomizationStatus = getInitialRuleCustomizationStatus();
+    } else {
+      ruleCustomizationStatus = await getRuleCustomizationStatus({
+        savedObjectsClient,
+        ruleResponsesForPrebuiltRules,
+        logger,
+      });
+    }
+
     return {
       detection_rule_detail: elasticRuleObjects,
       detection_rule_usage: rulesUsage,
       detection_rule_status: eventLogMetricsTypeStatus,
       elastic_detection_rule_upgrade_status: calculateRuleUpgradeStatus(upgradeableRules),
+      elastic_detection_rule_customization_status: ruleCustomizationStatus,
       spaces_usage: getSpacesUsage(ruleResults),
     };
   } catch (e) {
@@ -157,6 +184,7 @@ export const getRuleMetrics = async ({
       detection_rule_usage: getInitialRulesUsage(),
       detection_rule_status: getInitialEventLogUsage(),
       elastic_detection_rule_upgrade_status: getInitialRuleUpgradeStatus(),
+      elastic_detection_rule_customization_status: getInitialRuleCustomizationStatus(),
       spaces_usage: getInitialSpacesUsage(),
     };
   }
