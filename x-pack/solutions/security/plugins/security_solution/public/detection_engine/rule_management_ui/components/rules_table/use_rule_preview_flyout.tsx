@@ -8,6 +8,7 @@
 import type { ReactNode } from 'react';
 import React, { useCallback, useState, useMemo, memo } from 'react';
 import type { EuiTabbedContentTab } from '@elastic/eui';
+import { RuleUpgradeEventTypes } from '../../../../common/lib/telemetry/events/rule_upgrade/types';
 import { invariant } from '../../../../../common/utils/invariant';
 import type { RuleSignatureId } from '../../../../../common/api/detection_engine';
 import type { RuleResponse } from '../../../../../common/api/detection_engine/model/rule_schema';
@@ -16,6 +17,9 @@ import {
   RulePreviewContextProvider,
   useRulePreviewContext,
 } from './upgrade_prebuilt_rules_table/rule_preview_context';
+import type { RuleUpgradeState } from '../../../rule_management/model/prebuilt_rule_upgrade';
+import { useKibana } from '../../../../common/lib/kibana';
+
 interface UseRulePreviewFlyoutBaseParams {
   ruleActionsFactory: (
     rule: RuleResponse,
@@ -29,6 +33,7 @@ interface UseRulePreviewFlyoutBaseParams {
 
 interface UseRulePreviewFlyoutParams extends UseRulePreviewFlyoutBaseParams {
   rules: RuleResponse[];
+  rulesUpgradeState: Record<string, RuleUpgradeState>;
 }
 
 interface RulePreviewFlyoutProps {
@@ -42,18 +47,40 @@ interface RulePreviewFlyoutProps {
 interface UseRulePreviewFlyoutResult {
   rulePreviewFlyout: ReactNode;
   openRulePreview: (ruleId: RuleSignatureId) => void;
-  closeRulePreview: () => void;
+  closeRulePreview: (reason: string) => void;
 }
 
 export function useRulePreviewFlyout({
   rules,
+  rulesUpgradeState,
   extraTabsFactory,
   ruleActionsFactory,
   subHeaderFactory,
   flyoutProps,
 }: UseRulePreviewFlyoutParams): UseRulePreviewFlyoutResult {
   const [rule, setRuleForPreview] = useState<RuleResponse | undefined>();
-  const closeRulePreview = useCallback(() => setRuleForPreview(undefined), []);
+  const { telemetry } = useKibana().services;
+
+  const closeRulePreview = useCallback(
+    (reason: string) => {
+      setRuleForPreview(undefined);
+      const ruleUpgradeState = rule ? rulesUpgradeState[rule.rule_id] : undefined;
+      const hasMissingBaseVersion = ruleUpgradeState?.has_base_version === false;
+
+      console.log(
+        'Jacek, Closing rule preview flyout with telemetry, reason: ',
+        reason,
+        ' hasMissingBaseVersion: ',
+        hasMissingBaseVersion
+      );
+
+      telemetry.reportEvent(RuleUpgradeEventTypes.RuleUpgradeFlyoutButtonClick, {
+        type: reason as 'update' | 'dismiss',
+        hasMissingBaseVersion,
+      });
+    },
+    [rule, rulesUpgradeState, telemetry]
+  );
   const openRulePreview = useCallback(
     (ruleId: RuleSignatureId) => {
       const ruleToShowInFlyout = rules.find((x) => x.rule_id === ruleId);
@@ -92,12 +119,12 @@ const RulePreviewFlyoutInternal = memo(function RulePreviewFlyoutInternal({
   flyoutProps,
 }: UseRulePreviewFlyoutBaseParams & {
   rule: RuleResponse | undefined;
-  closeRulePreview: () => void;
+  closeRulePreview: (reason: string) => void;
 }) {
   const { isEditingRule } = useRulePreviewContext();
 
   const ruleActions = useMemo(
-    () => rule && ruleActionsFactory(rule, closeRulePreview, isEditingRule),
+    () => rule && ruleActionsFactory(rule, () => closeRulePreview('update'), isEditingRule),
     [rule, ruleActionsFactory, closeRulePreview, isEditingRule]
   );
   const extraTabs = useMemo(
@@ -120,7 +147,7 @@ const RulePreviewFlyoutInternal = memo(function RulePreviewFlyoutInternal({
       size="l"
       id={flyoutProps.id}
       dataTestSubj={flyoutProps.dataTestSubj}
-      closeFlyout={closeRulePreview}
+      closeFlyout={() => closeRulePreview('dismiss')}
       ruleActions={ruleActions}
       extraTabs={extraTabs}
       subHeader={subHeader}

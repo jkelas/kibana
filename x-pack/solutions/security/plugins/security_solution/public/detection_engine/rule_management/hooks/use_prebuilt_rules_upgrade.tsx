@@ -245,6 +245,7 @@ export function usePrebuiltRulesUpgrade({
       }
 
       const hasRuleTypeChange = ruleUpgradeState.diff.fields.type?.has_update ?? false;
+      const ruleBaseVersionIsMissing = ruleUpgradeState.has_base_version === false;
       return (
         <EuiButton
           disabled={
@@ -261,6 +262,10 @@ export function usePrebuiltRulesUpgrade({
             } else {
               upgradeRulesToResolved([rule.rule_id]);
             }
+            console.log(
+              'Jacek, clicking button for Upgrading prebuilt rule with telemetry, ruleBaseVersionIsMissing:',
+              ruleBaseVersionIsMissing
+            );
             closeRulePreview();
           }}
           fill
@@ -320,6 +325,7 @@ export function usePrebuiltRulesUpgrade({
             ruleUpgradeState={ruleUpgradeState}
             setRuleFieldResolvedValue={setRuleFieldResolvedValue}
           />
+          // tu mam informacje o ruleUpgradeState.has_base_version !!
         );
       }
 
@@ -358,8 +364,9 @@ export function usePrebuiltRulesUpgrade({
     },
     [rulesUpgradeState, isRulesCustomizationEnabled, setRuleFieldResolvedValue]
   );
-  const { rulePreviewFlyout, openRulePreview } = useRulePreviewFlyout({
+  const { rulePreviewFlyout, openRulePreview: openRulePreviewBasic } = useRulePreviewFlyout({
     rules: ruleUpgradeStates.map(({ target_rule: targetRule }) => targetRule),
+    rulesUpgradeState,
     subHeaderFactory,
     ruleActionsFactory,
     extraTabsFactory,
@@ -368,6 +375,19 @@ export function usePrebuiltRulesUpgrade({
       dataTestSubj: PREBUILT_RULE_UPDATE_FLYOUT_ANCHOR,
     },
   });
+
+  const openRulePreview = useCallback(
+    (ruleId: string) => {
+      const ruleUpgradeState = rulesUpgradeState[ruleId];
+      const ruleBaseVersionIsMissing = ruleUpgradeState.has_base_version === false;
+      console.log(
+        'Jacek, Opening prebuilt rules upgrade flyout with telemetry, ruleBaseVersionIsMissing:',
+        ruleBaseVersionIsMissing
+      );
+      openRulePreviewBasic(ruleId);
+    },
+    [openRulePreviewBasic, rulesUpgradeState]
+  );
 
   return {
     ruleUpgradeStates,
