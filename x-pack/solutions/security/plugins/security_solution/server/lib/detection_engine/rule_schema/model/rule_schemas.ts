@@ -19,6 +19,7 @@ import type {
 import * as z from '@kbn/zod';
 import type { CreateRuleData } from '@kbn/alerting-plugin/server/application/rule/methods/create';
 import type { UpdateRuleData } from '@kbn/alerting-plugin/server/application/rule/methods/update';
+import camelcaseKeys from 'camelcase-keys';
 import { RuleResponseAction } from '../../../../../common/api/detection_engine';
 import {
   AlertsIndex,
@@ -106,7 +107,9 @@ export const RuleSourceCamelCased = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('external'),
     isCustomized: IsExternalRuleCustomized,
-    customizedFields: ExternalRuleCustomizedFields,
+    customizedFields: ExternalRuleCustomizedFields.transform((data) =>
+      camelcaseKeys(data, { deep: true })
+    ),
     hasBaseVersion: ExternalRuleHasBaseVersion,
   }),
   z.object({

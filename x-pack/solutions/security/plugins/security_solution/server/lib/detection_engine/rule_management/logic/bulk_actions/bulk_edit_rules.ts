@@ -8,6 +8,7 @@
 import type { ActionsClient } from '@kbn/actions-plugin/server';
 import type { RulesClient } from '@kbn/alerting-plugin/server';
 
+import { convertObjectKeysToCamelCase } from '../../../../../utils/object_case_converters';
 import type { BulkActionEditPayload } from '../../../../../../common/api/detection_engine/rule_management';
 
 import type { MlAuthz } from '../../../../machine_learning/authz';
@@ -107,12 +108,12 @@ export const bulkEditRules = async ({
           nextRule,
         });
 
-        modifiedParams.ruleSource = {
+        modifiedParams.ruleSource = convertObjectKeysToCamelCase({
           type: 'external' as const,
           isCustomized,
           customizedFields,
           hasBaseVersion: !!baseRule,
-        };
+        });
       } else {
         modifiedParams.ruleSource = {
           type: 'internal' as const,
