@@ -50,6 +50,8 @@ export default ({ getService }: FtrProviderContext): void => {
       expect(customizedResponse.rule_source).toMatchObject({
         type: 'external',
         is_customized: true,
+        customized_fields: [],
+        has_base_version: false,
       });
     };
 
