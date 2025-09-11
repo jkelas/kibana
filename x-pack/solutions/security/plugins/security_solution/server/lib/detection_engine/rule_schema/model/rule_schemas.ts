@@ -19,7 +19,6 @@ import type {
 import * as z from '@kbn/zod';
 import type { CreateRuleData } from '@kbn/alerting-plugin/server/application/rule/methods/create';
 import type { UpdateRuleData } from '@kbn/alerting-plugin/server/application/rule/methods/update';
-import camelcaseKeys from 'camelcase-keys';
 import { RuleResponseAction } from '../../../../../common/api/detection_engine';
 import {
   AlertsIndex,
@@ -30,7 +29,6 @@ import {
   ConcurrentSearches,
   DataViewId,
   EventCategoryOverride,
-  ExternalRuleCustomizedFields,
   ExternalRuleHasBaseVersion,
   HistoryWindowStart,
   IndexPatternArray,
