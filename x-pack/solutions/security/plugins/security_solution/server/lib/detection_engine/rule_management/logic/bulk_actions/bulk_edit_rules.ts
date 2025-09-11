@@ -99,25 +99,25 @@ export const bulkEditRules = async ({
         params: modifiedParams,
       });
 
-      let isCustomized = false;
       if (nextRule.immutable === true) {
-        isCustomized = calculateIsCustomized({
-          baseRule: baseVersionsMap.get(nextRule.rule_id),
+        const baseRule = baseVersionsMap.get(nextRule.rule_id);
+        const { isCustomized, customizedFields } = calculateIsCustomized({
+          baseRule,
           currentRule: convertAlertingRuleToRuleResponse(currentRule),
           nextRule,
         });
-      }
 
-      const ruleSource =
-        nextRule.immutable === true
-          ? {
-              type: 'external' as const,
-              isCustomized,
-            }
-          : {
-              type: 'internal' as const,
-            };
-      modifiedParams.ruleSource = ruleSource;
+        modifiedParams.ruleSource = {
+          type: 'external' as const,
+          isCustomized,
+          customizedFields,
+          hasBaseVersion: !!baseRule,
+        };
+      } else {
+        modifiedParams.ruleSource = {
+          type: 'internal' as const,
+        };
+      }
 
       return { modifiedParams, isParamsUpdateSkipped };
     },
