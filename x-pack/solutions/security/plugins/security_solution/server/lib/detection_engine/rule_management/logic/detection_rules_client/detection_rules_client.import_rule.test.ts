@@ -259,6 +259,8 @@ describe('DetectionRulesClient.importRule', () => {
               ruleSource: {
                 isCustomized: true,
                 type: 'external',
+                customizedFields: [{ fieldName: 'name' }],
+                hasBaseVersion: true,
               },
             }),
           }),
@@ -385,6 +387,8 @@ describe('DetectionRulesClient.importRule', () => {
               ruleSource: {
                 isCustomized: true,
                 type: 'external',
+                customizedFields: [{ fieldName: 'name' }],
+                hasBaseVersion: true,
               },
             }),
           }),

@@ -44,7 +44,7 @@ describe('normalizeRuleSource', () => {
       type: externalRuleSource.type,
       isCustomized: externalRuleSource.isCustomized,
       customizedFields: externalRuleSource.customizedFields,
-      hasBaseVerison: externalRuleSource.hasBaseVersion,
+      hasBaseVersion: externalRuleSource.hasBaseVersion,
     });
 
     const internalRuleSource: BaseRuleParams['ruleSource'] = {
