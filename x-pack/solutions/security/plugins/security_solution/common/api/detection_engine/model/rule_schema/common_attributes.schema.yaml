@@ -81,11 +81,11 @@ components:
         properties:
           field_name:
             type: string
-            description: Name of the field in the rule object that has been customized from its original value by the user.
+            description: Name of the field in the rule object that has been customized from its base value by the user.
         required:
           - field_name
 
-      description: A array of field names that have been customized by the user (i.e. any of its fields that have been modified and have diverged from the base value). Defaults to an empty array.
+      description: An array of field names that have been customized by the user (i.e. any of its fields that have been modified and have diverged from the base value). Defaults to an empty array.
 
     InternalRuleSource:
       description: Type of rule source for internally sourced rules, i.e. created within the Kibana apps.

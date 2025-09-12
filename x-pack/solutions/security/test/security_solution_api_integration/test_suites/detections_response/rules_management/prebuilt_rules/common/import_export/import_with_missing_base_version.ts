@@ -52,7 +52,7 @@ export default ({ getService }: FtrProviderContext): void => {
             type: 'external',
             is_customized: false,
             customized_fields: [],
-            has_base_version: true,
+            has_base_version: true, // Setting to the default value of rule_source, should be calculated on import
           },
         };
 
@@ -89,7 +89,7 @@ export default ({ getService }: FtrProviderContext): void => {
               type: 'external',
               is_customized: false,
               customized_fields: [],
-              has_base_version: true,
+              has_base_version: true, // Setting to the default value of rule_source, should be calculated on import
             },
           };
 
@@ -131,7 +131,7 @@ export default ({ getService }: FtrProviderContext): void => {
             type: 'external',
             is_customized: false,
             customized_fields: [],
-            has_base_version: true,
+            has_base_version: true, // Setting to the default value of rule_source, should be calculated on import
           },
         };
 
@@ -171,7 +171,7 @@ export default ({ getService }: FtrProviderContext): void => {
             type: 'external',
             is_customized: false,
             customized_fields: [],
-            has_base_version: true,
+            has_base_version: true, // Setting to the default value of rule_source, should be calculated on import
           },
         };
 
@@ -210,7 +210,7 @@ export default ({ getService }: FtrProviderContext): void => {
             type: 'external',
             is_customized: true,
             customized_fields: [],
-            has_base_version: true,
+            has_base_version: true, // Setting to the default value of rule_source, should be calculated on import
           },
         };
 

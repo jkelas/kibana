@@ -96,13 +96,13 @@ export type ExternalRuleHasBaseVersion = z.infer<typeof ExternalRuleHasBaseVersi
 export const ExternalRuleHasBaseVersion = z.boolean();
 
 /**
- * A array of field names that have been customized by the user (i.e. any of its fields that have been modified and have diverged from the base value). Defaults to an empty array.
+ * An array of field names that have been customized by the user (i.e. any of its fields that have been modified and have diverged from the base value). Defaults to an empty array.
  */
 export type ExternalRuleCustomizedFields = z.infer<typeof ExternalRuleCustomizedFields>;
 export const ExternalRuleCustomizedFields = z.array(
   z.object({
     /**
-     * Name of the field in the rule object that has been customized from its original value by the user.
+     * Name of the field in the rule object that has been customized from its base value by the user.
      */
     field_name: z.string(),
   })

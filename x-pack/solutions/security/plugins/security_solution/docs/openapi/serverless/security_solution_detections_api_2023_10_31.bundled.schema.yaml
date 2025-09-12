@@ -5605,7 +5605,7 @@ components:
       type: string
     ExternalRuleCustomizedFields:
       description: >-
-        A array of field names that have been customized by the user (i.e. any
+        An array of field names that have been customized by the user (i.e. any
         of its fields that have been modified and have diverged from the base
         value). Defaults to an empty array.
       items:
@@ -5614,7 +5614,7 @@ components:
           field_name:
             description: >-
               Name of the field in the rule object that has been customized from
-              its original value by the user.
+              its base value by the user.
             type: string
         required:
           - field_name
