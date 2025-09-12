@@ -64,9 +64,12 @@ export default ({ getService }: FtrProviderContext): void => {
       ...PREBUILT_RULE_ASSET_B['security-rule'],
       name: 'Customized Prebuilt Rule',
       immutable: true,
-      rule_source: { type: 'external', is_customized: true },
-      customized_fields: [{ field_name: 'name' }],
-      has_base_version: true,
+      rule_source: {
+        type: 'external',
+        is_customized: true,
+        customized_fields: [{ field_name: 'name' }],
+        has_base_version: true,
+      },
     };
     const CUSTOM_RULE_TO_IMPORT = getCustomQueryRuleParams({
       rule_id: 'custom-rule',
