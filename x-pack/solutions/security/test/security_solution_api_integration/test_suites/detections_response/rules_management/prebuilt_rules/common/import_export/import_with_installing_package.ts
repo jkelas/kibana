@@ -28,7 +28,6 @@ const NON_CUSTOMIZED_PREBUILT_RULE = PREBUILT_RULE_ASSET_A;
 const CUSTOMIZED_PREBUILT_RULE = {
   ...PREBUILT_RULE_ASSET_B,
   description: 'Custom description',
-  tags: ['custom-tag'],
 };
 
 export default ({ getService }: FtrProviderContext): void => {
@@ -62,7 +61,7 @@ export default ({ getService }: FtrProviderContext): void => {
         rule_source: {
           type: 'external',
           is_customized: true,
-          customized_fields: [{ field_name: 'description' }, { field_name: 'tags' }],
+          customized_fields: [{ field_name: 'description' }],
           has_base_version: true,
         },
       },
@@ -101,7 +100,7 @@ export default ({ getService }: FtrProviderContext): void => {
             rule_source: {
               type: 'external',
               is_customized: true,
-              customized_fields: [{ field_name: 'description' }, { field_name: 'tags' }],
+              customized_fields: [{ field_name: 'description' }],
               has_base_version: true,
             },
           }),
@@ -196,7 +195,7 @@ export default ({ getService }: FtrProviderContext): void => {
             rule_source: {
               type: 'external',
               is_customized: true,
-              customized_fields: [{ field_name: 'description' }, { field_name: 'tags' }],
+              customized_fields: [{ field_name: 'description' }],
               has_base_version: true,
             },
           }),
