@@ -306,6 +306,7 @@ export default ({ getService }: FtrProviderContext): void => {
       beforeEach(async () => {
         await createPrebuiltRuleAssetSavedObjects(es, [SAVED_QUERY_PREBUILT_RULE_ASSET]);
         await installPrebuiltRules(es, supertest);
+        await deleteAllPrebuiltRuleAssets(es, log);
       });
 
       it('"saved_id" field', () =>

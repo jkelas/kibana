@@ -52,6 +52,8 @@ export default ({ getService }: FtrProviderContext): void => {
         rule_source: {
           type: 'external',
           is_customized: false,
+          customized_fields: [],
+          has_base_version: true,
         },
       },
       {
@@ -60,6 +62,8 @@ export default ({ getService }: FtrProviderContext): void => {
         rule_source: {
           type: 'external',
           is_customized: true,
+          customized_fields: [{ field_name: 'description' }, { field_name: 'tags' }],
+          has_base_version: true,
         },
       },
     ];
@@ -87,6 +91,8 @@ export default ({ getService }: FtrProviderContext): void => {
             rule_source: {
               type: 'external',
               is_customized: false,
+              customized_fields: [],
+              has_base_version: true,
             },
           }),
           expect.objectContaining({
@@ -95,6 +101,8 @@ export default ({ getService }: FtrProviderContext): void => {
             rule_source: {
               type: 'external',
               is_customized: true,
+              customized_fields: [{ field_name: 'description' }, { field_name: 'tags' }],
+              has_base_version: true,
             },
           }),
         ])
@@ -178,6 +186,8 @@ export default ({ getService }: FtrProviderContext): void => {
             rule_source: {
               type: 'external',
               is_customized: false,
+              customized_fields: [],
+              has_base_version: true,
             },
           }),
           expect.objectContaining({
@@ -186,6 +196,8 @@ export default ({ getService }: FtrProviderContext): void => {
             rule_source: {
               type: 'external',
               is_customized: true,
+              customized_fields: [{ field_name: 'description' }, { field_name: 'tags' }],
+              has_base_version: true,
             },
           }),
         ])
