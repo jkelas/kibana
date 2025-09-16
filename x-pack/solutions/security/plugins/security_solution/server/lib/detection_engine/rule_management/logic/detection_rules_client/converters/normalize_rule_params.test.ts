@@ -58,6 +58,22 @@ describe('normalizeRuleSource', () => {
       type: internalRuleSource.type,
     });
   });
+
+  it('should return ruleSource with default "customized_fields" and "hasBaseVersion" when they are missing in the existing ruleSource object', () => {
+    // We are purposefully setting this to a value that omits fields
+    // @ts-expect-error
+    const externalRuleSource: BaseRuleParams['ruleSource'] = {
+      type: 'external',
+      isCustomized: false,
+    };
+    const externalResult = normalizeRuleSource({ immutable: true, ruleSource: externalRuleSource });
+    expect(externalResult).toEqual({
+      type: 'external',
+      isCustomized: false,
+      customizedFields: [],
+      hasBaseVersion: true,
+    });
+  });
 });
 
 describe('normalizeRuleParams', () => {

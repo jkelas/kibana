@@ -39,6 +39,16 @@ export const normalizeRuleSource = ({
         };
 
     return normalizedRuleSource;
+  } else if (
+    ruleSource.type === 'external' &&
+    // If ruleSource exists in the rule object but does not have new customized field related fields, we add them here
+    (ruleSource.customizedFields === undefined || ruleSource.hasBaseVersion === undefined)
+  ) {
+    return {
+      ...ruleSource,
+      customizedFields: [],
+      hasBaseVersion: true,
+    };
   }
   return ruleSource;
 };
