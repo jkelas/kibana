@@ -159,11 +159,7 @@ export const getRuleMetrics = async ({
     if (ruleResponsesForPrebuiltRules.length === 0) {
       ruleCustomizationStatus = getInitialRuleCustomizationStatus();
     } else {
-      ruleCustomizationStatus = await getRuleCustomizationStatus({
-        savedObjectsClient,
-        ruleResponsesForPrebuiltRules,
-        logger,
-      });
+      ruleCustomizationStatus = getRuleCustomizationStatus(ruleResponsesForPrebuiltRules);
     }
 
     return {
