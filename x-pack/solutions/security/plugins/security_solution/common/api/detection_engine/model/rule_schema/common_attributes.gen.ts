@@ -90,13 +90,13 @@ export type IsExternalRuleCustomized = z.infer<typeof IsExternalRuleCustomized>;
 export const IsExternalRuleCustomized = z.boolean();
 
 /**
- * Determines whether an external/prebuilt rule has its original, unmodified version present when the `is_customized` calculation is performed.
+ * Determines whether an external/prebuilt rule has its original, unmodified version present when the calculation of its customization status is performed (`rule_source.is_customized` and `rule_source.customized_fields`).
  */
 export type ExternalRuleHasBaseVersion = z.infer<typeof ExternalRuleHasBaseVersion>;
 export const ExternalRuleHasBaseVersion = z.boolean();
 
 /**
- * An array of customized field names—that is, fields that the user has modified from their base value. Defaults to an empty array.
+ * An array of customized field names — that is, fields that the user has modified from their base value. Defaults to an empty array.
  */
 export type ExternalRuleCustomizedFields = z.infer<typeof ExternalRuleCustomizedFields>;
 export const ExternalRuleCustomizedFields = z.array(

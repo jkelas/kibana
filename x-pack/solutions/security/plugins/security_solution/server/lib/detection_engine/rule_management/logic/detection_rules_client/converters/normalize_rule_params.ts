@@ -4,8 +4,10 @@
  * 2.0; you may not use this file except in compliance with the Elastic License
  * 2.0.
  */
+import { convertObjectKeysToCamelCase } from '../../../../../../utils/object_case_converters';
 import type { BaseRuleParams, RuleSourceCamelCased } from '../../../../rule_schema';
 import { migrateLegacyInvestigationFields } from '../../../utils/utils';
+import { createDefaultExternalRuleSource } from '../mergers/rule_source/create_default_external_rule_source';
 
 interface NormalizeRuleSourceParams {
   immutable: BaseRuleParams['immutable'];
@@ -28,12 +30,7 @@ export const normalizeRuleSource = ({
 }: NormalizeRuleSourceParams): RuleSourceCamelCased => {
   if (!ruleSource) {
     const normalizedRuleSource: RuleSourceCamelCased = immutable
-      ? {
-          type: 'external',
-          isCustomized: false,
-          customizedFields: [],
-          hasBaseVersion: true,
-        }
+      ? convertObjectKeysToCamelCase(createDefaultExternalRuleSource())
       : {
           type: 'internal',
         };

@@ -17,7 +17,7 @@ import type { RuleAlertType, RuleParams } from '../../../rule_schema';
 
 import type { IPrebuiltRuleAssetsClient } from '../../../prebuilt_rules/logic/rule_assets/prebuilt_rule_assets_client';
 import { convertAlertingRuleToRuleResponse } from '../detection_rules_client/converters/convert_alerting_rule_to_rule_response';
-import { calculateIsCustomized } from '../detection_rules_client/mergers/rule_source/calculate_is_customized';
+import { calculateExternalRuleSource } from '../detection_rules_client/mergers/rule_source/calculate_external_rule_source';
 import { bulkEditActionToRulesClientOperation } from './action_to_rules_client_operation';
 import { ruleParamsModifier } from './rule_params_modifier';
 import { splitBulkEditActions } from './split_bulk_edit_actions';
@@ -102,18 +102,13 @@ export const bulkEditRules = async ({
 
       if (nextRule.immutable === true) {
         const baseRule = baseVersionsMap.get(nextRule.rule_id);
-        const { isCustomized, customizedFields } = calculateIsCustomized({
+        const ruleSource = calculateExternalRuleSource({
           baseRule,
           currentRule: convertAlertingRuleToRuleResponse(currentRule),
           nextRule,
         });
 
-        modifiedParams.ruleSource = convertObjectKeysToCamelCase({
-          type: 'external' as const,
-          isCustomized,
-          customizedFields,
-          hasBaseVersion: !!baseRule,
-        });
+        modifiedParams.ruleSource = convertObjectKeysToCamelCase(ruleSource);
       } else {
         modifiedParams.ruleSource = {
           type: 'internal' as const,

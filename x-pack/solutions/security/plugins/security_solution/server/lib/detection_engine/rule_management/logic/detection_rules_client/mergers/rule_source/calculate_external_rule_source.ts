@@ -6,31 +6,25 @@
  */
 
 import type {
-  ExternalRuleCustomizedFields,
-  IsExternalRuleCustomized,
+  ExternalRuleSource,
   RuleResponse,
 } from '../../../../../../../../common/api/detection_engine';
 import type { PrebuiltRuleAsset } from '../../../../../prebuilt_rules';
 import { calculateRuleFieldsDiff } from '../../../../../prebuilt_rules/logic/diff/calculation/calculate_rule_fields_diff';
 import { convertPrebuiltRuleAssetToRuleResponse } from '../../converters/convert_prebuilt_rule_asset_to_rule_response';
 
-interface CalculateIsCustomizedArgs {
+interface CalculateExternalRuleSourceArgs {
   baseRule: PrebuiltRuleAsset | undefined;
   nextRule: RuleResponse;
   // Current rule can be undefined in case of importing a prebuilt rule that is not installed
   currentRule: RuleResponse | undefined;
 }
 
-interface CalculateIsCustomizedReturn {
-  isCustomized: IsExternalRuleCustomized;
-  customizedFields: ExternalRuleCustomizedFields;
-}
-
-export function calculateIsCustomized({
+export function calculateExternalRuleSource({
   baseRule,
   nextRule,
   currentRule,
-}: CalculateIsCustomizedArgs): CalculateIsCustomizedReturn {
+}: CalculateExternalRuleSourceArgs): ExternalRuleSource {
   if (baseRule) {
     // Base version is available, so we can determine the customization status
     // by comparing the base version with the next version
@@ -39,8 +33,10 @@ export function calculateIsCustomized({
       nextRule
     );
     return {
-      isCustomized: customizedFields.length > 0,
-      customizedFields,
+      type: 'external',
+      is_customized: customizedFields.length > 0,
+      customized_fields: customizedFields,
+      has_base_version: true,
     };
   }
   // Base version is not available, apply a heuristic to determine the
@@ -50,8 +46,10 @@ export function calculateIsCustomized({
     // Current rule is not installed and base rule is not available, so we can't
     // determine if the rule is customized. Defaulting to false.
     return {
-      isCustomized: false,
-      customizedFields: [],
+      type: 'external',
+      is_customized: false,
+      customized_fields: [],
+      has_base_version: false,
     };
   }
 
@@ -63,8 +61,10 @@ export function calculateIsCustomized({
     // whether the customization remained or was reverted. Keeping it as
     // customized in this case.
     return {
-      isCustomized: true,
-      customizedFields: [],
+      type: 'external',
+      is_customized: true,
+      customized_fields: [],
+      has_base_version: false,
     };
   }
 
@@ -72,8 +72,10 @@ export function calculateIsCustomized({
   // determined by comparing the current version with the next version.
   const customizedFields = getCustomizedFields(currentRule, nextRule);
   return {
-    isCustomized: customizedFields.length > 0,
-    customizedFields: [], // Don't have base version so these fields are not necessarily the same fields that would be calculated from base_version
+    type: 'external',
+    is_customized: customizedFields.length > 0,
+    customized_fields: [],
+    has_base_version: false,
   };
 }
 

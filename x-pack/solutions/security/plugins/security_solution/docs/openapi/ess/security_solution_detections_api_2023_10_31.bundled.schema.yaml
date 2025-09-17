@@ -6275,7 +6275,7 @@ components:
       type: string
     ExternalRuleCustomizedFields:
       description: >-
-        An array of customized field names—that is, fields that the user has
+        An array of customized field names — that is, fields that the user has
         modified from their base value. Defaults to an empty array.
       items:
         type: object
@@ -6289,8 +6289,9 @@ components:
     ExternalRuleHasBaseVersion:
       description: >-
         Determines whether an external/prebuilt rule has its original,
-        unmodified version present when the `is_customized` calculation is
-        performed.
+        unmodified version present when the calculation of its customization
+        status is performed (`rule_source.is_customized` and
+        `rule_source.customized_fields`).
       type: boolean
     ExternalRuleSource:
       description: >-

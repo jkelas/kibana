@@ -72,10 +72,11 @@ components:
 
     ExternalRuleHasBaseVersion:
       type: boolean
-      description: Determines whether an external/prebuilt rule has its original, unmodified version present when the `is_customized` calculation is performed.
+      description: Determines whether an external/prebuilt rule has its original, unmodified version present when the calculation of its customization status is performed (`rule_source.is_customized` and `rule_source.customized_fields`).
 
     ExternalRuleCustomizedFields:
       type: array
+      description: An array of customized field names — that is, fields that the user has modified from their base value. Defaults to an empty array.
       items:
         type: object
         properties:
@@ -84,8 +85,6 @@ components:
             description: Name of a user-modified field in the rule object.
         required:
           - field_name
-
-      description: An array of customized field names—that is, fields that the user has modified from their base value. Defaults to an empty array.
 
     InternalRuleSource:
       description: Type of rule source for internally sourced rules, i.e. created within the Kibana apps.
