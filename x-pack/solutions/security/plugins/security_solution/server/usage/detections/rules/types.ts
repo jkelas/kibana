@@ -59,7 +59,7 @@ export interface CustomizedFieldCount {
 }
 
 export interface RuleCustomizationStatus {
-  rules_with_missing_base_version: number;
+  median_customized_fields_per_rule: number;
   customized_fields_breakdown: CustomizedFieldCount[];
 }
 

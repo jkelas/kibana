@@ -176,6 +176,6 @@ export const getInitialRuleUpgradeStatus = (): UpgradeableRulesSummary => ({
 });
 
 export const getInitialRuleCustomizationStatus = (): RuleCustomizationStatus => ({
-  rules_with_missing_base_version: 0,
+  median_customized_fields_per_rule: 0,
   customized_fields_breakdown: [],
 });

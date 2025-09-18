@@ -9,9 +9,9 @@ import type { MakeSchemaFrom } from '@kbn/usage-collection-plugin/server';
 import type { RuleCustomizationStatus } from '../types';
 
 export const ruleCustomizationStatusSchema: MakeSchemaFrom<RuleCustomizationStatus> = {
-  rules_with_missing_base_version: {
+  median_customized_fields_per_rule: {
     type: 'long',
-    _meta: { description: 'Number of rules with missing base version' },
+    _meta: { description: 'Median number of customized fields per elastic customized rule' },
   },
   customized_fields_breakdown: {
     type: 'array',
