@@ -53,61 +53,14 @@ export interface UpgradeableRulesSummary {
   disabled: number;
 }
 
-export interface TopLevelFieldsCustomizationMap {
-  alert_suppression: number;
-  anomaly_threshold: number;
-  author: number;
-  building_block: number;
-  data_source: number;
-  description: number;
-  eql_query: number;
-  esql_query: number;
-  exceptions_list: number;
-  false_positives: number;
-  filters: number;
-  from: number;
-  history_window_start: number;
-  immutable: number;
-  index: number;
-  investigation_fields: number;
-  kql_query: number;
-  language: number;
-  license: number;
-  machine_learning_job_id: number;
-  max_signals: number;
-  meta: number;
-  name: number;
-  new_terms_fields: number;
-  note: number;
-  query: number;
-  references: number;
-  related_integrations: number;
-  required_fields: number;
-  risk_score: number;
-  risk_score_mapping: number;
-  rule_id: number;
-  rule_name_override: number;
-  rule_schedule: number;
-  severity: number;
-  severity_mapping: number;
-  setup: number;
-  tags: number;
-  threshold: number;
-  threat: number;
-  threat_index: number;
-  threat_indicator_path: number;
-  threat_mapping: number;
-  threat_query: number;
-  timeline_template: number;
-  timestamp_override: number;
-  to: number;
-  type: number;
-  version: number;
+export interface CustomizedFieldCount {
+  field_name: string;
+  customized_count: number;
 }
 
 export interface RuleCustomizationStatus {
   rules_with_missing_base_version: number;
-  customized_fields_breakdown: TopLevelFieldsCustomizationMap;
+  customized_fields_breakdown: CustomizedFieldCount[];
 }
 
 export interface RulesTypeUsage {

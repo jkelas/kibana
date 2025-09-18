@@ -6,14 +6,12 @@
  */
 
 import type { RuleResponse } from '../../../../common/api/detection_engine/model/rule_schema/rule_schemas.gen';
-import type { RuleCustomizationStatus, TopLevelFieldsCustomizationMap } from './types';
-import { getInitialRuleCustomizationStatus } from './get_initial_usage';
+import type { RuleCustomizationStatus, CustomizedFieldCount } from './types';
 
 export const getRuleCustomizationStatus = (
   ruleResponses: RuleResponse[]
 ): RuleCustomizationStatus => {
-  const initial = getInitialRuleCustomizationStatus();
-  const breakdown: TopLevelFieldsCustomizationMap = { ...initial.customized_fields_breakdown };
+  const countsMap: Map<string, number> = new Map();
 
   ruleResponses.forEach((rule) => {
     const source = rule.rule_source;
@@ -25,12 +23,18 @@ export const getRuleCustomizationStatus = (
     }
     for (const customizedField of customizedFields as Array<{ field_name?: string }>) {
       const fieldName = customizedField?.field_name;
-      if (fieldName && fieldName in breakdown) {
-        const key = fieldName as keyof TopLevelFieldsCustomizationMap;
-        breakdown[key] = (breakdown[key] ?? 0) + 1;
+      if (fieldName) {
+        countsMap.set(fieldName, (countsMap.get(fieldName) ?? 0) + 1);
       }
     }
   });
+
+  const breakdown: CustomizedFieldCount[] = Array.from(countsMap.entries()).map(
+    ([fieldName, customizedCount]) => ({
+      field_name: fieldName,
+      customized_count: customizedCount,
+    })
+  );
 
   return {
     rules_with_missing_base_version: 0,
