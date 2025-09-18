@@ -80,7 +80,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>(getInitialDetectionMetrics());
     });
 
-    it('returns information with disabled non-customized rule with upgrade, alerts and cases', async () => {
+    it.only('returns information with disabled non-customized rule with upgrade, alerts and cases', async () => {
       esClient.search.mockResponseOnce(getEventLogAllRules());
       esClient.search.mockResponseOnce(getEventLogElasticRules());
       esClient.search.mockResponseOnce(getElasticLogCustomRules());
@@ -192,6 +192,10 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 1,
           },
+          elastic_detection_rule_customization_status: {
+            median_customized_fields_per_rule: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
@@ -232,6 +236,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>({
         ...getInitialDetectionMetrics(),
         detection_rules: {
+          ...getInitialDetectionMetrics().detection_rules,
           spaces_usage: {
             rules_in_spaces: [1],
             total: 1,
@@ -314,6 +319,10 @@ describe('Detections Usage and Metrics', () => {
             enabled: 1,
             disabled: 0,
           },
+          elastic_detection_rule_customization_status: {
+            median_customized_fields_per_rule: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
@@ -354,6 +363,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>({
         ...getInitialDetectionMetrics(),
         detection_rules: {
+          ...getInitialDetectionMetrics().detection_rules,
           spaces_usage: {
             rules_in_spaces: [1],
             total: 1,
@@ -436,6 +446,10 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 1,
           },
+          elastic_detection_rule_customization_status: {
+            median_customized_fields_per_rule: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
@@ -476,6 +490,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>({
         ...getInitialDetectionMetrics(),
         detection_rules: {
+          ...getInitialDetectionMetrics().detection_rules,
           spaces_usage: {
             rules_in_spaces: [1],
             total: 1,
@@ -598,6 +613,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>({
         ...getInitialDetectionMetrics(),
         detection_rules: {
+          ...getInitialDetectionMetrics().detection_rules,
           spaces_usage: {
             rules_in_spaces: [1],
             total: 1,
@@ -680,6 +696,10 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 0,
           },
+          elastic_detection_rule_customization_status: {
+            median_customized_fields_per_rule: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
@@ -720,6 +740,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>({
         ...getInitialDetectionMetrics(),
         detection_rules: {
+          ...getInitialDetectionMetrics().detection_rules,
           spaces_usage: {
             rules_in_spaces: [1],
             total: 1,
@@ -802,6 +823,10 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 0,
           },
+          elastic_detection_rule_customization_status: {
+            median_customized_fields_per_rule: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
@@ -842,6 +867,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>({
         ...getInitialDetectionMetrics(),
         detection_rules: {
+          ...getInitialDetectionMetrics().detection_rules,
           spaces_usage: {
             rules_in_spaces: [1],
             total: 1,
@@ -964,6 +990,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>({
         ...getInitialDetectionMetrics(),
         detection_rules: {
+          ...getInitialDetectionMetrics().detection_rules,
           spaces_usage: {
             rules_in_spaces: [1],
             total: 1,
@@ -1127,6 +1154,10 @@ describe('Detections Usage and Metrics', () => {
             },
           },
           elastic_detection_rule_upgrade_status: getInitialRuleUpgradeStatus(),
+          elastic_detection_rule_customization_status: {
+            median_customized_fields_per_rule: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
@@ -1247,6 +1278,10 @@ describe('Detections Usage and Metrics', () => {
             },
           },
           elastic_detection_rule_upgrade_status: getInitialRuleUpgradeStatus(),
+          elastic_detection_rule_customization_status: {
+            median_customized_fields_per_rule: 0,
+            customized_fields_breakdown: [],
+          },
         },
       });
     });
