@@ -7338,6 +7338,25 @@
                       }
                     }
                   }
+                },
+                "elastic_detection_rule_customization_status": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "field_name": {
+                        "type": "keyword",
+                        "_meta": {
+                          "description": "Name of the customized field"
+                        }
+                      },
+                      "customized_count": {
+                        "type": "long",
+                        "_meta": {
+                          "description": "Number of rules customizing this field"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             },
