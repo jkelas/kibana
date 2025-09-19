@@ -5,56 +5,49 @@
  * 2.0.
  */
 
-import type { RuleResponse } from '../../../../common/api/detection_engine/model/rule_schema/rule_schemas.gen';
 import type { RuleCustomizationStatus, CustomizedFieldCount } from './types';
 
+export interface ExternalRuleSourceInfo {
+  is_customized: boolean;
+  customized_fields: Array<{ fieldName: string }>;
+}
+
 export const getRuleCustomizationStatus = (
-  ruleResponses: RuleResponse[]
+  ruleResponses: ReadonlyArray<ExternalRuleSourceInfo>
 ): RuleCustomizationStatus => {
-  const countsMap: Map<string, number> = new Map();
+  const countsMap = new Map<string, number>();
   const perRuleCounts: number[] = [];
 
-  ruleResponses.forEach((rule) => {
-    const source = rule.rule_source;
-    const customizedFields =
-      source && source.type === 'external' ? source.customized_fields ?? [] : [];
-    const isCustomized = source && source.type === 'external' && source.is_customized;
-    if (!isCustomized) {
-      return;
-    }
-    let ruleCustomizedFieldsCount = 0;
-    for (const customizedField of customizedFields as Array<{ field_name?: string }>) {
-      const fieldName = customizedField?.field_name;
-      if (fieldName) {
-        countsMap.set(fieldName, (countsMap.get(fieldName) ?? 0) + 1);
-        ruleCustomizedFieldsCount += 1;
-      }
-    }
-    if (ruleCustomizedFieldsCount > 0) {
-      perRuleCounts.push(ruleCustomizedFieldsCount);
-    }
-  });
+  for (const ruleSource of ruleResponses) {
+    // eslint-disable-next-line no-continue
+    if (!ruleSource.is_customized) continue;
 
-  const breakdown: CustomizedFieldCount[] = Array.from(countsMap.entries()).map(
+    let ruleCustomizedFieldsCount = 0;
+    for (const f of ruleSource.customized_fields) {
+      const name = f.fieldName;
+      countsMap.set(name, (countsMap.get(name) ?? 0) + 1);
+      ruleCustomizedFieldsCount++;
+    }
+    if (ruleCustomizedFieldsCount > 0) perRuleCounts.push(ruleCustomizedFieldsCount);
+  }
+
+  const breakdown: CustomizedFieldCount[] = Array.from(
+    countsMap,
     ([fieldName, customizedCount]) => ({
       field_name: fieldName,
       customized_count: customizedCount,
     })
-  );
-  breakdown.sort((a, b) => b.customized_count - a.customized_count);
+  ).sort((a, b) => b.customized_count - a.customized_count);
 
   let median = 0;
-  if (perRuleCounts.length > 0) {
+  if (perRuleCounts.length) {
     perRuleCounts.sort((a, b) => a - b);
     const mid = Math.floor(perRuleCounts.length / 2);
     median =
-      perRuleCounts.length % 2 === 0
-        ? Math.floor((perRuleCounts[mid - 1] + perRuleCounts[mid]) / 2)
-        : perRuleCounts[mid];
+      perRuleCounts.length % 2
+        ? perRuleCounts[mid]
+        : Math.floor((perRuleCounts[mid - 1] + perRuleCounts[mid]) / 2);
   }
 
-  return {
-    median_customized_fields_per_rule: median,
-    customized_fields_breakdown: breakdown,
-  };
+  return { median_customized_fields_per_rule: median, customized_fields_breakdown: breakdown };
 };

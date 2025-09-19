@@ -6,9 +6,8 @@
  */
 
 import type { ElasticsearchClient, SavedObjectsClientContract, Logger } from '@kbn/core/server';
-import { convertAlertingRuleToRuleResponse } from '../../../lib/detection_engine/rule_management/logic/detection_rules_client/converters/convert_alerting_rule_to_rule_response';
 import { createPrebuiltRuleAssetsClient } from '../../../lib/detection_engine/prebuilt_rules/logic/rule_assets/prebuilt_rule_assets_client';
-import type { RuleAdoption } from './types';
+import type { RuleAdoption, RuleCustomizationStatus } from './types';
 
 import { updateRuleUsage } from './update_usage';
 import { getDetectionRules } from '../../queries/get_detection_rules';
@@ -32,6 +31,7 @@ import { getEventLogByTypeAndStatus } from '../../queries/get_event_log_by_type_
 // eslint-disable-next-line no-restricted-imports
 import { legacyGetRuleActions } from '../../queries/legacy_get_rule_actions';
 import { calculateRuleUpgradeStatus } from './calculate_rules_upgrade_status';
+import type { ExternalRuleSourceInfo } from './get_rule_customization_status';
 import { getRuleCustomizationStatus } from './get_rule_customization_status';
 
 export interface GetRuleMetricsOptions {
@@ -144,23 +144,25 @@ export const getRuleMetrics = async ({
       getInitialRulesUsage()
     );
 
-    const ruleResponsesForPrebuiltRules = ruleResults
-      .filter((rule) => rule.attributes.params.immutable === true)
-      .map((rule) =>
-        convertAlertingRuleToRuleResponse({
-          ...rule.attributes,
-          id: rule.id,
-          createdAt: new Date(rule.attributes.createdAt),
-          updatedAt: new Date(rule.attributes.updatedAt),
-        })
-      );
+    const externalRuleSources = ruleResults.flatMap((r): ExternalRuleSourceInfo[] => {
+      const src = r.attributes?.params?.ruleSource;
 
-    let ruleCustomizationStatus;
-    if (ruleResponsesForPrebuiltRules.length === 0) {
-      ruleCustomizationStatus = getInitialRuleCustomizationStatus();
-    } else {
-      ruleCustomizationStatus = getRuleCustomizationStatus(ruleResponsesForPrebuiltRules);
-    }
+      if (!src || src?.type !== 'external' || typeof src.isCustomized !== 'boolean') {
+        return [];
+      }
+
+      return [
+        {
+          is_customized: src.isCustomized,
+          customized_fields: src.customizedFields,
+        },
+      ];
+    });
+
+    const ruleCustomizationStatus: RuleCustomizationStatus =
+      externalRuleSources.length === 0
+        ? getInitialRuleCustomizationStatus()
+        : getRuleCustomizationStatus(externalRuleSources);
 
     return {
       detection_rule_detail: elasticRuleObjects,
