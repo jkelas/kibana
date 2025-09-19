@@ -80,7 +80,7 @@ describe('Detections Usage and Metrics', () => {
       expect(result).toEqual<DetectionMetrics>(getInitialDetectionMetrics());
     });
 
-    it.only('returns information with disabled non-customized rule with upgrade, alerts and cases', async () => {
+    it('returns information with disabled non-customized rule with upgrade, alerts and cases', async () => {
       esClient.search.mockResponseOnce(getEventLogAllRules());
       esClient.search.mockResponseOnce(getEventLogElasticRules());
       esClient.search.mockResponseOnce(getElasticLogCustomRules());
@@ -192,10 +192,7 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 1,
           },
-          elastic_detection_rule_customization_status: {
-            median_customized_fields_per_rule: 0,
-            customized_fields_breakdown: [],
-          },
+          elastic_detection_rule_customization_status: [],
         },
       });
     });
@@ -319,10 +316,7 @@ describe('Detections Usage and Metrics', () => {
             enabled: 1,
             disabled: 0,
           },
-          elastic_detection_rule_customization_status: {
-            median_customized_fields_per_rule: 0,
-            customized_fields_breakdown: [],
-          },
+          elastic_detection_rule_customization_status: [],
         },
       });
     });
@@ -446,10 +440,20 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 1,
           },
-          elastic_detection_rule_customization_status: {
-            median_customized_fields_per_rule: 0,
-            customized_fields_breakdown: [],
-          },
+          elastic_detection_rule_customization_status: [
+            {
+              field_name: 'tags',
+              customized_count: 1,
+            },
+            {
+              field_name: 'name',
+              customized_count: 1,
+            },
+            {
+              field_name: 'description',
+              customized_count: 1,
+            },
+          ],
         },
       });
     });
@@ -573,6 +577,20 @@ describe('Detections Usage and Metrics', () => {
             enabled: 1,
             disabled: 0,
           },
+          elastic_detection_rule_customization_status: [
+            {
+              field_name: 'tags',
+              customized_count: 1,
+            },
+            {
+              field_name: 'name',
+              customized_count: 1,
+            },
+            {
+              field_name: 'description',
+              customized_count: 1,
+            },
+          ],
         },
       });
     });
@@ -585,7 +603,7 @@ describe('Detections Usage and Metrics', () => {
       savedObjectsClient.find.mockResolvedValueOnce(
         getMockRuleSearchResponse(
           true /* immutable (elastic) */,
-          true /* customized */,
+          false /* customized */,
           false /* enabled */
         )
       );
@@ -625,7 +643,7 @@ describe('Detections Usage and Metrics', () => {
               cases_count_total: 1,
               created_on: '2021-03-23T17:15:59.634Z',
               elastic_rule: true,
-              is_customized: true,
+              is_customized: false,
               enabled: false,
               rule_id: '5370d4cd-2bb3-4d71-abf5-1e1d0ff5a2de',
               rule_name: 'Azure Diagnostic Settings Deletion',
@@ -676,6 +694,20 @@ describe('Detections Usage and Metrics', () => {
               response_actions: initialResponseActionsUsage,
             },
             elastic_customized_total: {
+              alerts: 0,
+              cases: 0,
+              disabled: 0,
+              enabled: 0,
+              legacy_notifications_enabled: 0,
+              legacy_notifications_disabled: 0,
+              notifications_enabled: 0,
+              notifications_disabled: 0,
+              legacy_investigation_fields: 0,
+              alert_suppression: initialAlertSuppression,
+              has_exceptions: 0,
+              response_actions: initialResponseActionsUsage,
+            },
+            elastic_noncustomized_total: {
               alerts: 3400,
               cases: 1,
               disabled: 1,
@@ -696,10 +728,7 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 0,
           },
-          elastic_detection_rule_customization_status: {
-            median_customized_fields_per_rule: 0,
-            customized_fields_breakdown: [],
-          },
+          elastic_detection_rule_customization_status: [],
         },
       });
     });
@@ -823,10 +852,7 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 0,
           },
-          elastic_detection_rule_customization_status: {
-            median_customized_fields_per_rule: 0,
-            customized_fields_breakdown: [],
-          },
+          elastic_detection_rule_customization_status: [],
         },
       });
     });
@@ -950,6 +976,20 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 0,
           },
+          elastic_detection_rule_customization_status: [
+            {
+              field_name: 'tags',
+              customized_count: 1,
+            },
+            {
+              field_name: 'name',
+              customized_count: 1,
+            },
+            {
+              field_name: 'description',
+              customized_count: 1,
+            },
+          ],
         },
       });
     });
@@ -1073,6 +1113,20 @@ describe('Detections Usage and Metrics', () => {
             enabled: 0,
             disabled: 0,
           },
+          elastic_detection_rule_customization_status: [
+            {
+              field_name: 'tags',
+              customized_count: 1,
+            },
+            {
+              field_name: 'name',
+              customized_count: 1,
+            },
+            {
+              field_name: 'description',
+              customized_count: 1,
+            },
+          ],
         },
       });
     });
@@ -1154,10 +1208,7 @@ describe('Detections Usage and Metrics', () => {
             },
           },
           elastic_detection_rule_upgrade_status: getInitialRuleUpgradeStatus(),
-          elastic_detection_rule_customization_status: {
-            median_customized_fields_per_rule: 0,
-            customized_fields_breakdown: [],
-          },
+          elastic_detection_rule_customization_status: [],
         },
       });
     });
@@ -1278,10 +1329,7 @@ describe('Detections Usage and Metrics', () => {
             },
           },
           elastic_detection_rule_upgrade_status: getInitialRuleUpgradeStatus(),
-          elastic_detection_rule_customization_status: {
-            median_customized_fields_per_rule: 0,
-            customized_fields_breakdown: [],
-          },
+          elastic_detection_rule_customization_status: [],
         },
       });
     });
