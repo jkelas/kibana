@@ -5,7 +5,7 @@
  * 2.0.
  */
 
-import type { RuleCustomizationStatus, CustomizedFieldCount } from './types';
+import type { RuleCustomizedFieldCount } from './types';
 
 export interface ExternalRuleSourceInfo {
   is_customized: boolean;
@@ -14,7 +14,7 @@ export interface ExternalRuleSourceInfo {
 
 export const getRuleCustomizationStatus = (
   ruleResponses: ReadonlyArray<ExternalRuleSourceInfo>
-): RuleCustomizationStatus => {
+): RuleCustomizedFieldCount[] => {
   const countsMap = new Map<string, number>();
   const perRuleCounts: number[] = [];
 
@@ -31,7 +31,7 @@ export const getRuleCustomizationStatus = (
     if (ruleCustomizedFieldsCount > 0) perRuleCounts.push(ruleCustomizedFieldsCount);
   }
 
-  const breakdown: CustomizedFieldCount[] = Array.from(
+  const breakdown: RuleCustomizedFieldCount[] = Array.from(
     countsMap,
     ([fieldName, customizedCount]) => ({
       field_name: fieldName,
@@ -39,15 +39,5 @@ export const getRuleCustomizationStatus = (
     })
   ).sort((a, b) => b.customized_count - a.customized_count);
 
-  let median = 0;
-  if (perRuleCounts.length) {
-    perRuleCounts.sort((a, b) => a - b);
-    const mid = Math.floor(perRuleCounts.length / 2);
-    median =
-      perRuleCounts.length % 2
-        ? perRuleCounts[mid]
-        : Math.floor((perRuleCounts[mid - 1] + perRuleCounts[mid]) / 2);
-  }
-
-  return { median_customized_fields_per_rule: median, customized_fields_breakdown: breakdown };
+  return breakdown;
 };

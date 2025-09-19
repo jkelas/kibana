@@ -53,14 +53,9 @@ export interface UpgradeableRulesSummary {
   disabled: number;
 }
 
-export interface CustomizedFieldCount {
+export interface RuleCustomizedFieldCount {
   field_name: string;
   customized_count: number;
-}
-
-export interface RuleCustomizationStatus {
-  median_customized_fields_per_rule: number;
-  customized_fields_breakdown: CustomizedFieldCount[];
 }
 
 export interface RulesTypeUsage {
@@ -94,7 +89,7 @@ export interface RuleAdoption {
   detection_rule_usage: RulesTypeUsage;
   detection_rule_status: EventLogStatusMetric;
   elastic_detection_rule_upgrade_status: UpgradeableRulesSummary;
-  elastic_detection_rule_customization_status: RuleCustomizationStatus;
+  elastic_detection_rule_customization_status: RuleCustomizedFieldCount[];
   spaces_usage: SpacesUsage;
 }
 

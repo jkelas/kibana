@@ -6,24 +6,15 @@
  */
 
 import type { MakeSchemaFrom } from '@kbn/usage-collection-plugin/server';
-import type { RuleCustomizationStatus } from '../types';
+import type { RuleCustomizedFieldCount } from '../types';
 
-export const ruleCustomizationStatusSchema: MakeSchemaFrom<RuleCustomizationStatus> = {
-  median_customized_fields_per_rule: {
-    type: 'long',
-    _meta: { description: 'Median number of customized fields per elastic customized rule' },
+export const ruleCustomizedFieldsCounts: MakeSchemaFrom<RuleCustomizedFieldCount> = {
+  field_name: {
+    type: 'keyword',
+    _meta: { description: 'Name of the customized field' },
   },
-  customized_fields_breakdown: {
-    type: 'array',
-    items: {
-      field_name: {
-        type: 'keyword',
-        _meta: { description: 'Name of the customized field' },
-      },
-      customized_count: {
-        type: 'long',
-        _meta: { description: 'Number of rules customizing this field' },
-      },
-    },
+  customized_count: {
+    type: 'long',
+    _meta: { description: 'Number of rules customizing this field' },
   },
 };

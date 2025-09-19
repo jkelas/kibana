@@ -7,7 +7,7 @@
 
 import type { ElasticsearchClient, SavedObjectsClientContract, Logger } from '@kbn/core/server';
 import { createPrebuiltRuleAssetsClient } from '../../../lib/detection_engine/prebuilt_rules/logic/rule_assets/prebuilt_rule_assets_client';
-import type { RuleAdoption, RuleCustomizationStatus } from './types';
+import type { RuleAdoption, RuleCustomizedFieldCount } from './types';
 
 import { updateRuleUsage } from './update_usage';
 import { getDetectionRules } from '../../queries/get_detection_rules';
@@ -144,32 +144,12 @@ export const getRuleMetrics = async ({
       getInitialRulesUsage()
     );
 
-    const externalRuleSources = ruleResults.flatMap((r): ExternalRuleSourceInfo[] => {
-      const src = r.attributes?.params?.ruleSource;
-
-      if (!src || src?.type !== 'external' || typeof src.isCustomized !== 'boolean') {
-        return [];
-      }
-
-      return [
-        {
-          is_customized: src.isCustomized,
-          customized_fields: src.customizedFields,
-        },
-      ];
-    });
-
-    const ruleCustomizationStatus: RuleCustomizationStatus =
-      externalRuleSources.length === 0
-        ? getInitialRuleCustomizationStatus()
-        : getRuleCustomizationStatus(externalRuleSources);
-
     return {
       detection_rule_detail: elasticRuleObjects,
       detection_rule_usage: rulesUsage,
       detection_rule_status: eventLogMetricsTypeStatus,
       elastic_detection_rule_upgrade_status: calculateRuleUpgradeStatus(upgradeableRules),
-      elastic_detection_rule_customization_status: ruleCustomizationStatus,
+      elastic_detection_rule_customization_status: prepareRuleCustomizationStatus2(ruleResults),
       spaces_usage: getSpacesUsage(ruleResults),
     };
   } catch (e) {
@@ -187,3 +167,25 @@ export const getRuleMetrics = async ({
     };
   }
 };
+
+function prepareRuleCustomizationStatus2(
+  ruleResults: Awaited<ReturnType<typeof getDetectionRules>>
+): RuleCustomizedFieldCount[] {
+  const externalRuleSources = ruleResults.flatMap((r): ExternalRuleSourceInfo[] => {
+    const src = r.attributes?.params?.ruleSource;
+    if (!src || src?.type !== 'external' || typeof src.isCustomized !== 'boolean') {
+      return [];
+    }
+
+    return [
+      {
+        is_customized: src.isCustomized,
+        customized_fields: src.customizedFields,
+      },
+    ];
+  });
+
+  return externalRuleSources.length === 0
+    ? getInitialRuleCustomizationStatus()
+    : getRuleCustomizationStatus(externalRuleSources);
+}
