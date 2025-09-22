@@ -17,6 +17,7 @@ import type {
   ResponseActionsUsage,
   UpgradeableRulesSummary,
   ThreatMatchFeatureTypeUsage,
+  RuleCustomizedFieldCount,
 } from './types';
 
 export const initialAlertSuppression: AlertSuppressionUsage = {
@@ -173,3 +174,5 @@ export const getInitialRuleUpgradeStatus = (): UpgradeableRulesSummary => ({
   enabled: 0,
   disabled: 0,
 });
+
+export const getInitialRuleCustomizationStatus = (): RuleCustomizedFieldCount[] => [];

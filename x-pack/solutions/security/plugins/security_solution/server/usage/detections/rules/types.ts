@@ -53,6 +53,11 @@ export interface UpgradeableRulesSummary {
   disabled: number;
 }
 
+export interface RuleCustomizedFieldCount {
+  field_name: string;
+  customized_count: number;
+}
+
 export interface RulesTypeUsage {
   query: FeatureTypeUsage;
   query_custom: FeatureTypeUsage;
@@ -84,6 +89,7 @@ export interface RuleAdoption {
   detection_rule_usage: RulesTypeUsage;
   detection_rule_status: EventLogStatusMetric;
   elastic_detection_rule_upgrade_status: UpgradeableRulesSummary;
+  elastic_detection_rule_customization_status: RuleCustomizedFieldCount[];
   spaces_usage: SpacesUsage;
 }
 
