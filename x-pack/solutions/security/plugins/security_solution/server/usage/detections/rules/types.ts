@@ -53,9 +53,27 @@ export interface UpgradeableRulesSummary {
   disabled: number;
 }
 
-export interface RuleCustomizedFieldCount {
-  field_name: string;
-  customized_count: number;
+export interface RuleCustomizationCounts {
+  name: number;
+  description: number;
+  risk_score: number;
+  severity: number;
+  timeline_id: number;
+  note: number;
+  investigation_fields: number;
+  tags: number;
+  interval: number;
+  from: number;
+  setup: number;
+  query: number;
+  index: number;
+  data_view_id: number;
+  filters: number;
+  alert_suppression: number;
+  threshold: number;
+  threat_query: number;
+  anomaly_threshold: number;
+  new_terms_fields: number;
 }
 
 export interface RulesTypeUsage {
@@ -89,7 +107,7 @@ export interface RuleAdoption {
   detection_rule_usage: RulesTypeUsage;
   detection_rule_status: EventLogStatusMetric;
   elastic_detection_rule_upgrade_status: UpgradeableRulesSummary;
-  elastic_detection_rule_customization_status: RuleCustomizedFieldCount[];
+  elastic_detection_rule_customization_status: RuleCustomizationCounts;
   spaces_usage: SpacesUsage;
 }
 

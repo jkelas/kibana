@@ -28,8 +28,28 @@ export default ({ getService }: FtrProviderContext): void => {
   const es = getService('es');
   const log = getService('log');
   describe('@ess @serverless @skipInServerlessMKI Snapshot telemetry for customization status', () => {
-    const INITIAL_CUSTOMIZATION_STATUS: Array<{ field_name: string; customized_count: number }> =
-      [];
+    const ZERO_COUNTS = {
+      name: 0,
+      description: 0,
+      risk_score: 0,
+      severity: 0,
+      timeline_id: 0,
+      note: 0,
+      investigation_fields: 0,
+      tags: 0,
+      interval: 0,
+      from: 0,
+      setup: 0,
+      query: 0,
+      index: 0,
+      data_view_id: 0,
+      filters: 0,
+      alert_suppression: 0,
+      threshold: 0,
+      threat_query: 0,
+      anomaly_threshold: 0,
+      new_terms_fields: 0,
+    } as const;
 
     beforeEach(async () => {
       await deleteAllPrebuiltRuleAssets(es, log);
@@ -76,14 +96,14 @@ export default ({ getService }: FtrProviderContext): void => {
 
     const getCustomizationStatus = async () => {
       const stats = await getStats(supertest, log);
-      return stats?.detection_rules?.elastic_detection_rule_customization_status ?? [];
+      return stats?.detection_rules?.elastic_detection_rule_customization_status ?? ZERO_COUNTS;
     };
 
-    it('returns empty customization status when there are no customizations', async () => {
+    it('returns zeroed customization status when there are no customizations', async () => {
       await setupInitialRules();
 
       const status = await getCustomizationStatus();
-      expect(status).toEqual(INITIAL_CUSTOMIZATION_STATUS);
+      expect(status).toEqual(ZERO_COUNTS);
     });
 
     it('aggregates per-field customization counts across multiple rules', async () => {
@@ -105,13 +125,13 @@ export default ({ getService }: FtrProviderContext): void => {
 
       const status = await getCustomizationStatus();
 
-      const expected = [
-        { field_name: 'tags', customized_count: 1 },
-        { field_name: 'severity', customized_count: 1 },
-      ];
+      const expected = {
+        ...ZERO_COUNTS,
+        tags: 1,
+        severity: 1,
+      };
 
-      expect(status).toEqual(expect.arrayContaining(expected));
-      expect(status).toHaveLength(expected.length);
+      expect(status).toEqual(expected);
     });
 
     it('counts multiple customizations of the same field on the same rule as a single customized field', async () => {
@@ -146,10 +166,12 @@ export default ({ getService }: FtrProviderContext): void => {
 
       const status = await getCustomizationStatus();
 
-      const expected = [{ field_name: 'tags', customized_count: 2 }];
+      const expected = {
+        ...ZERO_COUNTS,
+        tags: 2,
+      };
 
-      expect(status).toEqual(expect.arrayContaining(expected));
-      expect(status).toHaveLength(expected.length);
+      expect(status).toEqual(expected);
     });
   });
 };

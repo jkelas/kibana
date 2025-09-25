@@ -34,8 +34,5 @@ export const rulesMetricsSchema: MakeSchemaFrom<RuleAdoption> = {
   },
   detection_rule_status: ruleStatusMetricsSchema,
   elastic_detection_rule_upgrade_status: ruleUpgradeStatusSchema,
-  elastic_detection_rule_customization_status: {
-    type: 'array',
-    items: ruleCustomizedFieldsCounts,
-  },
+  elastic_detection_rule_customization_status: ruleCustomizedFieldsCounts,
 };

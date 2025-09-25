@@ -7,7 +7,7 @@
 
 import type { ElasticsearchClient, SavedObjectsClientContract, Logger } from '@kbn/core/server';
 import { createPrebuiltRuleAssetsClient } from '../../../lib/detection_engine/prebuilt_rules/logic/rule_assets/prebuilt_rule_assets_client';
-import type { RuleAdoption, RuleCustomizedFieldCount } from './types';
+import type { RuleAdoption } from './types';
 
 import { updateRuleUsage } from './update_usage';
 import { getDetectionRules } from '../../queries/get_detection_rules';
@@ -170,7 +170,7 @@ export const getRuleMetrics = async ({
 
 function prepareRuleCustomizationStatus(
   ruleResults: Awaited<ReturnType<typeof getDetectionRules>>
-): RuleCustomizedFieldCount[] {
+) {
   const ruleSources = ruleResults.flatMap((ruleResult): ExternalRuleSourceInfo[] => {
     const ruleSource = ruleResult.attributes?.params?.ruleSource;
     if (
