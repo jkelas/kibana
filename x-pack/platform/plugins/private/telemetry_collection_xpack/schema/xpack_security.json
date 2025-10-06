@@ -7338,6 +7338,30 @@
                       }
                     }
                   }
+                },
+                "elastic_detection_rule_customization_status": {
+                  "properties": {
+                    "alert_suppression": { "type": "long" },
+                    "anomaly_threshold": { "type": "long" },
+                    "data_view_id": { "type": "long" },
+                    "description": { "type": "long" },
+                    "filters": { "type": "long" },
+                    "from": { "type": "long" },
+                    "index": { "type": "long" },
+                    "interval": { "type": "long" },
+                    "investigation_fields": { "type": "long" },
+                    "name": { "type": "long" },
+                    "new_terms_fields": { "type": "long" },
+                    "note": { "type": "long" },
+                    "query": { "type": "long" },
+                    "risk_score": { "type": "long" },
+                    "severity": { "type": "long" },
+                    "setup": { "type": "long" },
+                    "tags": { "type": "long" },
+                    "threat_query": { "type": "long" },
+                    "threshold": { "type": "long" },
+                    "timeline_id": { "type": "long" }
+                  }
                 }
               }
             },
