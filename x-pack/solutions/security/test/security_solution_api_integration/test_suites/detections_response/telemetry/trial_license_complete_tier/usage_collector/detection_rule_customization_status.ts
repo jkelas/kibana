@@ -26,6 +26,7 @@ import { deleteAllRules } from '../../../../../config/services/detections_respon
 export default ({ getService }: FtrProviderContext): void => {
   const supertest = getService('supertest');
   const es = getService('es');
+  const detectionsApi = getService('detectionsApi');
   const log = getService('log');
   describe('@ess @serverless @skipInServerlessMKI Snapshot telemetry for customization status', () => {
     const ZERO_COUNTS = {
@@ -109,13 +110,13 @@ export default ({ getService }: FtrProviderContext): void => {
     it('aggregates per-field customization counts across multiple rules', async () => {
       await setupInitialRules();
 
-      await customizeRule(supertest, 'rule-1', {
+      await customizeRule(detectionsApi, 'rule-1', {
         ...defaultRuleParams,
         rule_id: 'rule-1',
         tags: ['a', 'b'],
       });
 
-      await customizeRule(supertest, 'rule-2', {
+      await customizeRule(detectionsApi, 'rule-2', {
         ...defaultRuleParams,
         rule_id: 'rule-2',
         severity: 'low',
@@ -137,28 +138,28 @@ export default ({ getService }: FtrProviderContext): void => {
     it('counts multiple customizations of the same field on the same rule as a single customized field', async () => {
       await setupInitialRules();
 
-      await customizeRule(supertest, 'rule-1', {
+      await customizeRule(detectionsApi, 'rule-1', {
         ...defaultRuleParams,
         rule_id: 'rule-1',
         tags: ['a', 'b'],
       });
-      await customizeRule(supertest, 'rule-1', {
+      await customizeRule(detectionsApi, 'rule-1', {
         ...defaultRuleParams,
         rule_id: 'rule-1',
         tags: ['a', 'b', 'c'],
       });
-      await customizeRule(supertest, 'rule-1', {
+      await customizeRule(detectionsApi, 'rule-1', {
         ...defaultRuleParams,
         rule_id: 'rule-1',
         tags: ['a', 'b', 'c', 'd'],
       });
 
-      await customizeRule(supertest, 'rule-2', {
+      await customizeRule(detectionsApi, 'rule-2', {
         ...defaultRuleParams,
         rule_id: 'rule-2',
         tags: ['x', 'y'],
       });
-      await customizeRule(supertest, 'rule-2', {
+      await customizeRule(detectionsApi, 'rule-2', {
         ...defaultRuleParams,
         rule_id: 'rule-2',
         tags: ['x', 'y', 'z'],

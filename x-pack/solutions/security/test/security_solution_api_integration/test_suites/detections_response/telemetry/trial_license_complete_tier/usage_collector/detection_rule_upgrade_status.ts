@@ -30,6 +30,7 @@ import { deleteAllRules } from '../../../../../config/services/detections_respon
 export default ({ getService }: FtrProviderContext): void => {
   const supertest = getService('supertest');
   const es = getService('es');
+  const detectionsApi = getService('detectionsApi');
   const log = getService('log');
 
   describe('@ess @serverless @skipInServerlessMKI Prebuilt Rules status', () => {
@@ -165,7 +166,7 @@ export default ({ getService }: FtrProviderContext): void => {
         const ruleAssetSavedObjects = await setupInitialRules();
 
         // Customize rule-1 with custom name and description (remains disabled)
-        await customizeRule(supertest, 'rule-1', {
+        await customizeRule(detectionsApi, 'rule-1', {
           name: 'Customized Rule Name',
           description: 'This is a customized rule description',
         });
@@ -200,7 +201,7 @@ export default ({ getService }: FtrProviderContext): void => {
         const ruleAssetSavedObjects = await setupInitialRules();
 
         // Customize and enable rule-1
-        await customizeRule(supertest, 'rule-1', {
+        await customizeRule(detectionsApi, 'rule-1', {
           name: 'Customized Enabled Rule',
           description: 'This is a customized and enabled rule',
           enabled: true,
@@ -231,7 +232,7 @@ export default ({ getService }: FtrProviderContext): void => {
         const ruleAssetSavedObjects = await setupInitialRules();
 
         // Customize and enable one rule
-        await customizeRule(supertest, 'rule-1', {
+        await customizeRule(detectionsApi, 'rule-1', {
           name: 'Customized Rule',
           enabled: true,
         });
@@ -270,15 +271,15 @@ export default ({ getService }: FtrProviderContext): void => {
         const ruleAssetSavedObjects = await setupInitialRules();
 
         // Customize and enable multiple rules
-        await customizeRule(supertest, 'rule-1', {
+        await customizeRule(detectionsApi, 'rule-1', {
           name: 'Customized Enabled Rule 1',
           enabled: true,
         });
-        await customizeRule(supertest, 'rule-2', {
+        await customizeRule(detectionsApi, 'rule-2', {
           name: 'Customized Enabled Rule 2',
           enabled: true,
         });
-        await customizeRule(supertest, 'rule-3', {
+        await customizeRule(detectionsApi, 'rule-3', {
           name: 'Customized Enabled Rule 3',
           enabled: true,
         });
@@ -347,7 +348,7 @@ export default ({ getService }: FtrProviderContext): void => {
         const ruleAssetSavedObjects = await setupInitialRules();
 
         // rule-1: enabled + customized
-        await customizeRule(supertest, 'rule-1', {
+        await customizeRule(detectionsApi, 'rule-1', {
           name: 'Enabled Customized Rule',
           enabled: true,
         });
@@ -363,7 +364,7 @@ export default ({ getService }: FtrProviderContext): void => {
           .expect(200);
 
         // rule-3: disabled + customized
-        await customizeRule(supertest, 'rule-3', {
+        await customizeRule(detectionsApi, 'rule-3', {
           name: 'Disabled Customized Rule',
           // enabled: false is default
         });
@@ -395,7 +396,7 @@ export default ({ getService }: FtrProviderContext): void => {
         const ruleAssetSavedObjects = await setupInitialRules();
 
         // Customize and enable only one rule
-        await customizeRule(supertest, 'rule-1', {
+        await customizeRule(detectionsApi, 'rule-1', {
           name: 'Single Customized Enabled Rule',
           description: 'The only upgradeable rule',
           enabled: true,

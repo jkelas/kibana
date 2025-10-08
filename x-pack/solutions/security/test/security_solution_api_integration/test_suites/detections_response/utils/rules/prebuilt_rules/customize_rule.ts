@@ -5,8 +5,8 @@
  * 2.0.
  */
 
-import { DETECTION_ENGINE_RULES_URL } from '@kbn/security-solution-plugin/common/constants';
-import type SuperTest from 'supertest';
+import type { SecuritySolutionApiProvider as DetectionsApiProvider } from '@kbn/security-solution-test-api-clients/supertest/detections.gen';
+
 import { getCustomQueryRuleParams } from '../get_rule_params';
 
 /**
@@ -15,7 +15,7 @@ import { getCustomQueryRuleParams } from '../get_rule_params';
  * @param customizations - Custom parameters for the rule
  */
 export async function customizeRule(
-  supertest: SuperTest.Agent,
+  detectionsApi: ReturnType<typeof DetectionsApiProvider>,
   ruleId: string,
   customizations: Record<string, any>
 ) {
@@ -24,9 +24,5 @@ export async function customizeRule(
     ...customizations,
   });
 
-  await supertest
-    .put(`${DETECTION_ENGINE_RULES_URL}?rule_id=${ruleId}`)
-    .set('kbn-xsrf', 'true')
-    .send(customRuleParams)
-    .expect(200);
+  await detectionsApi.updateRule({ body: customRuleParams }).expect(200);
 }

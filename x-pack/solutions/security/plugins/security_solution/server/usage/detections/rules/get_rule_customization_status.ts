@@ -5,6 +5,7 @@
  * 2.0.
  */
 
+import { getInitialRuleCustomizationStatus } from './get_initial_usage';
 import type { RuleCustomizationCounts } from './types';
 
 export interface ExternalRuleSourceInfo {
@@ -12,7 +13,7 @@ export interface ExternalRuleSourceInfo {
   customized_fields: Array<{ fieldName: string }>;
 }
 
-const ALLOWED_FIELDS: Array<keyof RuleCustomizationCounts> = [
+const ALLOWED_FIELDS: Set<keyof RuleCustomizationCounts> = new Set([
   'alert_suppression',
   'anomaly_threshold',
   'data_view_id',
@@ -33,35 +34,12 @@ const ALLOWED_FIELDS: Array<keyof RuleCustomizationCounts> = [
   'threat_query',
   'threshold',
   'timeline_id',
-];
-
-const getZeroedCounts = (): RuleCustomizationCounts => ({
-  alert_suppression: 0,
-  anomaly_threshold: 0,
-  data_view_id: 0,
-  description: 0,
-  filters: 0,
-  from: 0,
-  index: 0,
-  interval: 0,
-  investigation_fields: 0,
-  name: 0,
-  new_terms_fields: 0,
-  note: 0,
-  query: 0,
-  risk_score: 0,
-  severity: 0,
-  setup: 0,
-  tags: 0,
-  threat_query: 0,
-  threshold: 0,
-  timeline_id: 0,
-});
+]);
 
 export const getRuleCustomizationStatus = (
   ruleSources: ReadonlyArray<ExternalRuleSourceInfo>
 ): RuleCustomizationCounts => {
-  const counts = getZeroedCounts();
+  const counts = getInitialRuleCustomizationStatus();
 
   ruleSources.forEach((ruleSource) => {
     if (!ruleSource.is_customized) {
@@ -70,7 +48,7 @@ export const getRuleCustomizationStatus = (
 
     ruleSource.customized_fields.forEach((field) => {
       const fieldName = field.fieldName as keyof RuleCustomizationCounts;
-      if ((ALLOWED_FIELDS as string[]).includes(fieldName as string)) {
+      if (ALLOWED_FIELDS.has(fieldName)) {
         counts[fieldName] = (counts[fieldName] ?? 0) + 1;
       }
     });
