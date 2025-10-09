@@ -13,6 +13,10 @@ export interface ExternalRuleSourceInfo {
   customized_fields: Array<{ fieldName: string }>;
 }
 
+// we only publish a subset of most important fields that we know can be customized
+// this is to avoid telemetry issues if we add new fields to the rule schema
+// and to avoid counting fields of lesser importance
+// see https://github.com/elastic/kibana/issues/140369 for more information
 const ALLOWED_FIELDS: Set<keyof RuleCustomizationCounts> = new Set([
   'alert_suppression',
   'anomaly_threshold',
